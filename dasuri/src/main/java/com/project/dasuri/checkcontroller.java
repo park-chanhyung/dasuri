@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class checkcontroller {
     @RequestMapping("/index")
     public String login() {
+//    public String index() {
 
         return "index";
     }
@@ -33,5 +34,34 @@ public class checkcontroller {
     public String admin_moon() {
 
         return "admin_moon";
+    }
+    @RequestMapping("/login")
+    public String login2() {
+
+        return "login";
+    }
+
+    @RequestMapping("/register")
+    public String register() {
+
+        return "register";
+    }
+
+
+    @RequestMapping("/register_expert")
+    public String register_expert() {
+
+        return "register_expert";
+    }
+
+    @RequestMapping("/find_user")
+    public String find_user() {
+
+        return "find_user";
+    }
+    @RequestMapping("/my_profile")
+    public String my_profile() {
+
+        return "my_profile";
     }
 }

@@ -903,4 +903,21 @@ footer ul li {
 
     }
 
+    /* 기사가입*/
+    .material-symbols-outlined .reg-expert {
+        display: inline-block;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #FFFFFF; /* Text color (initial color) */
+        background-color: #6192FA; /* Button background color (initial color) */
+        border-radius: 5px; /* Rounded corners for a button-like appearance */
+        transition: background-color 0.3s, color 0.3s; /* Smooth transition on hover */
+    }
+
+    .material-symbols-outlined .reg-expert:hover {
+        color: #0056b3; /* Text color on hover */
+        background-color: #0056b3; /* Button background color on hover */
+    }
+    /* 기사가입*/
+
 }
