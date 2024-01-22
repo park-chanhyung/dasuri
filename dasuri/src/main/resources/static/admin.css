@@ -24,7 +24,7 @@ nav {
 }
 
 .dasuri{
-	size: 
+	margin: 0 auto;
 }
 
 nav ul,
@@ -41,8 +41,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  max-height: 100vh;
+  /*min-height: 100vh;*/
+  /*max-height: 100vh;*/
+  max-height: 90%;
   background-color: #4148C1;
 /*   background-image: url(https://github.com/ecemgo/mini-samples-great-tricks/assets/13468728/5baf8325-ed69-40b0-b9d2-d8c5d2bde3b0); */
   background-repeat: no-repeat;
@@ -56,7 +57,8 @@ main {
   display: grid;
   grid-template-columns: 13% 87%;
   width: 100%;
-  height: 2000px%;
+  height: 800px;
+  overflow-y: auto;
   margin: 40px;
   background: rgb(254, 254, 254);
   box-shadow: 0 0.5px 0 1px rgba(255, 255, 255, 0.23) inset,
@@ -66,11 +68,15 @@ main {
 }
 
 .main-menu {
-  overflow: hiddn;
+  overflow: hidden;
   background: #6192FA;
   padding-top: 100px;
   border-radius: 15px 0 0 15px;
   font-family: "Roboto", sans-serif;
+}
+
+.main-menu ul {
+  padding-bottom: 100px;
 }
 
 .main-menu h1 {
@@ -84,12 +90,13 @@ main {
 }
 
 .logo {
-  display: visible;
+  /*display: ;*/
 }
 
 .nav-item {
   position: relative;
   display: block;
+  padding: 15px 0;
 }
 
 .nav-item a {
@@ -168,8 +175,6 @@ main {
 }
 
 .nav-text {
-/*   display: block; */
-  display: right;
   width: 120px;
   height: 20px;
   margin: 7px;
@@ -180,22 +185,25 @@ main {
 .content {
   display: grid;
   grid-template-columns: 75% 25%;
+
 }
 
 /* LEFT CONTENT */
 
 .left-content {
   display: grid;
-/*   grid-template-rows: 50% 50%; */
+  /*overflow: scroll;*/
+  height: 800px;
+   grid-template-rows: 50% 50%;
   background: #f6f7fb;
   margin: 15px;
   padding: 20px;
   border-radius: 15px;
-  overflow: scroll;
 }
 
 .blue{
-	color:#6192FA; 
+	color:#4148C1;
+    text-align: center;
 }
 
 /* ACTIVITIES */
@@ -540,24 +548,17 @@ main {
 /* 푸터 (오른쪽 영역) */
 
 .right-content {
-  display: grid;
+  /*display: grid;*/
   grid-template-rows: 5% 20% 75%;
   background: #f6f7fb;
   margin: 15px 15px 15px 0;
   padding: 10px 0;
   border-radius: 15px;
-  overflow: scroll;
+  /*overflow: auto;*/
+  height: 800px;
 }
 
 /* USER INFO */
-
-.user-info {
-	float: 
-/*   display: grid; */
-/*   grid-template-columns: 30% 55% 15%; */
-/*   align-items: center; */
-/*   padding: 0 10px; */
-}
 
 .icon-container {
   display: flex;
@@ -840,6 +841,7 @@ main {
     grid-template-rows: 50% 50%;
     margin: 15px;
     padding: 20px;
+    overflow: auto;
   }
 
   .btn {
