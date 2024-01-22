@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자페이지 : 홈</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/admin.css}">
+</head>
+<body>
+<main>
+
+  <!--   헤더 -->
+  <nav th:replace="~{fragment/admin_header :: admin_header1}"></nav>
+
+<!--  본문 -->
+
+  <section class="content">
+    <div class="left-content">
+      <div class="activities">
+        <h1>회원 분석</h1>
+        <div class="activity-container">
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>유형별 비율</h3>
+            </div>
+          </div>
+
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>지역별 비율</h3>
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+
+
+      <div class="activities">
+        <h1>회원 분석</h1>
+        <div class="activity-container">
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>유형별 비율</h3>
+            </div>
+          </div>
+
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>지역별 비율</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--   푸터 -->
+    <nav th:replace="~{fragment/admin_footer :: admin_footer}"></nav>
+
+  </section>
+</main>
+</body>
+</html>

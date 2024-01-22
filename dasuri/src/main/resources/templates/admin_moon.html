@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/admin.css}">
+</head>
+<body>
+
+	<main>
+
+		<!--   헤더 -->
+		<nav th:replace="~{fragment/admin_header :: admin_header4}"></nav>
+  	
+  	<section class="content">
+  	
+  	<div class="left-content">
+  	 left-content
+  	 
+  	 문의글 전체 리스트 화면입니다
+
+  	<div class="left-bottom">
+  	left-bottom
+  	</div>
+
+  	</div>
+
+
+		<!--   푸터 -->
+		<nav th:replace="~{fragment/admin_footer :: admin_footer}"></nav>
+
+
+  	</section>
+	</main>
+
+</body>
+</html>
