@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+    <script src="/js/register.js"></script>
+    <script src="/js/jquery.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/register.css}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+<div class="registration-container">
+    <h2>회원 가입</h2>
+    <form action="RegistrationServlet" method="post">
+        <label for="exp_id">아이디</label>
+        <input type="text" id="exp_id" name="username" placeholder="영어/숫자 12자리 이상" required>
+
+        <label for="exp_name">이름</label>
+        <input type="text" id="exp_name" name="username" placeholder="이름(실명)을 입력해주세요" required>
+
+        <label for="exp_pwd">비밀번호</label>
+        <input type="password" id="exp_pwd" name="password" placeholder="영문+숫자+특수문자(@$!%*#?) 조합 8자리 이상" required>
+
+        <label for="cnf_exp_pwd">비밀번호 확인</label>
+        <input type="password" id="cnf_exp_pwd" name="confirmPassword" required>
+
+        <div class="phone-verification">
+            <label for="phoneNumber">휴대 전화</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" required>
+            <button type="button" class="verification-btn" onclick="verifyPhoneNumber()">인증하기</button>
+        </div>
+
+        <!-- 		활동 지역구 -->
+        <div class="local_expert_all">
+            <label for="active_local">활동 지역</label><br>
+            <label><input type="checkbox" id="selectAllBusan"> 부산 전체</label><br>
+
+        </div>
+        <div class="local_expert">
+            <label><input type="checkbox" class="busanDistrict" value="강서구"> 강서구</label>
+            <label><input type="checkbox" class="busanDistrict" value="금정구"> 금정구</label>
+            <label><input type="checkbox" class="busanDistrict" value="남구"> 남구</label>
+            <label><input type="checkbox" class="busanDistrict" value="동구"> 동구</label>
+            <label><input type="checkbox" class="busanDistrict" value="동래구"> 동래구</label>
+            <label><input type="checkbox" class="busanDistrict" value="부산진구"> 부산진구</label>
+            <label><input type="checkbox" class="busanDistrict" value="북구"> 북구</label>
+            <label><input type="checkbox" class="busanDistrict" value="사상구"> 사상구</label>
+            <label><input type="checkbox" class="busanDistrict" value="사하구"> 사하구</label>
+            <label><input type="checkbox" class="busanDistrict" value="서구"> 서구</label>
+            <label><input type="checkbox" class="busanDistrict" value="수영구"> 수영구</label>
+            <label><input type="checkbox" class="busanDistrict" value="연제구"> 연제구</label>
+            <label><input type="checkbox" class="busanDistrict" value="영도구"> 영도구</label>
+            <label><input type="checkbox" class="busanDistrict" value="중구"> 중구</label>
+            <label><input type="checkbox" class="busanDistrict" value="해운대구"> 해운대구</label>
+            <label><input type="checkbox" class="busanDistrict" value="기장군"> 기장군</label>
+        </div>
+        <div class="privacy_checkbox">
+            <input type="checkbox" id="agreePrivacy" name="agreePrivacy" required>
+            <label for="agreePrivacy">개인 정보 제공 활용 동의</label>
+        </div>
+
+        <button type="submit" class="registration-btn">가입하기</button>
+    </form>
+
+    <div class="link-container">
+        <a href="">이미 아이디가 있으신경우 로그인하기</a>
+    </div>
+</div>
+</body>
+</html>
