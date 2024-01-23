@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자페이지 : 홈</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
 <body>
 <main>
@@ -17,36 +18,51 @@
   <section class="content">
     <div class="left-content">
       <div class="activities">
-        <h1>회원 분석</h1>
+        <h1 class="blue">Management Reporting</h1>
         <div class="activity-container">
           <div class="image-container img-three">
             <div class="overlay">
               <h3>유형별 비율</h3>
+              <div class="ch1">
+                <!--그래프-->
+                <canvas id="myChart1"></canvas>
+              </div>
             </div>
-          </div>
 
+            <div class="ch1_t">
+              <ul>
+                <li>총 회원수 : 400</li>
+                <li><span class="t_1">●</span> 고객 : 300</li>
+                <li><span class="t_2">●</span>기사 : 100</li>
+              </ul>
+            </div>
+
+          </div>
           <div class="image-container img-three">
             <div class="overlay">
-              <h3>지역별 비율</h3>
+              <h3>지역 회원수 top5</h3>
+
+              <div class="ch2">
+                <!--그래프-->
+                <canvas id="myChart2"></canvas>
+              </div>
+
             </div>
           </div>
         </div>
-        <hr>
       </div>
 
-
       <div class="activities">
-        <h1>회원 분석</h1>
         <div class="activity-container">
           <div class="image-container img-three">
             <div class="overlay">
-              <h3>유형별 비율</h3>
+              <h3>신규가입 수</h3>
             </div>
           </div>
 
           <div class="image-container img-three">
             <div class="overlay">
-              <h3>지역별 비율</h3>
+              <h3>블랙리스트</h3>
             </div>
           </div>
         </div>
@@ -58,5 +74,7 @@
 
   </section>
 </main>
+<!--그래프 js (컴파일 순서 때문에 본문 가장 아래에 위치시킴)-->
+<script src="/js/admin_chart.js"></script>
 </body>
 </html>

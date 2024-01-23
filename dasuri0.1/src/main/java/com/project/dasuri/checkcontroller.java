@@ -64,6 +64,11 @@ public class checkcontroller {
 
         return "/adminad/admin_moon";
     }
+    @RequestMapping("/admin_moon_view")
+    public String admin_moon_view() {
+
+        return "adminad/admin_moon_view";
+    }
     @RequestMapping("/login")
     public String login2() {
 

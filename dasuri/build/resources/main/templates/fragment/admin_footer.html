@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>관리자 페이지 : 푸터 (오른쪽 섹션)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" th:href="@{/admin.css}">
+</head>
+<body>
+
+        <div th:fragment="admin_footer" class="right-content">
+          <div class="user-info">
+            <h4 class="blue"> 관리자 님 환영합니다! </h4>
+          </div>
+
+          <div class="active-calories">
+            <h1 style="align-self: flex-start">오늘 접속자 수</h1>
+            <div class="active-calories-container">
+              <div class="box" style="--i: 85%">
+                <div class="circle">
+                  <h2>85<small>%</small></h2>
+                </div>
+              </div>
+              <div class="calories-content">
+                <p><span>Today:</span> 400</p>
+                <p><span>This Week:</span> 3500</p>
+                <p><span>This Month:</span> 14000</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="friends-activity">
+            <div class="card-container">
+            <h1>신규 문의글</h1>
+              <div class="card">
+              	<table>
+              		<tr align="left">
+              			<th width="100px">
+              				<a href="admin_moon" class="moon_total">전체보기</a>
+              			</th>
+              		</tr>
+              		<tr align="left">
+              			<th>나문희</th>
+              			<td>문희는포도가먹고찌픈데
+							<img class="circle_btn" src="/img/admin/go.png" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              		<tr align="left">
+              			<th>유저1</th>
+              			<td>문의합니다1
+							<img class="circle_btn" src="/img/admin/go.png" width="50%" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              		<tr align="left">
+              			<th>유저2</th>
+              			<td>문의합니다2
+							<img class="circle_btn" src="/img/admin/go.png" width="50%" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              		<tr align="left">
+              			<th>유저3</th>
+              			<td>문의합니다3
+							<img class="circle_btn" src="/img/admin/go.png" width="50%" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              	</table>
+              </div>
+
+            <h1>신규 신고글</h1>
+              <div class="card">
+              	<table>
+              		<tr align="left">
+              			<th width="100px">
+              				<a href="moon_list" class="moon_total">전체보기</a>
+              			</th>
+              		</tr>
+              		<tr align="left">
+              			<th>오미키</th>
+              			<td>호구마요?ㅎㅎ
+							<img class="circle_btn" src="/img/admin/go.png" width="50%" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              		<tr align="left">
+              			<th>유저1</th>
+              			<td>신고합니다1
+							<img class="circle_btn" src="/img/admin/go.png" width="50%" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              		<tr align="left">
+              			<th>유저2</th>
+              			<td>신고합니다2
+							<img class="circle_btn" src="/img/admin/go.png" width="50%" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              		<tr align="left">
+              			<th>유저3</th>
+              			<td>신고합니다3
+							<img class="circle_btn" src="/img/admin/go.png" width="50%" onclick="location='moon_view'">
+              			</td>
+              		</tr>
+              	</table>
+              </div>
+            </div>
+          </div>
+        </div>
+          
+</body>
+</html>
+
+
+
+
+
