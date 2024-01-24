@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{css/board.css}">
+    <title>글쓰기</title>
+</head>
+<body>
+<header>
+    <div th:include="/list/layout/nav"></div>
+</header>
+   <form action="/post" method="post">
+<div class="card">
+    <div class="card-header1">
+        <!-- 게시판을 누를시 첫 페이wldls index.html로 이동 -->
+        <h1>관리자 글 작성</h1>
+    </div>
+
+    <div class="card-write">
+        <div class="adminfo">
+            이름<input type="text" placeholder="이름 입력해라">
+
+<!--            비밀번호<input type="password" placeholder="비밀번호를 입력하세요">-->
+        </div>
+        <div class="title-w">
+            제목<input type="text" placeholder="제목입력해라">
+        </div>
+
+        <div class="msg">
+
+            내용<textarea placeholder="내용을 입력하세요"></textarea>
+            <input type="file" name="" id="">
+        </div>
+    </div>
+<!--    <div class="btn-w"><a href="#">저장</a></div>-->
+    <input type="submit" value="등록">
+</div>
+
+<div>
+    <footer>
+        <div th:include="/list/layout/footer"></div>
+    </footer>
+</div>
+   </form>
+</body>
+</html>
