@@ -186,7 +186,11 @@ main {
   display: grid;
   grid-template-columns: 75% 25%;
 }
+.half_content{
+  display: grid;
+  grid-template-rows: 50% 50%;
 
+}
 /* LEFT CONTENT */
 
 .left-content {
@@ -210,6 +214,16 @@ main {
   padding: 20px;
   border-radius: 15px;
 }
+
+/*공지 / faq 영역 (절반)*/
+.admin_half_area {
+  height: 300px;
+  background: #f6f7fb;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 15px;
+}
+
 
 .blue{
 	color:#4148C1;
@@ -687,6 +701,13 @@ main {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
 }
 
+  .card table tr td{
+    max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space:nowrap;
+}
+
 .card-two {
   display: block;
 }
@@ -1100,3 +1121,29 @@ main {
   position: absolute;
   bottom: 20px;
 }
+
+.notice_container {
+  clear: both;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+  border-radius: 10px;
+  margin: 0px;
+  padding: 0px;
+  align-items: center;
+  background: white;
+  height: 300px;
+}
+
+.notice_table{
+  width: 100%;
+  border-collapse: collapse;
+}
+.notice_table th,.mem_table td {
+  padding: 5px;
+  text-align: center;
+  border-bottom: 1px solid #6192FA;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+

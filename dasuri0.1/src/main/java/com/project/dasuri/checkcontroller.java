@@ -33,41 +33,38 @@ public class checkcontroller {
         return "/list/proinfo";
     }
 
-    @RequestMapping("/servicecenter")
-    public String servicecenter() {
+//    고객센터 메인 (자주찾는질문 / 문의하기로 갈라짐)
+    @RequestMapping("/center_main")
+    public String center_main() {
+
+        return "/list/center_main";
+    }
+//    메인 - 고객센터 - 자주찾는질문
+    @RequestMapping("/center_faq")
+    public String center_faq() {
+
+        return "/list/center_faq";
+    }
+//    메인 - 고객센터 - 1:1문의하기
+    @RequestMapping("/center_question")
+    public String center_question() {
+
+        return "/list/center_question";
+    }
+//    메인 - 고객센터 - 1:1문의 등록 완료
+    @RequestMapping("/center_question_ok")
+    public String center_question_ok() {
+
+        return "/list/center_question_ok";
+    }
+
+
+
+    @RequestMapping("/boardwrite")
+    public String boardwrite() {
 //    public String index() {
 
-        return "/list/servicecenter";
-    }
-
-    //  관리자 페이지 : 홈
-    @RequestMapping("/admin")
-    public String admin_home() {
-
-        return "/adminad/admin_home";
-    }
-    //  관리자 페이지 : 회원관리
-    @RequestMapping("/admin_mem")
-    public String admin_mem() {
-
-        return "/adminad/admin_mem";
-    }
-    //  관리자 페이지 : 공지관리
-    @RequestMapping("/admin_notice")
-    public String admin_notice() {
-
-        return "/adminad/admin_notice";
-    }
-    //  관리자 페이지 : 고객센터
-    @RequestMapping("/admin_moon")
-    public String admin_moon() {
-
-        return "/adminad/admin_moon";
-    }
-    @RequestMapping("/admin_moon_view")
-    public String admin_moon_view() {
-
-        return "adminad/admin_moon_view";
+        return "/list/boardwrite";
     }
     @RequestMapping("/login")
     public String login2() {
@@ -80,7 +77,6 @@ public class checkcontroller {
 
         return "/login/register";
     }
-
 
     @RequestMapping("/register_expert")
     public String register_expert() {
