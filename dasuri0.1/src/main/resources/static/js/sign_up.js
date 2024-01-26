@@ -1,3 +1,49 @@
+/*==========================================================================================================================================================
+ * 기사 지역구 전체 선택 처리 (start)
+ */
+
+function toggleCheckboxes() {
+    var selectAllCheckbox = document.getElementById("selectAll");
+    var checkboxes = document.querySelectorAll('input[name="region"]');
+
+    checkboxes.forEach(function (checkbox) {
+        checkbox.disabled = selectAllCheckbox.checked;
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+}
+
+document.getElementById("regionForm").addEventListener("submit", function (event) {
+    event.preventDefault(); // 기존의 submit 동작 방지
+
+    var selectAllCheckbox = document.getElementById("selectAll");
+    var checkboxes = document.querySelectorAll('input[name="region"]:checked');
+
+    // 선택된 지역들을 저장할 변수
+    var selectedRegions = [];
+
+    if (selectAllCheckbox.checked) {
+        selectedRegions.push("전체");
+    } else {
+        checkboxes.forEach(function (checkbox) {
+            selectedRegions.push(checkbox.value);
+        });
+    }
+
+    // 선택된 지역들을 문자열로 합치기 (구분자: '/')
+    var result = selectedRegions.join('/');
+
+    // 결과 변수를 어딘가에 전달하거나 로직에 활용
+    console.log('선택된 지역: ' + result);
+
+    // 추가로 필요한 로직 수행 (예: 서버로 전송 등)
+    // ...
+});
+
+/*
+ * 기사 지역구 전체 선택 처리 (end)
+ */
+
+
 
 /*==========================================================================================================================================================
  * 휴대폰 인증 script (start)
@@ -36,6 +82,7 @@ $(document).ready(function() {
  * kakao 우편번호 API script (start)
  */
 function sample6_execDaumPostcode() {
+    console.log("sing_up.js 진입");
     new daum.Postcode({
         oncomplete: function(data) {
             // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
