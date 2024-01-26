@@ -43,11 +43,11 @@
 								<td th:text="${notice.notice_title}"></td>
 								<td th:text="${notice.notice_content}"></td>
 								<td>
-									<a th:href="@{/admin_notice_view/{id}(id=${notice.notice_id})}">
-										<button>
-											보기
-										</button>
-									</a>
+									<form action="admin_notice_view" method="post">
+										<input type="hidden" name="id" th:value="${notice.notice_id}"/>
+										<input type="submit" value="보기">
+									</form>
+
 								</td>
 							</tr>
 						</table>

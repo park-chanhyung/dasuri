@@ -47,7 +47,7 @@ public class NoticeEntity {
         noticeEntity.setNoticeId(noticeDTO.getNotice_id()); //고유번호
         noticeEntity.setNotice_title(noticeDTO.getNotice_title());
         noticeEntity.setNotice_content(noticeDTO.getNotice_content());
-        noticeEntity.setNotice_updateDate(LocalDateTime.now());
+//        noticeEntity.setNotice_updateDate(LocalDateTime.now());
         return noticeEntity;
     }
 }

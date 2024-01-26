@@ -217,11 +217,14 @@ main {
 
 /*공지 / faq 영역 (절반)*/
 .admin_half_area {
-  height: 300px;
+  height: 95%;
   background: #f6f7fb;
   margin: 10px;
   padding: 20px;
   border-radius: 15px;
+}
+.admin_half_area h1 {
+  display: inline-block;
 }
 
 
@@ -1038,12 +1041,14 @@ main {
 
 /* 검색창 */
 .search {
+  /*display: inline-block;*/
   width: 250px;
   height: 40px;
   display: flex;
   position: relative;
   float: right;
   margin-bottom: 20px;
+  margin-right: 10px;
   left: 30px;
   overflow: clip;
 }

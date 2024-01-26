@@ -20,9 +20,6 @@ public class NoticeService {
 //    2. repository의 save 메소드로 DB에 저장 (엔티티 객체를 넘겨야함)
     public void save(NoticeDTO noticeDTO){
         NoticeEntity noticeEntity = NoticeEntity.toNoticeEntity(noticeDTO);
-        System.out.println("id -> "+noticeEntity.getNoticeId());
-        System.out.println("title -> "+noticeEntity.getNotice_title());
-        System.out.println("content -> "+noticeEntity.getNotice_content());
         noticeRepository.save(noticeEntity);
     }
 
@@ -45,5 +42,10 @@ public class NoticeService {
         }else {
             return null;
         }
+    }
+
+    public void update (NoticeDTO noticeDTO){
+        NoticeEntity noticeEntity = NoticeEntity.toUpdateNoticeEntity(noticeDTO);
+        noticeRepository.save(noticeEntity);
     }
 }
