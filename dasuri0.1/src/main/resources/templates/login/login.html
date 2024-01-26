@@ -1,36 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
-    <title>Title</title>
 </head>
 <body>
-    <div class="login-container">
-        <h2>로그인</h2>
-        <form>
-            <label for="username">아이디</label>
-            <input type="text" id="username" name="username" required>
 
-            <label for="password">비밀번호</label>
-            <input type="password" id="password" name="password" required>
+<div class="cotn_principal">
+    <div class="cont_centrar">
 
-            <button type="submit" class="login-btn">로그인</button>
-        </form>
+        <div class="cont_login">
+            <div class="cont_info_log_sign_up">
+                <div class="col_md_login">
+                    <div class="cont_ba_opcitiy">
+                        <h2>일반회원</h2>
+                        <p>일반 회원으로 로그인 하기</p>
+                        <button class="btn_login" onclick="location.href='user_login'">LOGIN</button>
+                    </div>
+                </div>
+                <div class="col_md_sign_up">
+                    <div class="cont_ba_opcitiy">
+                        <h2>기 사</h2>
+                        <p>기사로 로그인하기</p>
+                        <button class="btn_sign_up" onclick="location.href='pro_login'">LOGIN</button>
+                    </div>
+                </div>
+            </div>
 
-        <div class="sns-container">
-            <a href="#">
-                <img height="30px" src="/img/kakao_login_large.png"/>
-            </a>
-            <a href="#">
-                <img height="30px" src="/img/naver_login.png"/>
-            </a>
-        </div>
+            <div class="cont_back_info">
+                <div class="cont_img_back_grey">
+                    <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+                </div>
+            </div>
 
-        <div class="link-container">
-            <a href="find_user">아이디/비밀번호 찾기</a>
-            <a href="register">회원가입</a>
+            <div class="cont_forms">
+                <div class="cont_img_back_">
+                    <img src="https://images.unsplash.com/42/U7Fc1sy5SCUDIu4tlJY3_NY_by_PhilippHenzler_philmotion.de.jpg?ixlib=rb-0.3.5&q=50&fm=jpg&crop=entropy&s=7686972873678f32efaf2cd79671673d" alt="" />
+                </div>
+                <div class="cont_form_login">
+                    <a href="#" onclick="hidden_login_and_expert_login()"><i class="material-icons">&#xE5C4;</i></a>
+                    <h2>LOGIN</h2>
+                    <input type="text" placeholder="Email" />
+                    <input type="password" placeholder="Password" />
+                    <button class="btn_login" onclick="redirectToLogin()">LOGIN</button>
+                </div>
+
+                <div class="cont_form_sign_up">
+                    <a href="#" onclick="hidden_login_and_expert_login()"><i class="material-icons">&#xE5C4;</i></a>
+                    <h2>SIGN UP</h2>
+                    <input type="text" placeholder="Email" />
+                    <input type="text" placeholder="User" />
+                    <input type="password" placeholder="Password" />
+                    <input type="password" placeholder="Confirm Password" />
+                    <button class="btn_sign_up" onclick="redirectToExpertLogin()">SIGN UP</button>
+                </div>
+            </div>
         </div>
     </div>
+</div>
+
+<script>
+    function redirectToLogin() {
+        window.location.href = 'user_login.html';
+    }
+
+    function redirectToExpertLogin() {
+        window.location.href = 'expert_login.html';
+    }
+
+    function hidden_login_and_expert_login() {
+        // Add your logic for hiding login and sign-up elements if needed
+    }
+</script>
+
 </body>
 </html>

@@ -58,40 +58,11 @@ public class checkcontroller {
         return "/list/center_question_ok";
     }
 
-
-
     @RequestMapping("/boardwrite")
     public String boardwrite() {
 //    public String index() {
 
         return "/list/boardwrite";
     }
-    @RequestMapping("/login")
-    public String login2() {
 
-        return "/login/login";
-    }
-
-    @RequestMapping("/register")
-    public String register() {
-
-        return "/login/register";
-    }
-
-    @RequestMapping("/register_expert")
-    public String register_expert() {
-
-        return "/login/register_expert";
-    }
-
-    @RequestMapping("/find_user")
-    public String find_user() {
-
-        return "/login/find_user";
-    }
-    @RequestMapping("/my_profile")
-    public String my_profile() {
-
-        return "/login/my_profile";
-    }
 }
