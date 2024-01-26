@@ -36,9 +36,4 @@ public class AdminController {
         return "adminad/admin_moon_view";
     }
 
-    //    관리자페이지 > 공지관리 > FAQ 올리기 (작성 폼)
-    @RequestMapping("/admin_faq_write")
-    public String admin_faq_write() {
-        return "adminad/admin_faq_write";
-    }
 }

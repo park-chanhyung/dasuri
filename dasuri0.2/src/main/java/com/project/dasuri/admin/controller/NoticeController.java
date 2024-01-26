@@ -1,9 +1,12 @@
 package com.project.dasuri.admin.controller;
 
+import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
+import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +21,15 @@ public class NoticeController {
 
 //    생성자 주입
     private final NoticeService noticeService;
+    private final FaqService faqService;
 
     //  관리자페이지 > 공지관리 (공지&FAQ 리스트)
     @RequestMapping("/admin_notice")
     public String admin_notice(Model model) {
         List<NoticeDTO> noticeDTOS = noticeService.findAll();
+        List<FaqDTO> faqDTOS = faqService.findAll();
         model.addAttribute("noticeList",noticeDTOS);
+        model.addAttribute("faqList",faqDTOS);
         return "/adminad/admin_notice";
     }
 
@@ -38,7 +44,7 @@ public class NoticeController {
     @RequestMapping("/admin_notice_write_ok")
     public String admin_notice_write_ok(@ModelAttribute NoticeDTO noticeDTO) {
         noticeService.save(noticeDTO);
-        return "adminad/admin_notice_write_ok";
+        return "redirect:/admin_notice";
     }
 
     //    관리자페이지 > 공지관리 > 공지보기 (내용보기 및 수정삭제)
@@ -61,7 +67,16 @@ public class NoticeController {
     public String admin_notice_update_ok(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         noticeService.update(noticeDTO);
         model.addAttribute("notice",noticeDTO);
-        return "redirect:adminad/admin_notice";
+        return "redirect:/admin_notice";
+    }
+
+    //    관리자페이지 > 공지관리 > 공지보기 > 삭제
+    @Transactional
+    @PostMapping("/admin_notice_delete")
+    public String admin_notice_delete(@ModelAttribute NoticeDTO noticeDTO, Model model) {
+        noticeService.deleteByNoticeId(noticeDTO.getNotice_id());
+        model.addAttribute("notice",noticeDTO);
+        return "redirect:/admin_notice";
     }
 
 }

@@ -33,6 +33,27 @@ public class NoticeService {
         return noticeDTOS;
     }
 
+//    공지 리스트 불러오기 (중요공지)
+    public List<NoticeDTO> findByImportantNotNull(){
+        List<NoticeEntity> noticeEntities = noticeRepository.findByImportantNotNullOrderByNoticeIdDesc();
+        List<NoticeDTO> noticeDTOS = new ArrayList<>();
+        for (NoticeEntity noticeEntity : noticeEntities) {
+            noticeDTOS.add(NoticeDTO.toNoticeDTO(noticeEntity));
+        }
+        return noticeDTOS;
+    }
+//    공지 리스트 불러오기 (일반공지)
+    public List<NoticeDTO> findByImportantNull(){
+        List<NoticeEntity> noticeEntities = noticeRepository.findByImportantNullOrderByNoticeIdDesc();
+        List<NoticeDTO> noticeDTOS = new ArrayList<>();
+        for (NoticeEntity noticeEntity : noticeEntities) {
+            noticeDTOS.add(NoticeDTO.toNoticeDTO(noticeEntity));
+        }
+        return noticeDTOS;
+    }
+
+
+
 //    공지 불러오기
     public NoticeDTO findByNoticeId(Long id){
         System.out.println("*** id : "+id);
@@ -44,8 +65,16 @@ public class NoticeService {
         }
     }
 
+//    공지 수정하기
     public void update (NoticeDTO noticeDTO){
         NoticeEntity noticeEntity = NoticeEntity.toUpdateNoticeEntity(noticeDTO);
         noticeRepository.save(noticeEntity);
     }
+
+//    공지 삭제하기
+    public void deleteByNoticeId(Long id) {
+        noticeRepository.deleteByNoticeId(id);
+    }
+
+
 }

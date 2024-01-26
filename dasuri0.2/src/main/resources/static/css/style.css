@@ -72,6 +72,10 @@ nav {
     z-index: 100;
 
 }
+
+#logoImage{
+    cursor: pointer;
+}
 #utility a {
 
     text-decoration: none; /* 밑줄 제거 */

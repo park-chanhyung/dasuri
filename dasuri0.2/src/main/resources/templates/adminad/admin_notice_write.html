@@ -20,12 +20,15 @@
 
       <div class="mem_container">
 
-        <form action="admin_notice_write_ok">
+        <form action="admin_notice_write_ok" onsubmit="return confirm('등록하시겠습니까?');">
           <table>
             <tr>
               <th>제목</th>
               <td>
                 <input type="text" name="notice_title" placeholder="공지 제목을 입력하세요.">
+              </td>
+              <td>
+                중요 <input type="checkbox" name="important" value="y">
               </td>
             </tr>
             <tr>

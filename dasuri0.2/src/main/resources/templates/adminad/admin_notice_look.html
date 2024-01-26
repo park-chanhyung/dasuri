@@ -57,12 +57,8 @@
                             </form>
                         </th>
                         <th>
-                            <form action="#" method="post">
+                            <form action="admin_notice_delete" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
                                 <input type="hidden" name="notice_id" th:value="${notice.notice_id}"/>
-                                <input type="hidden" name="notice_title" th:value="${notice.notice_title}"/>
-                                <input type="hidden" name="notice_firstDate" th:value="${notice.notice_firstDate}"/>
-                                <input type="hidden" name="notice_updateDate" th:value="${notice.notice_updateDate}"/>
-                                <input type="hidden" name="notice_content" th:value="${notice.notice_content}"/>
                                 <input type="submit" value="삭제">
                             </form>
                         </th>

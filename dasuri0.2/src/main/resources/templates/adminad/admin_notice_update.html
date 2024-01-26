@@ -19,7 +19,7 @@
             <h1 class="blue">공지글 수정</h1>
 
             <div class="mem_container">
-                <form action="admin_notice_update_ok" method="post" th:object="${notice}">
+                <form action="admin_notice_update_ok" method="post" th:object="${notice}"  onsubmit="return confirm('수정하시겠습니까?');">
                     <input type="hidden" name="notice_id" th:value="${notice.notice_id}"/>
                     <input type="hidden" name="notice_firstDate" th:value="${notice.notice_firstDate}"/>
                     <input type="hidden" name="notice_updateDate" th:value="${notice.notice_updateDate}"/>
@@ -28,6 +28,7 @@
                             <th width="30%">제목</th>
                             <td>
                                 <input type="text" th:value="${notice.notice_title}" name="notice_title">
+                                &nbsp; 중요 <input type="checkbox" name="important" value="y">
                             </td>
                         </tr>
                         <tr>
@@ -64,7 +65,6 @@
                             </th>
                         </tr>
                     </table>
-
             </div>
         </div>
 

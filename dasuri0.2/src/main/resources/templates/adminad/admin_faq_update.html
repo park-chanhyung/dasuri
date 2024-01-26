@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>faq 수정</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<main>
+
+    <!--   헤더 -->
+    <nav th:replace="~{/adminad/fragment/admin_header :: admin_header3}"></nav>
+
+    <section class="content">
+        <div class="admin_one_area">
+
+            <h1 class="blue">FAQ 수정</h1>
+
+            <div class="mem_container">
+                <form action="admin_faq_update_ok" method="post" th:object="${faq}"  onsubmit="return confirm('수정하시겠습니까?');">
+                    <input type="hidden" name="faqId" th:value="${faq.faqId}"/>
+                    <input type="hidden" name="faq_firstDate" th:value="${faq.faq_firstDate}"/>
+                    <input type="hidden" name="faq_updateDate" th:value="${faq.faq_updateDate}"/>
+                    <table class="mem_table">
+                        <tr>
+                            <th>작성일</th>
+                            <td th:text="${faq.faq_firstDate}"></td>
+                        </tr>
+                        <tr>
+                            <th>마지막 수정일</th>
+                            <td th:text="${faq.faq_updateDate}"></td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">질문</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="text" th:value="${faq.faq_question}" name="faq_question">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">답변</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="text" th:value="${faq.faq_answer}" name="faq_answer">
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="moon_view_bottom">
+                        <tr>
+                            <th> <input type="submit" value="수정"> </th>
+                </form>
+                            <th>
+                                <form action="admin_faq_view" method="post">
+                                    <input type="hidden" name="id" th:value="${faq.faqId}"/>
+                                    <input type="submit" value="취소">
+                                </form>
+                            </th>
+                            <th> <button type="button" onclick="location='/admin_notice'">목록으로</button> </th>
+                        </tr>
+                    </table>
+            </div>
+        </div>
+
+        <!--   푸터 -->
+        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+
+    </section>
+</main>
+
+</body>
+</html>
