@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+	<main>
+
+		<!--   헤더 -->
+		<nav th:replace="~{/adminad/fragment/admin_header :: admin_header4}"></nav>
+  	
+  	<section class="content">
+
+		<div class="admin_one_area">
+
+			<h1 class="blue">문의 관리</h1>
+
+			<!--  	  검색창 영역 -->
+			<div class="search">
+				<input type="text" class="searchTerm" placeholder="제목or내용">
+				<div class="searchButton"><img class="search_img" src="/img/admin/search.png"></div>
+			</div>
+			<!--		검색창 영역 끝 -->
+
+			<div class="mem_container">
+				<table class="mem_table">
+					<tr>
+						<th style="width: 20%">작성자</th>
+						<th style="width: 25%">제목</th>
+						<th style="width: 25%">내용</th>
+						<th style="width: 10%">유형</th>
+						<th style="width: 10%">답변</th>
+						<th style="width: 10%"></th>
+					</tr>
+					<tr>
+						<td>나문희</td>
+						<td>문희는포도가먹고찌픈데</td>
+						<td>포도사주세요빨리</td>
+						<td>문의</td>
+						<td>완료</td>
+						<td><button onclick="location='admin_moon_view'">확인</button></td>
+					</tr>
+					<tr>
+						<td>말왕</td>
+						<td>이거보세요오오</td>
+						<td>장충동왕족발보쌈을 신고합니다</td>
+						<td>신고</td>
+						<td>대기</td>
+						<td><button onclick="location='admin_moon_view'">확인</button></td>
+					</tr>
+				</table>
+
+				<div class="mem_paging_wrap">
+					<table class="mem_paging">
+						<tr>
+							<td> << </td>
+							<td> 1 </td>
+							<td> 2 </td>
+							<td> 3 </td>
+							<td> 4 </td>
+							<td> >> </td>
+						</tr>
+					</table>
+				</div>
+
+			</div>
+		</div>
+
+
+		<!--   푸터 -->
+		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+
+
+  	</section>
+	</main>
+
+</body>
+</html>

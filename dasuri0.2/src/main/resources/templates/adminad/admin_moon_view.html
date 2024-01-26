@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>문의글 보기</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+</head>
+<body>
+	
+	<main>
+
+		<!--   헤더 -->
+		<nav th:replace="~{/adminad/fragment/admin_header :: admin_header4}"></nav>
+  	
+  	<section class="content">
+		<div class="admin_one_area">
+
+			<h1 class="blue">문의글 보기</h1>
+
+			<div class="mem_container">
+				<table class="mem_table">
+					<tr>
+						<td width="30%">유형 :: 문의</td>
+						<td>상태 :: 답변완료</td>
+					</tr>
+					<tr>
+						<td>id</td>
+						<td>naMoon1234</td>
+					</tr>
+					<tr>
+						<td>작성자</td>
+						<td>나문희</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td>문희는포도가먹고찌픈데	</td>
+					</tr>
+					<tr>
+						<td>내용</td>
+						<td>포도사주세요빨리 </td>
+					</tr>
+				</table>
+
+				<br>
+				<br>
+				<br>
+				답글 기능 필요
+
+				<table class="moon_view_bottom">
+					<tr>
+						<th> <button onclick="location='admin_moon'">목록으로</button> </th>
+					</tr>
+				</table>
+
+			</div>
+		</div>
+
+		<!--   푸터 -->
+		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+
+  	</section>
+	</main>
+	
+</body>
+</html>

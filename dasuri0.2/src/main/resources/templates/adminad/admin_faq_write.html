@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ 올리기</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<main>
+
+  <!--   헤더 -->
+  <nav th:replace="~{/adminad/fragment/admin_header :: admin_header3}"></nav>
+
+  <section class="content">
+    <div class="admin_one_area">
+
+      <h1 class="blue">FAQ 올리기</h1>
+
+      <div class="mem_container">
+
+        <form action="admin_notice_write_ok">
+          <table>
+            <tr>
+              <th>제목</th>
+              <td>
+                <input type="text" name="notice_title" placeholder="자주 찾는 문의사항을 입력하세요.">
+              </td>
+            </tr>
+            <tr>
+              <th>제목</th>
+              <td>
+                <textarea name="notice_content" cols="60" rows="20" placeholder="답변을 입력하세요."></textarea>
+              </td>
+            </tr>
+          </table>
+
+          <table class="moon_view_bottom">
+            <tr>
+              <th> <input type="submit" value="완료"> </th>
+              <th> <input type="reset" value="다시작성"> </th>
+        </form>
+              <th> <button type="button" onclick="location.href='admin_notice'">목록으로</button> </th>
+            </tr>
+          </table>
+      </div>
+    </div>
+
+    <!--   푸터 -->
+    <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+
+  </section>
+</main>
+
+</body>
+</html>
