@@ -25,6 +25,7 @@ nav {
 
 .dasuri{
 	margin: 0 auto;
+    cursor: pointer;
 }
 
 nav ul,
@@ -1013,6 +1014,17 @@ main {
     margin: 15px 15px 0 15px;
     padding: 10px 0 0;
     gap: 15px;
+  }
+
+  .user-info{
+    width: 100%;
+  }
+  .user-info h4{
+    display: inline-block;
+  }
+  .user-info a{
+    display: inline-block;
+    float: right;
   }
 
   .activities,

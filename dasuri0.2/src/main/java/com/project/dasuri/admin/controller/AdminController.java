@@ -36,4 +36,10 @@ public class AdminController {
         return "adminad/admin_moon_view";
     }
 
+    //  관리자페이지 > 고객센터 > 커뮤니티
+    @RequestMapping("/admin_community")
+    public String admin_community() {
+        return "adminad/admin_community";
+    }
+
 }

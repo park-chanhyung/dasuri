@@ -38,7 +38,9 @@ public class NoticeService {
         List<NoticeEntity> noticeEntities = noticeRepository.findByImportantNotNullOrderByNoticeIdDesc();
         List<NoticeDTO> noticeDTOS = new ArrayList<>();
         for (NoticeEntity noticeEntity : noticeEntities) {
-            noticeDTOS.add(NoticeDTO.toNoticeDTO(noticeEntity));
+            NoticeDTO noticeDTO = NoticeDTO.toNoticeDTO(noticeEntity);
+            noticeDTO.setNotice_type("중요");
+            noticeDTOS.add(noticeDTO);
         }
         return noticeDTOS;
     }
@@ -46,8 +48,13 @@ public class NoticeService {
     public List<NoticeDTO> findByImportantNull(){
         List<NoticeEntity> noticeEntities = noticeRepository.findByImportantNullOrderByNoticeIdDesc();
         List<NoticeDTO> noticeDTOS = new ArrayList<>();
+        int x = noticeEntities.size();
         for (NoticeEntity noticeEntity : noticeEntities) {
-            noticeDTOS.add(NoticeDTO.toNoticeDTO(noticeEntity));
+            NoticeDTO noticeDTO = NoticeDTO.toNoticeDTO(noticeEntity);
+            noticeDTO.setNotice_no(x); //일반공지 리스트에 번호매김
+            noticeDTO.setNotice_type("일반");
+            noticeDTOS.add(noticeDTO);
+            x--;
         }
         return noticeDTOS;
     }

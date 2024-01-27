@@ -3,56 +3,69 @@
     display: grid;
     grid-template-columns: 50% 50%;
 }
-
-/*자주찾는질문 영역*/
-.center_main_container_1{
-    width: 60%;
+.center_containers{
+    width: 70%;
     display: grid;
+    margin: 0 auto;
     grid-template-columns: 50% 50%;
-    height: 600px;
+}
+
+/*고객센터 버튼 2개 영역*/
+.center_main_container{
+    position: relative;
+    width: 80%;
+    /*display: grid;*/
+    /*grid-template-columns: 50% 50%;*/
+    height: 300px;
     display: block;
     color: rgba(30, 48, 86, 0.8);
-    background: linear-gradient(45deg, #463631 0%, #976C5B 100%);
+    background: linear-gradient(45deg, #4148C1, #88aeff);
     box-shadow: 0px -50px 140px 0px rgba(69, 81, 100, 0.1);
-    border-radius: 10px;
+    border-radius: 20px;
     position: relative;
     margin: 10px auto;
 }
-
-/*1:1문의하기 영역*/
-.center_main_container_2{
-    width: 60%;
-    display: grid;
-    grid-template-columns: 50% 50%;
-    height: 600px;
-    display: block;
-    color: rgba(30, 48, 86, 0.8);
-    background: linear-gradient(-45deg, #463631 0%, #976C5B 100%);
-    box-shadow: 0px -50px 140px 0px rgba(69, 81, 100, 0.1);
-    border-radius: 10px;
-    position: relative;
-    margin: 10px auto;
+.center_main_container img{
+    position: absolute;
+    display: inline;
+    width: 40%;
+    margin: 10px;
+    top: 5px;
+    left: 5px;
 }
 
-.center_main_container_1:hover {
+.center_main_container:hover {
     transform: scale(1.01);
     cursor: pointer;
 }
-.center_main_container_2:hover {
-    transform: scale(1.01);
-    cursor: pointer;
+
+.pbox{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    display: inline-block;
+    float: right;
 }
 
 p{
     text-align: right;
     display: block;
-    font-size: 500%;
+    font-size: 400%;
     font-weight: 700;
     color: white;
     text-decoration: none;
+    margin: 10px;
 }
-.pbox{
-    margin-bottom: 3%;
+.big{
+    font-size: 700%;
+}
+.small{
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 150%;
+}
+.medium{
+    font-size: 300%;
 }
 
 .center_loc{

@@ -11,7 +11,7 @@
 <!--      헤더 1 -->
       <nav th:fragment="admin_header1" class="main-menu">
         <h1>
-          <img class="dasuri" src="/img/admin/logo_cricle.png" width="50%">
+          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
           <br>ADMIN
         </h1>
         <ul>
@@ -49,12 +49,12 @@
             </a>
           </li>
 
-          <li class="nav-item" onclick="location='index'">
+          <li class="nav-item" onclick="location='admin_community'">
             <b></b>
             <b></b>
             <a href="#">
-              <i class="fa fa-sliders nav-icon"><img src="/img/admin/main_wh.png" width="50%"></i>
-              <span class="nav-text"> 메인으로 </span>
+              <i class="fa fa-sliders nav-icon"><img src="/img/admin/comm_wh.png" width="50%"></i>
+              <span class="nav-text"> 커뮤니티 </span>
             </a>
           </li>
         </ul>
@@ -63,7 +63,7 @@
 <!--      헤더 2 -->
       <nav th:fragment="admin_header2" class="main-menu">
         <h1>
-          <img class="dasuri" src="/img/admin/logo_cricle.png" width="50%">
+          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
           <br>ADMIN
         </h1>
         <ul>
@@ -101,12 +101,12 @@
             </a>
           </li>
 
-          <li class="nav-item" onclick="location='index'">
+          <li class="nav-item" onclick="location='admin_community'">
             <b></b>
             <b></b>
             <a href="#">
-              <i class="fa fa-sliders nav-icon"><img src="/img/admin/main_wh.png" width="50%"></i>
-              <span class="nav-text"> 메인으로 </span>
+              <i class="fa fa-sliders nav-icon"><img src="/img/admin/comm_wh.png" width="50%"></i>
+              <span class="nav-text"> 커뮤니티 </span>
             </a>
           </li>
         </ul>
@@ -115,7 +115,7 @@
 <!--      헤더 3 -->
       <nav th:fragment="admin_header3" class="main-menu">
         <h1>
-          <img class="dasuri" src="/img/admin/logo_cricle.png" width="50%">
+          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
           <br>ADMIN
         </h1>
         <ul>
@@ -153,12 +153,12 @@
             </a>
           </li>
 
-          <li class="nav-item" onclick="location='index'">
+          <li class="nav-item" onclick="location='admin_community'">
             <b></b>
             <b></b>
-            <a href="index">
-              <i class="fa fa-sliders nav-icon"><img src="/img/admin/main_wh.png" width="50%"></i>
-              <span class="nav-text"> 메인으로 </span>
+            <a href="#">
+              <i class="fa fa-sliders nav-icon"><img src="/img/admin/comm_wh.png" width="50%"></i>
+              <span class="nav-text"> 커뮤니티 </span>
             </a>
           </li>
         </ul>
@@ -167,7 +167,7 @@
 <!--      헤더 4 -->
       <nav th:fragment="admin_header4" class="main-menu">
         <h1>
-          <img class="dasuri" src="/img/admin/logo_cricle.png" width="50%">
+          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
           <br>ADMIN
         </h1>
         <ul>
@@ -205,12 +205,64 @@
             </a>
           </li>
 
-          <li class="nav-item" onclick="location='index'">
+          <li class="nav-item" onclick="location='admin_community'">
             <b></b>
             <b></b>
             <a href="#">
-              <i class="fa fa-sliders nav-icon"><img src="/img/admin/main_wh.png" width="50%"></i>
-              <span class="nav-text"> 메인으로 </span>
+              <i class="fa fa-sliders nav-icon"><img src="/img/admin/comm_wh.png" width="50%"></i>
+              <span class="nav-text"> 커뮤니티 </span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+<!--      헤더 5 -->
+      <nav th:fragment="admin_header5" class="main-menu">
+        <h1>
+          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
+          <br>ADMIN
+        </h1>
+        <ul>
+          <li class="nav-item" onclick="location='admin'">
+            <a href="#">
+              <i class="fa fa-house nav-icon"><img src="/img/admin/admin_home_wh.png" width="50%"></i>
+              <span class="nav-text">관리자 홈</span>
+            </a>
+          </li>
+
+          <li class="nav-item" onclick="location='admin_mem'">
+            <b></b>
+            <b></b>
+            <a href="#" onclick="chch()">
+              <i class="fa fa-user nav-icon"><img src="/img/admin/user_wh.png" width="50%"></i>
+              <span class="nav-text">회원 관리</span>
+            </a>
+          </li>
+
+          <li class="nav-item" onclick="location='admin_notice'">
+            <b></b>
+            <b></b>
+            <a href="#">
+              <i class="fa fa-calendar-check nav-icon"><img src="/img/admin/notice_wh.png" width="50%"></i>
+              <span class="nav-text"> 공지/FAQ </span>
+            </a>
+          </li>
+
+          <li class="nav-item" onclick="location='admin_moon'">
+            <b></b>
+            <b></b>
+            <a href="#">
+              <i class="fa fa-person-running nav-icon"><img src="/img/admin/moon_bl.png" width="50%"></i>
+              <span class="nav-text"> 고객센터 </span>
+            </a>
+          </li>
+
+          <li class="nav-item active" onclick="location='admin_community'">
+            <b></b>
+            <b></b>
+            <a href="#">
+              <i class="fa fa-sliders nav-icon"><img src="/img/admin/comm_bl.png" width="50%"></i>
+              <span class="nav-text"> 커뮤니티 </span>
             </a>
           </li>
         </ul>

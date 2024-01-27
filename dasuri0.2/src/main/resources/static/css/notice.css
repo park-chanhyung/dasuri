@@ -1,5 +1,5 @@
 .notice_area{
-    width: 100%;
+    width: 80%;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -10,6 +10,10 @@
     margin: 0 auto;
     margin-top: 30px;
     margin-bottom: 20px;
+}
+.notice_table_area button{
+    margin: 0 auto;
+    margin-top: 40px;
 }
 .notice_table{
     width: 100%;
@@ -26,6 +30,14 @@
     background: #eeeeee;
     font-weight: 600;
     padding: 10px;
+}
+.notice_table th:nth-child(1) {
+    color: #6192FA;
+}
+.notice_table th:nth-child(3) {
+    padding: 5px;
+    color: gray;
+    font-size: 0.8em;
 }
 .notice_table td{
     height: 60px;

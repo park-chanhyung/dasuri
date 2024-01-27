@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자주 찾는 질문</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/faq.css}">
+    <script src="/js/faq.js"></script>
+</head>
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="center_loc">
+    <a href="index"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
+    <a href="center_main"> 고객센터 &nbsp; > &nbsp; </a>
+    <a href="center_faq"> 자주 찾는 질문</a>
+</div>
+
+<div class="center_title">
+    <h1>자주 찾는 질문</h1>
+    <h4>다수리 사이트에 관한 궁금하신 사항을 확인하세요.</h4>
+
+    <!--  	  검색창 영역 -->
+    <div class="faq_search">
+        <input type="text" class="faq_searchTerm" placeholder="키워드로 검색하세요.">
+        <div class="faq_searchButton"><img class="faq_search_img" src="/img/admin/search.png"></div>
+    </div>
+    <!--		검색창 영역 끝 -->
+
+    <!--    해시태그(중복값 제거) -->
+    <div class="hashTag_area">
+        <ul th:if="${faqs.size() > 0}" id="hashTagList">
+            <th:block th:with="uniqueTags=${#sets.toSet(faqs.![faqTag])}">
+                <li th:each="tag : ${uniqueTags}">
+                    <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'" ></div>
+                </li>
+                <li>
+                    <div class="hashTag" onclick="location='center_faq'">전체보기</div>
+                </li>
+            </th:block>
+        </ul>
+    </div>
+
+    <!--faq 리스트 -->
+    <div class="faq_area">
+        <div class="faq_table_area">
+            <table class="faq_table" th:each="faq: ${faqs}">
+                <tr>
+                    <td th:text="${faq.faqTag}"></td>
+                    <td class="ck" th:text="${faq.faq_question}"></td>
+                    <td class="ck">▼</td>
+                </tr>
+                <tr class="hide" style="height: 200px">
+                    <td colspan="3" th:text="${faq.faq_answer}"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <footer>
+        <div th:include="/list/layout/footer"></div>
+    </footer>
+</body>
+<script>
+    function submitForm(faq) {
+        // 클릭된 값 저장
+        document.getElementById('tag').value = faq.innerText;
+
+        // 폼 제출
+        document.getElementById('hashForm').submit();
+    }
+</script>

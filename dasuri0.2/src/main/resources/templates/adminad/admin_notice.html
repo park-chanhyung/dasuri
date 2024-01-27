@@ -29,25 +29,35 @@
 					</div>
 					<!--		검색창 영역 끝 -->
 
-
+<!--					공지 리스트 -->
 					<div class="notice_container">
 						<table class="notice_table">
 							<tr>
-								<th style="width: 5%">번호</th>
+								<th style="width: 5%">구분</th>
 								<th style="width: 30%">제목</th>
 								<th style="width: 30%">내용</th>
 								<th style="width: 5%"></th>
 							</tr>
-							<tr th:each="notice: ${noticeList}">
-								<td th:text="${notice.notice_id}"></td>
-								<td th:text="${notice.notice_title}"></td>
-								<td th:text="${notice.notice_content}"></td>
+							<tr th:each="important: ${importants}">
+								<td th:text="중요" style="color:#6192FA;font-weight: bold"></td>
+								<td th:text="${important.notice_title}"></td>
+								<td th:text="${important.notice_content}"></td>
 								<td>
 									<form action="admin_notice_view" method="post">
-										<input type="hidden" name="id" th:value="${notice.notice_id}"/>
+										<input type="hidden" name="id" th:value="${important.notice_id}"/>
 										<input type="submit" value="보기">
 									</form>
-
+								</td>
+							</tr>
+							<tr th:each="normal: ${normals}">
+								<td th:text="${normal.notice_no}"></td>
+								<td th:text="${normal.notice_title}"></td>
+								<td th:text="${normal.notice_content}"></td>
+								<td>
+									<form action="admin_notice_view" method="post">
+										<input type="hidden" name="id" th:value="${normal.notice_id}"/>
+										<input type="submit" value="보기">
+									</form>
 								</td>
 							</tr>
 						</table>
@@ -84,12 +94,14 @@
 						<table class="notice_table">
 							<tr>
 								<th style="width: 5%">번호</th>
+								<th style="width: 5%">태그</th>
 								<th style="width: 30%">질문</th>
 								<th style="width: 30%">답변</th>
 								<th style="width: 5%"></th>
 							</tr>
 							<tr th:each="faq: ${faqList}">
-								<td th:text="${faq.faqId}"></td>
+								<td th:text="${faq.faq_no}"></td>
+								<td th:text="${faq.faqTag}"></td>
 								<td th:text="${faq.faq_question}"></td>
 								<td th:text="${faq.faq_answer}"></td>
 								<td>

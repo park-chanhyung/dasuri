@@ -21,6 +21,8 @@ public class NoticeDTO {
     private String notice_firstDate; //공지 첫 작성시간
     private String notice_updateDate; //공지 수정시간
     private String important; //중요 여부 (y or null)
+    private String notice_type; //"중요" or "일반"
+    private int notice_no; //공지사항 게시판에서의 일반공지 번호
 
     //    DB를 오가는 엔티티 객체를 DTO 객체로 변환
     public static NoticeDTO toNoticeDTO(NoticeEntity noticeEntity){

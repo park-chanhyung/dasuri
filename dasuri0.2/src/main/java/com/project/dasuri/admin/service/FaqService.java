@@ -31,8 +31,26 @@ public class FaqService {
     public List<FaqDTO> findAll(){
         List<FaqEntity> faqEntities = faqRepository.findAll(Sort.by(Sort.Direction.DESC,"faqId"));
         List<FaqDTO> faqDTOS = new ArrayList<>();
+        int x = faqEntities.size();
         for (FaqEntity faqEntity : faqEntities) {
-            faqDTOS.add(FaqDTO.toFaqDto(faqEntity));
+            FaqDTO faqDTO = FaqDTO.toFaqDto(faqEntity);
+            faqDTO.setFaq_no(x);
+            faqDTOS.add(faqDTO);
+            x--;
+        }
+        return faqDTOS;
+    }
+
+//    faq 리스트 불러오기 (해시태그 필터링)
+    public List<FaqDTO> findByFaqTag(String faqTag){
+        List<FaqEntity> faqEntities = faqRepository.findByFaqTag(faqTag);
+        List<FaqDTO> faqDTOS = new ArrayList<>();
+        int x = faqEntities.size();
+        for (FaqEntity faqEntity : faqEntities) {
+            FaqDTO faqDTO = FaqDTO.toFaqDto(faqEntity);
+            faqDTO.setFaq_no(x);
+            faqDTOS.add(faqDTO);
+            x--;
         }
         return faqDTOS;
     }

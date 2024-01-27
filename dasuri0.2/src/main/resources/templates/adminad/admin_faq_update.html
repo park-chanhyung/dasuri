@@ -33,6 +33,12 @@
                             <td th:text="${faq.faq_updateDate}"></td>
                         </tr>
                         <tr>
+                            <th>태그</th>
+                            <td>
+                                <input type="text" th:value="${faq.faqTag}" name="faqTag">
+                            </td>
+                        </tr>
+                        <tr>
                             <th colspan="2">질문</th>
                         </tr>
                         <tr>
@@ -45,7 +51,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input type="text" th:value="${faq.faq_answer}" name="faq_answer">
+                                <textarea name="faq_answer" cols="60" rows="10" th:text="${faq.faq_answer}"></textarea>
                             </td>
                         </tr>
                     </table>

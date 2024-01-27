@@ -11,4 +11,6 @@ public interface FaqRepository extends JpaRepository<FaqEntity, Long> {
 
     Optional<FaqEntity> findByFaqId(Long noticeId);
     Optional<FaqEntity> deleteByFaqId(Long noticeId);
+
+    List<FaqEntity> findByFaqTag(String faqTag);
 }

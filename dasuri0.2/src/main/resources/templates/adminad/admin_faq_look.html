@@ -29,6 +29,10 @@
                         <td th:text="${faq.faq_updateDate}"></td>
                     </tr>
                     <tr>
+                        <th>태그</th>
+                        <td th:text="${faq.faqTag}"></td>
+                    </tr>
+                    <tr>
                         <th colspan="2">질문</th>
                     </tr>
                     <tr>
@@ -47,6 +51,7 @@
                         <th>
                             <form action="admin_faq_update" method="post">
                                 <input type="hidden" name="faqId" th:value="${faq.faqId}"/>
+                                <input type="hidden" name="faqTag" th:value="${faq.faqTag}"/>
                                 <input type="hidden" name="faq_firstDate" th:value="${faq.faq_firstDate}"/>
                                 <input type="hidden" name="faq_updateDate" th:value="${faq.faq_updateDate}"/>
                                 <input type="hidden" name="faq_question" th:value="${faq.faq_question}"/>

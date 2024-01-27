@@ -24,6 +24,9 @@ public class FaqEntity {
     @Column
     private String faq_answer; //faq 답변
 
+    @Column(name = "faq_tag")
+    private String faqTag; //faq 해시태그
+
     @CreationTimestamp
     @Column(updatable = false, name = "faq_firstDate")
     private LocalDateTime faq_firstDate = LocalDateTime.now(); //공지 첫 작성시간
@@ -37,6 +40,7 @@ public class FaqEntity {
         FaqEntity faqEntity = new FaqEntity();
         faqEntity.setFaq_question(faqDTO.getFaq_question());
         faqEntity.setFaq_answer(faqDTO.getFaq_answer());
+        faqEntity.setFaqTag(faqDTO.getFaqTag());
         return faqEntity;
     }
 
@@ -46,6 +50,7 @@ public class FaqEntity {
         faqEntity.setFaqId(faqDTO.getFaqId());
         faqEntity.setFaq_question(faqDTO.getFaq_question());
         faqEntity.setFaq_answer(faqDTO.getFaq_answer());
+        faqEntity.setFaqTag(faqDTO.getFaqTag());
         return faqEntity;
     }
 }

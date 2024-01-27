@@ -5,6 +5,7 @@ import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class FaqController {
 
 //    생성자 주입
@@ -46,6 +48,7 @@ public class FaqController {
     //    관리자페이지 > 공지관리 > faq보기 > 수정
     @PostMapping("/admin_faq_update")
     public String admin_faq_update(@ModelAttribute FaqDTO faqDTO, Model model) {
+        log.info("##@#$@ 태그 : "+faqDTO.getFaqTag());
         model.addAttribute("faq",faqDTO);
         return "adminad/admin_faq_update";
     }

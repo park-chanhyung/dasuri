@@ -33,23 +33,26 @@
 <!--    공지 리스트 영역 -->
     <div class="notice_area">
         <div class="notice_table_area">
-            <table class="notice_table">
-                <tr>
-                    <th>구분</th>
-                    <th>제목</th>
-                    <th>수정일자</th>
-                </tr>
-                <tr th:each="important: ${importants}">
-                    <td th:text="중요" style="color:#6192FA;font-weight: bold"></td>
-                    <td th:text="${important.notice_title}"></td>
-                    <td th:text="${important.notice_updateDate}"></td>
-                </tr>
-                <tr th:each="normal: ${normals}">
-                    <td th:text="${normal.notice_id}"></td>
-                    <td th:text="${normal.notice_title}"></td>
-                    <td th:text="${normal.notice_updateDate}"></td>
-                </tr>
-            </table>
+            <form id="noticeView" action="notice_main_view" method="post">
+                <table class="notice_table">
+                    <tr>
+                        <th>구분</th>
+                        <th>제목</th>
+                        <th>수정일자</th>
+                    </tr>
+                    <tr th:each="important: ${importants}">
+                        <td th:text="${important.notice_type}" style="color:#6192FA;font-weight: bold"></td>
+                        <td th:text="${important.notice_title}" th:attr="onclick='submitForm(' + ${important.notice_id} + ')'" ></td>
+                        <td th:text="${important.notice_updateDate}"></td>
+                    </tr>
+                    <tr th:each="normal: ${normals}">
+                        <td th:text="${normal.notice_no}"></td>
+                        <td th:text="${normal.notice_title}" th:attr="onclick='submitForm(' + ${normal.notice_id} + ')'" ></td>
+                        <td th:text="${normal.notice_updateDate}"></td>
+                    </tr>
+                </table>
+                <input type="hidden" id="selectedNoticeId" name="id" value="">
+            </form>
         </div>
     </div>
     <footer>
@@ -57,3 +60,12 @@
     </footer>
 
 </body>
+<script>
+    function submitForm(noticeId) {
+        // 클릭된 값 저장
+        document.getElementById('selectedNoticeId').value = noticeId;
+
+        // 폼 제출
+        document.getElementById('noticeView').submit();
+    }
+</script>
