@@ -75,4 +75,26 @@ public class FaqService {
     public void deleteByFaqId(Long id) {
         faqRepository.deleteByFaqId(id);
     }
+
+//    faq 검색하기
+    public List<FaqDTO> searchFaq(String keyword){
+        List<FaqEntity> faqEntities = faqRepository.findByFaqQuestionContainingOrFaqAnswerContainingOrFaqTagContaining(keyword,keyword,keyword);
+//        OrderByNoticeIdDesc
+        List<FaqDTO> faqDTOS = new ArrayList<>();
+        int x = faqEntities.size();
+        for (FaqEntity faqEntity : faqEntities) {
+            FaqDTO faqDTO = FaqDTO.toFaqDto(faqEntity);
+            faqDTO.setFaq_no(x); //일반공지 리스트에 번호매김
+            faqDTOS.add(faqDTO);
+            x--;
+        }
+        return faqDTOS;
+    }
+
+
+
+
+
+
+
 }

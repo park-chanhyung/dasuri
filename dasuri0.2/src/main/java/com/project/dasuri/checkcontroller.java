@@ -56,6 +56,18 @@ public class checkcontroller {
         return "/list/notice/notice_main_view";
     }
 
+//    메인 > 공지사항 > 공지 검색 (중요+일반)
+    @RequestMapping("/notice_search")
+    public String notice_search(@RequestParam String notice_keyword, Model model) {
+        List<NoticeDTO> importantDTOs = noticeService.searchIm(notice_keyword); //중요공지 검색
+        List<NoticeDTO> normalDTOs = noticeService.searchNo(notice_keyword); //일반공지 검색
+
+        model.addAttribute("importants",importantDTOs);
+        model.addAttribute("normals",normalDTOs);
+        model.addAttribute("keyword",notice_keyword);
+
+        return "/list/notice/notice_search_result";
+    }
 //    ------------------------------------------
 
 //    메인 > 전문가찾기

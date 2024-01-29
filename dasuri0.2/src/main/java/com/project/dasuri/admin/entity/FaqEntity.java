@@ -19,10 +19,10 @@ public class FaqEntity {
     private Long faqId; //faq 고유번호
 
     @Column
-    private String faq_question; //faq 질문
+    private String faqQuestion; //faq 질문
 
     @Column
-    private String faq_answer; //faq 답변
+    private String faqAnswer; //faq 답변
 
     @Column(name = "faq_tag")
     private String faqTag; //faq 해시태그
@@ -38,8 +38,8 @@ public class FaqEntity {
 //    DTO객체를 DB를 오가는 엔티티 객체로 변환
     public static FaqEntity toFaqEntity(FaqDTO faqDTO){
         FaqEntity faqEntity = new FaqEntity();
-        faqEntity.setFaq_question(faqDTO.getFaq_question());
-        faqEntity.setFaq_answer(faqDTO.getFaq_answer());
+        faqEntity.setFaqQuestion(faqDTO.getFaqQuestion());
+        faqEntity.setFaqAnswer(faqDTO.getFaqAnswer());
         faqEntity.setFaqTag(faqDTO.getFaqTag());
         return faqEntity;
     }
@@ -48,8 +48,8 @@ public class FaqEntity {
     public static FaqEntity toUpdateFaqEntity(FaqDTO faqDTO){
         FaqEntity faqEntity = new FaqEntity();
         faqEntity.setFaqId(faqDTO.getFaqId());
-        faqEntity.setFaq_question(faqDTO.getFaq_question());
-        faqEntity.setFaq_answer(faqDTO.getFaq_answer());
+        faqEntity.setFaqQuestion(faqDTO.getFaqQuestion());
+        faqEntity.setFaqAnswer(faqDTO.getFaqAnswer());
         faqEntity.setFaqTag(faqDTO.getFaqTag());
         return faqEntity;
     }

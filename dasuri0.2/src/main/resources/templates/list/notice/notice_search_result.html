@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>메인 : 공지사항</title>
+    <title>메인 : 공지 검색 결과</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/notice.css}">
 </head>
@@ -20,12 +20,14 @@
 
     <div class="center_title">
         <h1>공지사항</h1>
-        <h4>다수리 사이트의 주요 공지를 확인하세요.</h4>
+        <h4 th:text="'( '+${keyword}+' ) '" class="red"></h4>
+        <h4>으로 검색한 결과입니다.&nbsp;&nbsp;&nbsp; </h4>
+        <h4 class="red"><a href="notice_main"> 전체보기 </a></h4>
 
         <!--  	  검색창 영역 -->
         <form action="notice_search" id="notice_search">
             <div class="faq_search">
-                    <input type="text" class="faq_searchTerm" name="notice_keyword" placeholder="제목 또는 내용으로 검색하세요.">
+                    <input type="text" class="faq_searchTerm" name="notice_keyword" placeholder="제목 또는 내용을 검색하세요." th:value="${keyword}">
                     <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
             </div>
         </form>
@@ -44,12 +46,21 @@
                     </tr>
                     <tr th:each="important: ${importants}">
                         <td th:text="${important.notice_type}" style="color:#6192FA;font-weight: bold"></td>
-                        <td th:text="${important.noticeTitle}" th:attr="onclick='submitForm(' + ${important.notice_id} + ')'" ></td>
+<!--                        <td th:text="${important.noticeTitle}" th:attr="onclick='submitForm(' + ${important.notice_id} + ')'" ></td>-->
+<!--                        검색한 키워드를 노랗게 표시 -->
+                        <td>
+                            <span class="yellow" th:utext="${#strings.replace(important.noticeTitle, keyword, '<span>' + keyword + '</span>')}"
+                                  th:attr="onclick='submitForm(\'' + ${important.notice_id} + '\')'"></span>
+                        </td>
                         <td th:text="${important.notice_updateDate}"></td>
                     </tr>
                     <tr th:each="normal: ${normals}">
                         <td th:text="${normal.notice_no}"></td>
-                        <td th:text="${normal.noticeTitle}" th:attr="onclick='submitForm(' + ${normal.notice_id} + ')'" ></td>
+<!--                        검색한 키워드를 노랗게 표시 -->
+                        <td>
+                            <span class="yellow" th:utext="${#strings.replace(normal.noticeTitle, keyword, '<span>' + keyword + '</span>')}"
+                                  th:attr="onclick='submitForm(\'' + ${normal.notice_id} + '\')'"></span>
+                        </td>
                         <td th:text="${normal.notice_updateDate}"></td>
                     </tr>
                 </table>

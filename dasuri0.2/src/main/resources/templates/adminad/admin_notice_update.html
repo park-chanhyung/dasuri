@@ -27,7 +27,7 @@
                         <tr>
                             <th width="30%">제목</th>
                             <td>
-                                <input type="text" th:value="${notice.notice_title}" name="notice_title">
+                                <input type="text" th:value="${notice.noticeTitle}" name="noticeTitle">
                                 &nbsp; 중요 <input type="checkbox" name="important" value="y">
                             </td>
                         </tr>
@@ -48,7 +48,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <textarea name="notice_content" cols="70" rows="10" th:text="${notice.notice_content}"></textarea>
+                                <textarea name="noticeContent" cols="70" rows="10" th:text="${notice.noticeContent}"></textarea>
                             </td>
                         </tr>
                     </table>

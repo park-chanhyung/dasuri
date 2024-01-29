@@ -49,8 +49,8 @@ public class NoticeController {
     }
 
     //    관리자페이지 > 공지관리 > 공지보기 (내용보기 및 수정삭제)
-    @PostMapping("/admin_notice_view")
-    public String admin_notice_view(@RequestParam Long id,Model model) {
+    @GetMapping("/admin_notice_view")
+    public String admin_notice_view(@PathVariable Long id,Model model) {
         NoticeDTO noticeDTO = noticeService.findByNoticeId(id);
         if (noticeDTO.getImportant() == null) {
             noticeDTO.setNotice_type("일반");
@@ -62,7 +62,7 @@ public class NoticeController {
     }
 
     //    관리자페이지 > 공지관리 > 공지보기 > 수정
-    @PostMapping("/admin_notice_update")
+    @PostMapping("/admin_notice_update/{id}")
     public String admin_notice_update(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         model.addAttribute("notice",noticeDTO);
         return "adminad/admin_notice_update";
@@ -72,8 +72,10 @@ public class NoticeController {
     @PostMapping("/admin_notice_update_ok")
     public String admin_notice_update_ok(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         noticeService.update(noticeDTO);
-        model.addAttribute("notice",noticeDTO);
-        return "redirect:/admin_notice";
+//        model.addAttribute("notice",noticeDTO);
+        model.addAttribute("id",noticeDTO.getNotice_id());
+//        return "redirect:/admin_notice";
+        return "redirect:/admin_notice_view";
     }
 
     //    관리자페이지 > 공지관리 > 공지보기 > 삭제
@@ -83,6 +85,21 @@ public class NoticeController {
         noticeService.deleteByNoticeId(noticeDTO.getNotice_id());
         model.addAttribute("notice",noticeDTO);
         return "redirect:/admin_notice";
+    }
+
+    //    관리자페이지 > 공지관리 > 공지검색
+    @RequestMapping("/admin_notice_search")
+    public String notice_search2(@RequestParam String notice_keyword, Model model) {
+        List<NoticeDTO> importantDTOs = noticeService.searchIm(notice_keyword);
+        List<NoticeDTO> normalDTOs = noticeService.searchNo(notice_keyword);
+        List<FaqDTO> faqDTOS = faqService.findAll();
+
+        model.addAttribute("importants",importantDTOs); //중요공지 검색결과
+        model.addAttribute("normals",normalDTOs); //일반공지 검색결과
+        model.addAttribute("keyword",notice_keyword); //검색한 키워드
+        model.addAttribute("faqList",faqDTOS); //같은 화면에 담을 faq리스트
+
+        return "/adminad/admin_notice_search";
     }
 
 }

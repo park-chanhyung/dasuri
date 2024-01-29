@@ -36,13 +36,13 @@
                         <th colspan="2">질문</th>
                     </tr>
                     <tr>
-                        <td colspan="2" th:text="${faq.faq_question}"></td>
+                        <td colspan="2" th:text="${faq.faqQuestion}"></td>
                     </tr>
                     <tr>
                         <th colspan="2">답변</th>
                     </tr>
                     <tr>
-                        <td colspan="2" th:text="${faq.faq_answer}"></td>
+                        <td colspan="2" th:text="${faq.faqAnswer}"></td>
                     </tr>
                 </table>
 
@@ -54,8 +54,8 @@
                                 <input type="hidden" name="faqTag" th:value="${faq.faqTag}"/>
                                 <input type="hidden" name="faq_firstDate" th:value="${faq.faq_firstDate}"/>
                                 <input type="hidden" name="faq_updateDate" th:value="${faq.faq_updateDate}"/>
-                                <input type="hidden" name="faq_question" th:value="${faq.faq_question}"/>
-                                <input type="hidden" name="faq_answer" th:value="${faq.faq_answer}"/>
+                                <input type="hidden" name="faq_question" th:value="${faq.faqQuestion}"/>
+                                <input type="hidden" name="faq_answer" th:value="${faq.faqAnswer}"/>
                                 <input type="submit" value="수정">
                             </form>
                         </th>

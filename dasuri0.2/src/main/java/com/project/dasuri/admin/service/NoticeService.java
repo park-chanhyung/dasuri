@@ -58,6 +58,33 @@ public class NoticeService {
         }
         return noticeDTOS;
     }
+//    공지 검색 (중요)
+    public List<NoticeDTO> searchIm(String keyword){
+        List<NoticeEntity> noticeEntities = noticeRepository.findByImportantIsNotNullAndNoticeTitleContainingOrImportantIsNotNullAndNoticeContentContainingOrderByNoticeIdDesc(keyword,keyword);
+//        OrderByNoticeIdDesc
+        List<NoticeDTO> noticeDTOS = new ArrayList<>();
+        for (NoticeEntity noticeEntity : noticeEntities) {
+            NoticeDTO noticeDTO = NoticeDTO.toNoticeDTO(noticeEntity);
+            noticeDTO.setNotice_type("중요");
+            noticeDTOS.add(noticeDTO);
+        }
+        return noticeDTOS;
+    }
+//    공지 검색 (일반)
+    public List<NoticeDTO> searchNo(String keyword){
+        List<NoticeEntity> noticeEntities = noticeRepository.findByImportantIsNullAndNoticeTitleContainingOrImportantIsNullAndNoticeContentContainingOrderByNoticeIdDesc(keyword,keyword);
+//        OrderByNoticeIdDesc
+        List<NoticeDTO> noticeDTOS = new ArrayList<>();
+        int x = noticeEntities.size();
+        for (NoticeEntity noticeEntity : noticeEntities) {
+            NoticeDTO noticeDTO = NoticeDTO.toNoticeDTO(noticeEntity);
+            noticeDTO.setNotice_no(x); //일반공지 리스트에 번호매김
+            noticeDTO.setNotice_type("일반");
+            noticeDTOS.add(noticeDTO);
+            x--;
+        }
+        return noticeDTOS;
+    }
 
 
 

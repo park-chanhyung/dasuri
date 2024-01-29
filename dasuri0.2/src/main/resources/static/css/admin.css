@@ -1050,7 +1050,7 @@ main {
 
 /* 검색창 */
 .search {
-  width: 250px;
+  width: 300px;
   height: 40px;
   display: flex;
   position: relative;
@@ -1059,7 +1059,6 @@ main {
   left: 30px;
   overflow: clip;
 }
-
 .searchTerm {
   display: inline-block;
   width: 150px;
@@ -1150,6 +1149,18 @@ main {
   width: 100%;
   border-collapse: collapse;
 }
+.notice_table tr td:hover {
+  color: #6192FA;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.notice_table tr td span {
+  background: yellow;
+}
+.notice_table tr th span {
+  background: yellow;
+}
+
 .notice_table th,.mem_table td {
   padding: 5px;
   text-align: center;
@@ -1157,5 +1168,27 @@ main {
   text-overflow: ellipsis;
   overflow: hidden;
 }
-
-
+.yellow span{
+  background: yellow;
+}
+.mem_top{
+  width: 90%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.mem_type_btn{
+  width: 100px;
+  height: 50px;
+  background: #6192FA;
+  border-radius: 10px;
+}
+/* 검색창(회원관리) */
+.search_mem {
+  width: 300px;
+  height: 40px;
+  display: flex;
+  position: relative;
+  right: 0px;
+  margin-bottom: 20px;
+  overflow: clip;
+}

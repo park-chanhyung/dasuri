@@ -21,6 +21,15 @@
 <div class="center_title">
     <h1>공지사항</h1>
     <h4>다수리 사이트의 주요 공지를 확인하세요.</h4>
+
+    <!--  	  검색창 영역 -->
+    <form action="notice_search" id="notice_search">
+        <div class="faq_search">
+            <input type="text" class="faq_searchTerm" name="notice_keyword" placeholder="제목 또는 내용으로 검색하세요.">
+            <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
+        </div>
+    </form>
+    <!--		검색창 영역 끝 -->
 </div>
 
 <!--    공지 리스트 영역 -->
@@ -29,11 +38,11 @@
         <table class="notice_table">
             <tr>
                 <th th:text="${notice.notice_type}" width="10%"></th>
-                <th th:text="${notice.notice_title}"></th>
+                <th th:text="${notice.noticeTitle}"></th>
                 <th th:text="'수정일 : '+${notice.notice_updateDate}" width="20%"></th>
             </tr>
             <tr>
-                <td colspan="3" th:text="${notice.notice_content}"></td>
+                <td colspan="3" id="notice_content" th:text="${notice.noticeContent}"></td>
             </tr>
         </table>
         <button type="button" onclick="location='notice_main'">목록으로</button>
@@ -44,3 +53,9 @@
 </footer>
 
 </body>
+<script>
+    function submitSearch() {
+        // 폼 제출 (검색)
+        document.getElementById('notice_search').submit();
+    }
+</script>

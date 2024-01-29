@@ -22,10 +22,10 @@ public class NoticeEntity {
     private Long noticeId; //공지 고유번호
 
     @Column
-    private String notice_title; //공지 제목
+    private String noticeTitle; //공지 제목
 
     @Column
-    private String notice_content; //공지 내용
+    private String noticeContent; //공지 내용
 
     //공지 첫 작성시간
     @CreationTimestamp
@@ -44,8 +44,8 @@ public class NoticeEntity {
 //    DTO객체를 DB를 오가는 엔티티 객체로 변환
     public static NoticeEntity toNoticeEntity(NoticeDTO noticeDTO){
         NoticeEntity noticeEntity = new NoticeEntity();
-        noticeEntity.setNotice_title(noticeDTO.getNotice_title());
-        noticeEntity.setNotice_content(noticeDTO.getNotice_content());
+        noticeEntity.setNoticeTitle(noticeDTO.getNoticeTitle());
+        noticeEntity.setNoticeContent(noticeDTO.getNoticeContent());
         noticeEntity.setImportant(noticeDTO.getImportant()); //중요여부
         return noticeEntity;
     }
@@ -54,8 +54,8 @@ public class NoticeEntity {
     public static NoticeEntity toUpdateNoticeEntity(NoticeDTO noticeDTO){
         NoticeEntity noticeEntity = new NoticeEntity();
         noticeEntity.setNoticeId(noticeDTO.getNotice_id()); //고유번호
-        noticeEntity.setNotice_title(noticeDTO.getNotice_title());
-        noticeEntity.setNotice_content(noticeDTO.getNotice_content());
+        noticeEntity.setNoticeTitle(noticeDTO.getNoticeTitle());
+        noticeEntity.setNoticeContent(noticeDTO.getNoticeContent());
         noticeEntity.setImportant(noticeDTO.getImportant()); //중요여부
         return noticeEntity;
     }

@@ -34,15 +34,19 @@
 .notice_table th:nth-child(1) {
     color: #6192FA;
 }
+#notice_content{
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
 .notice_table th:nth-child(3) {
     padding: 5px;
     color: gray;
     font-size: 0.8em;
 }
 .notice_table td{
+    min-height: 400px;
     height: 60px;
     text-align: center;
-    padding: 10px;
 }
 .notice_table td:nth-child(1){
     width: 10%;

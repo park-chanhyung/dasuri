@@ -14,8 +14,8 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 public class FaqDTO {
     private Long faqId; //faq 고유번호
-    private String faq_question; //faq 질문
-    private String faq_answer; //faq 답변
+    private String faqQuestion; //faq 질문
+    private String faqAnswer; //faq 답변
     private String faq_firstDate; //faq 첫 작성시간
     private String faq_updateDate; //faq 수정시간
     private int faq_no; //나열할때 번호
@@ -26,8 +26,8 @@ public class FaqDTO {
         FaqDTO faqDTO = new FaqDTO();
         faqDTO.setFaqId(faqEntity.getFaqId());
         faqDTO.setFaqTag(faqEntity.getFaqTag());
-        faqDTO.setFaq_question(faqEntity.getFaq_question());
-        faqDTO.setFaq_answer(faqEntity.getFaq_answer());
+        faqDTO.setFaqQuestion(faqEntity.getFaqQuestion());
+        faqDTO.setFaqAnswer(faqEntity.getFaqAnswer());
         faqDTO.setFaq_firstDate(faqEntity.getFaq_firstDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         faqDTO.setFaq_updateDate(faqEntity.getFaq_updateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         return faqDTO;

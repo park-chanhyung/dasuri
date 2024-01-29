@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>공지 리스트</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+<main>
+
+	<!--   헤더 -->
+	<nav th:replace="~{/adminad/fragment/admin_header :: admin_header3}"></nav>
+
+	<section class="content">
+
+		<div class="half_content">
+			<!--		1 공지사항 -->
+			<div class="admin_half_area">
+
+				<h1 class="blue">공지사항</h1>
+
+				<!--  	  검색창 영역 -->
+				<form action="admin_notice_search" id="notice_search">
+					<div class="search">
+						<button type="button" onclick="location='admin_notice_write'">공지올리기</button>
+						<input type="text" class="searchTerm" name="notice_keyword" placeholder="제목or내용 검색">
+						<div class="searchButton" onclick="submitSearch()">
+							<img class="search_img" src="/img/admin/search.png">
+						</div>
+					</div>
+				</form>
+				<!--		검색창 영역 끝 -->
+
+				<!--					공지 리스트 -->
+				<div class="notice_container">
+					<table class="notice_table">
+						<tr>
+							<th style="width: 5%">구분</th>
+							<th style="width: 30%">제목</th>
+							<th style="width: 30%">내용</th>
+							<th style="width: 5%"></th>
+						</tr>
+						<form action="admin_notice_view" id="go_search" method="post">
+							<input type="hidden" id="id" name="id" value=""/>
+							<tr th:each="important: ${importants}">
+								<th th:text="중요" style="color:#6192FA;font-weight: bold"></th>
+								<td th:text="${important.noticeTitle}" th:attr="onclick='submitLook('+${important.notice_id}+')'"
+									th:utext="${#strings.replace(important.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
+								<td th:text="${important.noticeContent}" th:attr="onclick='submitLook('+${important.notice_id}+')'"
+									th:utext="${#strings.replace(important.noticeContent, keyword, '<span>' + keyword + '</span>')}"></td>
+							</tr>
+
+							<tr th:each="normal: ${normals}">
+								<th th:text="${normal.notice_no}"></th>
+								<td th:text="${normal.noticeTitle}" th:attr="onclick='submitLook('+${normal.notice_id}+')'"
+									th:utext="${#strings.replace(normal.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
+								<td th:text="${normal.noticeContent}" th:attr="onclick='submitLook('+${normal.notice_id}+')'"
+									th:utext="${#strings.replace(normal.noticeContent, keyword, '<span>' + keyword + '</span>')}"></td>
+							</tr>
+						</form>
+					</table>
+					<!--						페이징 영역-->
+					<div class="mem_paging_wrap">
+						<table class="mem_paging">
+							<tr>
+								<td> << </td>
+								<td> 1 </td>
+								<td> 2 </td>
+								<td> 3 </td>
+								<td> 4 </td>
+								<td> >> </td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!--		2 자주 찾는 질문 -->
+			<div class="admin_half_area">
+
+				<h1 class="blue">자주 찾는 질문</h1>
+
+				<!--  	  검색창 영역 -->
+				<div class="search">
+					<button onclick="location='admin_faq_write'">FAQ 작성</button>
+					<input type="text" class="searchTerm" placeholder="제목or내용">
+					<div class="searchButton"><img class="search_img" src="/img/admin/search.png"></div>
+				</div>
+				<!--		검색창 영역 끝 -->
+
+				<div class="notice_container">
+					<table class="notice_table">
+						<tr>
+							<th style="width: 5%">번호</th>
+							<th style="width: 5%">태그</th>
+							<th style="width: 30%">질문</th>
+							<th style="width: 30%">답변</th>
+							<th style="width: 5%"></th>
+						</tr>
+						<form action="admin_faq_view" id="faq_search" method="post">
+							<input type="hidden" name="id" id="faq_id" value=""/>
+							<tr th:each="faq: ${faqList}">
+								<th th:text="${faq.faq_no}"></th>
+								<th th:text="${faq.faqTag}"></th>
+								<td th:text="${faq.faqQuestion}" th:attr="onclick='submitFaqLook('+${faq.faqId}+')'"></td>
+								<td th:text="${faq.faqAnswer}" th:attr="onclick='submitFaqLook('+${faq.faqId}+')'"></td>
+							</tr>
+						</form>
+					</table>
+					<!--						페이징영역-->
+					<div class="mem_paging_wrap">
+						<table class="mem_paging">
+							<tr>
+								<td> << </td>
+								<td> 1 </td>
+								<td> 2 </td>
+								<td> 3 </td>
+								<td> 4 </td>
+								<td> >> </td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--   푸터 -->
+		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+
+	</section>
+</main>
+
+</body>
+</html>
+<script>
+	function submitSearch() {
+		// 폼 제출 (검색)
+		document.getElementById('notice_search').submit();
+	}
+	function submitLook(noticeId) {
+		document.getElementById('id').value = noticeId;
+		// 폼 제출 (공지보기)
+		document.getElementById('go_search').submit();
+	}
+	function submitFaqLook(faqId) {
+		document.getElementById('faq_id').value = faqId;
+		// 폼 제출 (faq보기)
+		document.getElementById('faq_search').submit();
+	}
+</script>
