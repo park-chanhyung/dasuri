@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--<html lang="en">-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/sign_up.css}">
@@ -15,7 +17,8 @@
         <input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">회원가입</label>
         <div class="login-form">
             <!-- 회원가입 부분 시작 -->
-            <form action="/pro_signup" method="post">
+<!--            <form action="/pro_signup" method="post">-->
+            <form th:action="@{/pro_signup}" method="post">
                 <div class="sign-up-htm">
                     <div class="group">
                         <label for="proId" class="label">아이디</label>

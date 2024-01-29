@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -37,12 +38,13 @@ public class ProEntity {
     private LocalDateTime signupDate;
 
     public static ProEntity toProEntity(ProDTO proDTO){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         ProEntity proEntity = new ProEntity();
 
         proEntity.setProId(proDTO.getProId());
         proEntity.setProName(proDTO.getProName());
         proEntity.setProNickname(proDTO.getProNickname());
-        proEntity.setProPwd(proDTO.getProPwd());
+        proEntity.setProPwd(bCryptPasswordEncoder.encode(proDTO.getProPwd()));
         proEntity.setProPhone(proDTO.getProPhone());
         proEntity.setProLegions(proDTO.getProLegions());
         proEntity.setRole("ROLE_PRO");
