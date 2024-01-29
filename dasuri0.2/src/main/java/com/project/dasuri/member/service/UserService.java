@@ -12,9 +12,22 @@ public class UserService {
     //repository 호출
     private final UserRepository userRepository;
 
-    public void sign_up(UserDTO userDTO){
-        System.out.println("UserService.sign_up");
-        System.out.println("userDTO = " + userDTO);
+    public void user_signup(UserDTO userDTO){
+//        System.out.println("UserService.sign_up");
+//        System.out.println("userDTO = " + userDTO);
+//        UserEntity userEntity = new UserEntity();
+//        userEntity.setUserId(userDTO.getUserId());
+//        userEntity.setUserName(userDTO.getUserName());
+//        userEntity.setUserNickname(userDTO.getUserNickname());
+////        userEntity.setUserPwd(bCryptPasswordEncoder.encode(userDTO.getUserPwd()));
+//        userEntity.setUserPwd(userDTO.getUserPwd());
+//        userEntity.setUserPhone(userDTO.getUserPhone());
+////        userEntity.setUserAddr(userDTO.getUserAddr());
+//        userEntity.setUserPostcode(userDTO.getUserPostcode());
+//        userEntity.setUserAddress(userDTO.getUserAddress());
+//        userEntity.setUserDetailaddress(userDTO.getUserDetailaddress());
+//        userEntity.setUserExtraaddress(userDTO.getUserExtraaddress());
+//        userEntity.setRole("ROLE_USER");
         UserEntity userEntity = UserEntity.toUserEntity(userDTO);
         userRepository.save(userEntity);
     }

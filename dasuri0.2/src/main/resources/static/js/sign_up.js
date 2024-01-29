@@ -4,7 +4,7 @@
 
 function toggleCheckboxes() {
     var selectAllCheckbox = document.getElementById("selectAll");
-    var checkboxes = document.querySelectorAll('input[name="region"]');
+    var checkboxes = document.querySelectorAll('input[name="proLegions"]');
 
     checkboxes.forEach(function (checkbox) {
         checkbox.disabled = selectAllCheckbox.checked;
@@ -16,13 +16,13 @@ document.getElementById("regionForm").addEventListener("submit", function (event
     event.preventDefault(); // 기존의 submit 동작 방지
 
     var selectAllCheckbox = document.getElementById("selectAll");
-    var checkboxes = document.querySelectorAll('input[name="region"]:checked');
+    var checkboxes = document.querySelectorAll('input[name="proLegions"]:checked');
 
     // 선택된 지역들을 저장할 변수
     var selectedRegions = [];
 
     if (selectAllCheckbox.checked) {
-        selectedRegions.push("전체");
+        selectedRegions.push("aaa");
     } else {
         checkboxes.forEach(function (checkbox) {
             selectedRegions.push(checkbox.value);
@@ -35,9 +35,42 @@ document.getElementById("regionForm").addEventListener("submit", function (event
     // 결과 변수를 어딘가에 전달하거나 로직에 활용
     console.log('선택된 지역: ' + result);
 
-    // 추가로 필요한 로직 수행 (예: 서버로 전송 등)
-    // ...
 });
+// function toggleCheckboxes() {
+//     var selectAllCheckbox = document.getElementById("selectAll");
+//     var checkboxes = document.querySelectorAll('input[name="proLegions"]');
+//
+//     checkboxes.forEach(function (checkbox) {
+//         checkbox.disabled = selectAllCheckbox.checked;
+//         checkbox.checked = selectAllCheckbox.checked;
+//     });
+// }
+//
+// document.getElementById("regionForm").addEventListener("submit", function (event) {
+//     event.preventDefault(); // 기존의 submit 동작 방지
+//
+//     var selectAllCheckbox = document.getElementById("selectAll");
+//     var checkboxes = document.querySelectorAll('input[name="proLegions"]:checked');
+//
+//     // 선택된 지역들을 저장할 변수
+//     var selectedRegions = [];
+//
+//     if (selectAllCheckbox.checked) {
+//         selectedRegions.push("aaa");
+//         var result = selectedRegions;
+//     } else {
+//         checkboxes.forEach(function (checkbox) {
+//             selectedRegions.push(checkbox.value);
+//             // 선택된 지역들을 문자열로 합치기 (구분자: '/')
+//             var result = selectedRegions.join('/');
+//         });
+//     }
+//
+//
+//     // 결과 변수를 어딘가에 전달하거나 로직에 활용
+//     // console.log('선택된 지역: ' + result);
+// });
+
 
 /*
  * 기사 지역구 전체 선택 처리 (end)

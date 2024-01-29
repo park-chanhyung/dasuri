@@ -1,6 +1,7 @@
 package com.project.dasuri.member.dto;
 
 import com.project.dasuri.member.entity.UserEntity;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import lombok.ToString;
 @ToString
 public class UserDTO {
     private String userId;
+    @NotBlank(message = "아이디 입력")
     private String userName;
     private String userNickname;
     private String userPwd;
@@ -21,6 +23,7 @@ public class UserDTO {
     private String userAddress;
     private String userDetailaddress;
     private String userExtraaddress;
+    private String role;
 
     public static UserDTO toUserDTO(UserEntity userEntity){
         UserDTO userDTO = new UserDTO();
@@ -34,6 +37,7 @@ public class UserDTO {
         userDTO.setUserAddress(userEntity.getUserAddress());
         userDTO.setUserDetailaddress(userEntity.getUserDetailaddress());
         userDTO.setUserExtraaddress(userEntity.getUserExtraaddress());
+        userDTO.setRole(userEntity.getRole());
 
         return userDTO;
     }
