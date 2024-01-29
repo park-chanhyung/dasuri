@@ -12,8 +12,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class UserDTO {
-    private String userId;
     @NotBlank(message = "아이디 입력")
+    private String userId;
     private String userName;
     private String userNickname;
     private String userPwd;
