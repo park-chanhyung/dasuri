@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -50,14 +51,14 @@ public class UserEntity {
 
     public static UserEntity toUserEntity(UserDTO userDTO){
 
-//        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         UserEntity userEntity = new UserEntity();
         userEntity.setUserId(userDTO.getUserId());
         userEntity.setUserName(userDTO.getUserName());
         userEntity.setUserNickname(userDTO.getUserNickname());
-//        userEntity.setUserPwd(bCryptPasswordEncoder.encode(userDTO.getUserPwd()));
-        userEntity.setUserPwd(userDTO.getUserPwd());
+        userEntity.setUserPwd(bCryptPasswordEncoder.encode(userDTO.getUserPwd()));
+//        userEntity.setUserPwd(userDTO.getUserPwd());
         userEntity.setUserPhone(userDTO.getUserPhone());
 //        userEntity.setUserAddr(userDTO.getUserAddr());
         userEntity.setUserPostcode(userDTO.getUserPostcode());
