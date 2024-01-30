@@ -4,6 +4,8 @@ import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
+import com.project.dasuri.card.service.ProCardService;
+import com.project.dasuri.member.dto.ProDTO;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +25,7 @@ public class checkcontroller {
 
     private final NoticeService noticeService; //공지사항 관련
     private final FaqService faqService; //자주찾는질문 관련
-
+    private final ProCardService proCardService;
 
 //    메인화면
     @GetMapping("/index")
@@ -74,10 +76,11 @@ public class checkcontroller {
 
 //    메인 > 전문가찾기
     @GetMapping("/proinfo")
-    public String proinfo() {
+    public String proinfo(Model model) {
 //    public String index() {
-
-        return "/list/proinfo";
+        List<ProDTO> proDTOList = proCardService.findAll();
+        model.addAttribute("cardList", proDTOList);
+        return "/list/pro/proinfo";
     }
 
 
