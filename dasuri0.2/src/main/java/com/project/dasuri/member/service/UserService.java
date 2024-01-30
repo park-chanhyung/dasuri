@@ -6,6 +6,8 @@ import com.project.dasuri.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -15,21 +17,12 @@ public class UserService {
     public void user_signup(UserDTO userDTO){
 //        System.out.println("UserService.sign_up");
 //        System.out.println("userDTO = " + userDTO);
-//        UserEntity userEntity = new UserEntity();
-//        userEntity.setUserId(userDTO.getUserId());
-//        userEntity.setUserName(userDTO.getUserName());
-//        userEntity.setUserNickname(userDTO.getUserNickname());
-////        userEntity.setUserPwd(bCryptPasswordEncoder.encode(userDTO.getUserPwd()));
-//        userEntity.setUserPwd(userDTO.getUserPwd());
-//        userEntity.setUserPhone(userDTO.getUserPhone());
-////        userEntity.setUserAddr(userDTO.getUserAddr());
-//        userEntity.setUserPostcode(userDTO.getUserPostcode());
-//        userEntity.setUserAddress(userDTO.getUserAddress());
-//        userEntity.setUserDetailaddress(userDTO.getUserDetailaddress());
-//        userEntity.setUserExtraaddress(userDTO.getUserExtraaddress());
-//        userEntity.setRole("ROLE_USER");
         UserEntity userEntity = UserEntity.toUserEntity(userDTO);
         userRepository.save(userEntity);
     }
 
+    public boolean isUserIdDuplicate(String userId) {
+        // userId가 이미 존재하는지 여부를 검사하여 반환
+        return userRepository.existsByUserId(userId);
+    }
 }

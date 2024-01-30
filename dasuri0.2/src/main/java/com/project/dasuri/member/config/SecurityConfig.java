@@ -45,27 +45,27 @@ public class SecurityConfig{
 
         //배포환경에서는 enable , defualt값이 enable / enable을 하기 위해서는 토큰관리 시스템 구축 필요 ->csrffilter 로 토큰검증
         http
-                .csrf((csrf) -> csrf
-                        .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")));
-//                .csrf((auth) -> auth.disable()); //나중에 다시 enable함
+//                .csrf((csrf) -> csrf
+//                        .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")));
+                .csrf((auth) -> auth.disable()); //나중에 다시 enable함
 
 //                .loginProcessingUrl() html login 폼태그에서 로그인 데이터를 특정한 경로(action 경로)로 보냄
 
         //다중 로그인 설정
-        http
-                .sessionManagement((auth) -> auth
-                        .maximumSessions(1) //하나의 아이디에 대한 다중 로그인 허용 개수
-                        .maxSessionsPreventsLogin(true)); //다중 로그인 개수 초과했을 경우 처리방법
+//        http
+//                .sessionManagement((auth) -> auth
+//                        .maximumSessions(1) //하나의 아이디에 대한 다중 로그인 허용 개수
+//                        .maxSessionsPreventsLogin(true)); //다중 로그인 개수 초과했을 경우 처리방법
         //true : 초과시 새로운 로그인 차단 , false 초과시 기존 세션 하나 삭제
 
         //세션 고정 보호
-        http
-                .sessionManagement((auth)->auth
-                        .sessionFixation().changeSessionId()
-                );
-//                - sessionManagement().sessionFixation().none() : 로그인 시 세션 정보 변경 안함
-//                - sessionManagement().sessionFixation().newSession() : 로그인 시 세션 새로 생성
-//                - sessionManagement().sessionFixation().changeSessionId() : 로그인 시 동일한 세션에 대한 id 변경 * 주로 많이씀
+//        http
+//                .sessionManagement((auth)->auth
+//                        .sessionFixation().changeSessionId()
+//                );
+////                - sessionManagement().sessionFixation().none() : 로그인 시 세션 정보 변경 안함
+////                - sessionManagement().sessionFixation().newSession() : 로그인 시 세션 새로 생성
+////                - sessionManagement().sessionFixation().changeSessionId() : 로그인 시 동일한 세션에 대한 id 변경 * 주로 많이씀
         return http.build();
     }
 

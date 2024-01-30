@@ -141,6 +141,20 @@ a{color:inherit;text-decoration:none}
     transform:rotate(0);
 }
 
+#duplicateMessage {
+    margin-top: 3px;
+    color: #ff0909;
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+#error-Message {
+/*'color': '#ff0909', 'font-weight': 'bold', 'font-size': '0.8em'});*/
+    color: #ff0909;
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
 .hr{
     height:2px;
     margin:60px 0 50px 0;

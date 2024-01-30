@@ -1,4 +1,138 @@
 /*==========================================================================================================================================================
+ * 중복 검사 ajax
+ */
+$(document).ready(function() { // 아이디 중복검사
+    $('#userId').on('input', function() {
+        var userId = $(this).val();
+        // 정규식 패턴
+        var pattern = /^[a-z0-9]{4,12}$/;
+
+        if (!pattern.test(userId)) {
+            // 아이디가 정규식 패턴과 일치하지 않는 경우
+            $('#duplicateMessage').text('영문 소문자/숫자 4~12자리여야 합니다.').css({
+                'color': '#ff0909',
+                'font-weight': 'bold',
+                'font-size': '0.8em'
+            });
+            return; // 검사 종료
+        }
+
+        // AJAX 요청
+        $.ajax({
+            type: 'POST',
+            url: '/check_duplicate',
+            data: {'userId': userId},
+            success: function(response) {
+                if (response.duplicate) {
+                    // 빨간색 텍스트 스타일
+                    $('#duplicateMessage').text('이미 사용 중인 아이디입니다.').css({
+                        'color': '#ff0909',
+                        'font-weight': 'bold',
+                        'font-size': '0.8em'
+                    });
+                } else {
+                    // 녹색 텍스트 스타일 #7CFC00
+                    $('#duplicateMessage').text('사용할 수 있는 아이디입니다.').css({
+                        'color': '#14da3b',
+                        'font-size': '0.8em'
+                    });
+                }
+            },
+            error: function() {
+                console.error('아이디 중복 확인 요청 실패');
+            }
+        });
+    });
+});
+// $(document).ready(function() { //아이디 중복검사
+//     $('#userId').on('input', function() {
+//         var userId = $(this).val();
+//         $.ajax({
+//             type: 'POST',
+//             url: '/check_duplicate',
+//             data: {'userId': userId},
+//             success: function(response) {
+//                 if (response.duplicate) { // 빨간색 텍스트 스타일
+//                     $('#duplicateMessage').text('이미 사용 중인 아이디입니다.').css({'color': '#ff0909', 'font-weight': 'bold', 'font-size': '0.8em'});
+//                 } else { // 녹색 텍스트 스타일 #7CFC00
+//                     $('#duplicateMessage').text('사용할 수 있는 아이디입니다.').css({'color': '#14da3b', 'font-size': '0.8em'});
+//                 }
+//             },
+//             error: function() { console.error('아이디 중복 확인 요청 실패'); }
+//         });
+//     });
+// });
+
+//비밀번호 확인
+// $(document).ready(function() {
+//     $('#userPwdConfirm').on('input', function() {
+//         validatePassword();
+//     });
+//
+//     function validatePassword() {
+//         var password = $('#userPwd').val();
+//         var confirmPassword = $('#userPwdConfirm').val();
+//
+//         if (password === '') {
+//             // 비밀번호가 입력되지 않은 경우
+//             $('#passwordMatchMessage').text('비밀번호를 먼저 입력하세요.').css({'color': '#ff0909', 'font-weight': 'bold', 'font-size': '0.8em'});
+//         } else if (password === confirmPassword) {
+//             // 비밀번호가 일치하는 경우
+//             $('#passwordMatchMessage').text('비밀번호가 일치합니다.').css({'color': '#14da3b', 'font-size': '0.8em'});
+//         } else {
+//             // 비밀번호가 일치하지 않는 경우
+//             $('#passwordMatchMessage').text('비밀번호가 일치하지 않습니다.').css({'color': '#ff0909', 'font-weight': 'bold', 'font-size': '0.8em'});
+//         }
+//     }
+// });
+
+
+$(document).ready(function() {
+    $('#userPwdConfirm').on('input', function() {
+        validatePassword();
+    });
+
+    function validatePassword() {
+        var password = $('#userPwd').val();
+        var confirmPassword = $('#userPwdConfirm').val();
+
+        // 비밀번호의 정규식 패턴
+        var pattern = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W)(?=\S+$).{8,16}$/;
+
+        if (!pattern.test(password)) {
+            // 비밀번호가 정규식 패턴과 일치하지 않는 경우
+            $('#passwordMatchMessage').text('비밀번호는 8~16자 영문 대/소문자, 숫자, 특수문자를 사용하세요.').css({
+                'color': '#ff0909',
+                'font-weight': 'bold',
+                'font-size': '0.8em'
+            });
+            return; // 검사 종료
+        }
+
+        if (password === '') {
+            // 비밀번호가 입력되지 않은 경우
+            $('#passwordMatchMessage').text('비밀번호를 먼저 입력하세요.').css({
+                'color': '#ff0909',
+                'font-weight': 'bold',
+                'font-size': '0.8em'
+            });
+        } else if (password === confirmPassword) {
+            // 비밀번호가 일치하는 경우
+            $('#passwordMatchMessage').text('비밀번호가 일치합니다.').css({
+                'color': '#14da3b',
+                'font-size': '0.8em'
+            });
+        } else {
+            // 비밀번호가 일치하지 않는 경우
+            $('#passwordMatchMessage').text('비밀번호가 일치하지 않습니다.').css({
+                'color': '#ff0909',
+                'font-weight': 'bold',
+                'font-size': '0.8em'
+            });
+        }
+    }
+});
+/*==========================================================================================================================================================
  * 기사 지역구 전체 선택 처리 (start)
  */
 
