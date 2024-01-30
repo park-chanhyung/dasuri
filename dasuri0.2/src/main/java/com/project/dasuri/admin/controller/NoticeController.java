@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -49,8 +50,9 @@ public class NoticeController {
     }
 
     //    관리자페이지 > 공지관리 > 공지보기 (내용보기 및 수정삭제)
-    @GetMapping("/admin_notice_view")
-    public String admin_notice_view(@PathVariable Long id,Model model) {
+    @PostMapping("/admin_notice_view")
+//    @GetMapping("/admin_notice_view/{id}")
+    public String admin_notice_view(@RequestParam Long id,Model model) {
         NoticeDTO noticeDTO = noticeService.findByNoticeId(id);
         if (noticeDTO.getImportant() == null) {
             noticeDTO.setNotice_type("일반");
@@ -62,21 +64,25 @@ public class NoticeController {
     }
 
     //    관리자페이지 > 공지관리 > 공지보기 > 수정
-    @PostMapping("/admin_notice_update/{id}")
+//    @GetMapping("/admin_notice_update")
+    @PostMapping("/admin_notice_update")
     public String admin_notice_update(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         model.addAttribute("notice",noticeDTO);
         return "adminad/admin_notice_update";
     }
 
-    //    관리자페이지 > 공지관리 > 공지보기 > 수정 (완료)
     @PostMapping("/admin_notice_update_ok")
     public String admin_notice_update_ok(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         noticeService.update(noticeDTO);
-//        model.addAttribute("notice",noticeDTO);
-        model.addAttribute("id",noticeDTO.getNotice_id());
-//        return "redirect:/admin_notice";
-        return "redirect:/admin_notice_view";
+        if (noticeDTO.getImportant() == null) {
+            noticeDTO.setNotice_type("일반");
+        }else{
+            noticeDTO.setNotice_type("중요");
+        }
+        model.addAttribute("notice",noticeDTO);
+        return "adminad/admin_notice_look";
     }
+
 
     //    관리자페이지 > 공지관리 > 공지보기 > 삭제
     @Transactional

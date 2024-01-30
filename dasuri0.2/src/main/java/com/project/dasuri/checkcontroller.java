@@ -6,6 +6,7 @@ import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @Controller
+@Slf4j
 public class checkcontroller {
 
     private final NoticeService noticeService; //공지사항 관련
@@ -89,9 +91,10 @@ public class checkcontroller {
     //    메인 - 고객센터 - 자주찾는질문 (리스트)
     @RequestMapping("/center_faq")
     public String center_faq(Model model) {
+        log.info("center_faq !!!!!!!!!!!!!!!!!!!!!!! ");
         List<FaqDTO> faqDTOS = faqService.findAll();
         model.addAttribute("faqs",faqDTOS);
-        return "/list/service/center_faq";
+        return "list/service/center_faq";
     }
 
     //    메인 - 고객센터 - 자주찾는질문 (해시태그 필터링)

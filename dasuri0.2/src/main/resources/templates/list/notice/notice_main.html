@@ -23,7 +23,7 @@
         <h4>다수리 사이트의 주요 공지를 확인하세요.</h4>
 
         <!--  	  검색창 영역 -->
-        <form action="notice_search" id="notice_search">
+        <form th:action="@{notice_search}" id="notice_search">
             <div class="faq_search">
                     <input type="text" class="faq_searchTerm" name="notice_keyword" placeholder="제목 또는 내용으로 검색하세요.">
                     <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
@@ -35,7 +35,7 @@
 <!--    공지 리스트 영역 -->
     <div class="notice_area">
         <div class="notice_table_area">
-            <form id="noticeView" action="notice_main_view" method="post">
+            <form id="noticeView" th:action="@{/notice_main_view}" method="post">
                 <table class="notice_table">
                     <tr>
                         <th>구분</th>

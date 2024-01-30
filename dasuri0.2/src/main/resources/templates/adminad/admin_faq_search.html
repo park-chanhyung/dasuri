@@ -22,7 +22,7 @@
 				<h1 class="blue">공지사항</h1>
 
 				<!--  	  검색창 영역 -->
-				<form action="admin_notice_search" id="notice_search">
+				<form th:action="@{admin_notice_search}" id="notice_search">
 					<div class="search">
 						<button type="button" onclick="location='admin_notice_write'">공지올리기</button>
 						<input type="text" class="searchTerm" name="notice_keyword" placeholder="제목or내용 검색">
@@ -42,7 +42,7 @@
 							<th style="width: 30%">내용</th>
 							<th style="width: 5%"></th>
 						</tr>
-						<form action="admin_notice_view" id="go_search" method="post">
+						<form th:action="@{admin_notice_view}" id="go_search" method="post">
 							<input type="hidden" id="id" name="id" value=""/>
 							<tr th:each="important: ${importants}">
 								<th th:text="중요" style="color:#6192FA;font-weight: bold"></th>
@@ -79,7 +79,7 @@
 				<h1 class="blue">자주 찾는 질문</h1>
 
 				<!--  	  검색창 영역 -->
-				<form action="admin_faq_search" id="faq_search">
+				<form th:action="@{admin_faq_search}" id="faq_search">
 					<div class="search">
 						<button type="button" onclick="location='admin_faq_write'">FAQ 작성</button>
 						<input type="text" class="searchTerm" name="faq_keyword" placeholder="제목or내용or태그 검색">
@@ -99,7 +99,7 @@
 							<th style="width: 30%">답변</th>
 							<th style="width: 5%"></th>
 						</tr>
-						<form action="admin_faq_view" id="faq_look" method="post">
+						<form th:action="@{admin_faq_view}" id="faq_look" method="post">
 							<input type="hidden" name="id" id="faq_id" value=""/>
 							<tr th:each="faq: ${faqList}">
 								<th th:text="${faq.faq_no}"></th>

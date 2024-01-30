@@ -50,11 +50,11 @@
             <table class="faq_table" th:each="faq: ${faqs}">
                 <tr>
                     <td th:text="${faq.faqTag}"></td>
-                    <td class="ck" th:text="${faq.faq_question}"></td>
+                    <td class="ck" th:text="${faq.faqQuestion}"></td>
                     <td class="ck">▼</td>
                 </tr>
                 <tr class="hide" style="height: 200px">
-                    <td colspan="3" th:text="${faq.faq_answer}"></td>
+                    <td colspan="3" th:text="${faq.faqAnswer}"></td>
                 </tr>
             </table>
         </div>

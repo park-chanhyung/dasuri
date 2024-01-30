@@ -15,14 +15,14 @@
 <!-- partial:index.partial.html -->
 <section class="faq">
     <div class="center_containers">
-        <div class="center_main_container" onclick="location='center_faq'">
+        <div class="center_main_container" th:onclick="|location.href='@{center_faq}'|">
             <img src="/img/center/faq.png">
             <div class="pbox">
                 <p class="big">FAQ</p>
                 <p class="small">문의 전 자주 찾는 질문을 찾아보세요!</p>
             </div>
         </div>
-        <div class="center_main_container" onclick="location='center_question'">
+        <div class="center_main_container" th:onclick="|location.href='@{center_question}'|">
             <img src="/img/center/moon.png">
             <div class="pbox">
                 <p class="big">1:1</p>
