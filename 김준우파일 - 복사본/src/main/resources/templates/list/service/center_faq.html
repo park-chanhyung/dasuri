@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>자주 찾는 질문</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
+</head>
+<body>
+
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="center_loc">
+    <a href="index"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
+    <a href="center_main"> 고객센터 &nbsp; > &nbsp; </a>
+    <a href="center_faq"> 자주 찾는 질문</a>
+</div>
+
+<div class="center_title">
+    <h1>자주 찾는 질문</h1>
+
+    <!--  	  검색창 영역 -->
+    <div class="faq_search">
+        <input type="text" class="faq_searchTerm" placeholder="키워드로 검색하세요.">
+        <div class="faq_searchButton"><img class="faq_search_img" src="/img/admin/search.png"></div>
+    </div>
+    <!--		검색창 영역 끝 -->
+
+<!--    해시태그 -->
+    <div class="tag">
+        <a href="#"> #비용 </a> &nbsp;
+        <a href="#"> #회사 </a> &nbsp;
+        <a href="#"> #레몬 </a> &nbsp;
+        <a href="#"> #포도 </a>
+    </div>
+
+</div>
+
+
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+
+</body>
