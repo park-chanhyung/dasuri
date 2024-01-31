@@ -21,6 +21,11 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
+    //로그인 테스트중 gptchat
+//    public UserEntity mappingId(String username) {
+//        return userRepository.findByUserId(username);
+//    }
+
     public boolean isUserIdDuplicate(String userId) {
         // userId가 이미 존재하는지 여부를 검사하여 반환
         return userRepository.existsByUserId(userId);

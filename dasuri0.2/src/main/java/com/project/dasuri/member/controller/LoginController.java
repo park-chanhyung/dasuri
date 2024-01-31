@@ -3,29 +3,24 @@ package com.project.dasuri.member.controller;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.entity.UserEntity;
 import com.project.dasuri.member.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.Collection;
+import java.util.Iterator;
 
 @Controller
 public class LoginController {
-
-//    @GetMapping("/index")
-//    public String index(Model model, Principal principal){
-//        String userId = principal.getName();
-//        return "index";
-//    }
 //
-//    @GetMapping("/mainpage")
-//    public String mainpage(Model model,Principal principal){
-//        int maxroomNum = mysqlChatService.findByMaxroomNum();
-//        String userid = principal.getName();
-//        SiteUser user =userService.mappingId(userid);
-//
-//        model.addAttribute("user", user);
-//        model.addAttribute("maxroomNum", maxroomNum);
-//        return "mainpage";
+//    @PostMapping("/loginProc")
+//    public String loginProcess() {
+//        System.out.println("@#@#@#@#@# /loginProc 탔음");
+//        return "redirect:/index"; // 로그인 성공 후 이동할 페이지
 //    }
 }

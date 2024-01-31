@@ -1,7 +1,9 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<!--<html lang="en">-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,6 +20,9 @@
 </header>
 <section class="hero">
     <h1>다수리 사용법이 궁금하다면? <br> <br> 가이드를 확인해주세요!</h1>
+    <h1 th:text="${id + '님(' + role + ') 안녕하세요.'}"></h1>
+<!--    <h1 th:text="${id}"></h1>-->
+<!--    <h1 th:text="${role}"></h1>-->
     <div class="btn-group">
         <button class="btn-filled-dark"><span class="material-symbols-outlined">
                	가이드 바로가기

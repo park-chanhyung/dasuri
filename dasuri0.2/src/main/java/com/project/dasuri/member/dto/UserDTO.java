@@ -35,8 +35,10 @@ public class UserDTO {
     @Pattern(regexp = "^01[0-9]{8,9}$", message = "형식에 맞지 않는 번호입니다.")
     private String userPhone;
 //    private UserAddress userAddr;
+    @NotBlank(message = "우편번호를 입력해주세요.")
     private String userPostcode;
     private String userAddress;
+    @NotBlank(message = "상세주소를 입력해주세요.")
     private String userDetailaddress;
     private String userExtraaddress;
     private String role;

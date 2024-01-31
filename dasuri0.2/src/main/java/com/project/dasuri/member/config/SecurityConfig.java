@@ -3,6 +3,8 @@ package com.project.dasuri.member.config;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -39,7 +41,11 @@ public class SecurityConfig{
         //admin 접근 거부만 뜸 로그인폼설정을 안했기 때문
         http
                 .formLogin((auth) -> auth.loginPage("/login")
-                        .loginProcessingUrl("/loginProc")
+                        .loginProcessingUrl("/loginProc") //login 폼태그에서 로그인 데이터를 action 경로로.
+                        .defaultSuccessUrl("/index") //login Success 매핑
+                        //널포인트 오류로 강제로 파라미터명 설정. 강제로 안하면 로그인 안됨.
+                        .usernameParameter("userId")
+                        .passwordParameter("userPwd")
                         .permitAll() //아무나 들어올 수 있도록
                 );
 
@@ -48,8 +54,6 @@ public class SecurityConfig{
 //                .csrf((csrf) -> csrf
 //                        .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")));
                 .csrf((auth) -> auth.disable()); //나중에 다시 enable함
-
-//                .loginProcessingUrl() html login 폼태그에서 로그인 데이터를 특정한 경로(action 경로)로 보냄
 
         //다중 로그인 설정
 //        http

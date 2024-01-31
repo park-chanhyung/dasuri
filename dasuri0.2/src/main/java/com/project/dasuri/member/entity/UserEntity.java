@@ -22,15 +22,15 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int num;
-    @Column
+    @Column(unique = true)
     private String userId;
     @Column
     private String userName;
-    @Column
+    @Column(unique = true)
     private String userNickname;
     @Column
     private String userPwd;
-    @Column
+    @Column(unique = true)
     private String userPhone;
     @Column
     private String userPostcode;
