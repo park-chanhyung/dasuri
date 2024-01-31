@@ -30,19 +30,19 @@
                     class="card1"
                  th:attr="onclick='submitForm(\'' + ${card.proId} + '\')'">
 <!--                 th:attr="onclick='submitForm(' + ${card.proId} + ')'">-->
+                <!-- 이미지 로드 부분 수정 -->
+<!--                <img th:src="${card.proDTO.fullProfileImagePath}">-->
 
-
-                    <img th:src="@{/img/티모시.jpg}">
+                <img th:src="@{/img/procard/슬기.jpg}">
                 <br>
                 ☆☆☆☆☆☆☆
                 <br>
-                <td th:text="${card.proId}"></td>
+                <td th:text="${card.proName}"></td>
             </div>
         </form>
 
-
 </section>
-
+</div>
 <footer>
     <div th:include="/list/layout/footer"></div>
 </footer>
