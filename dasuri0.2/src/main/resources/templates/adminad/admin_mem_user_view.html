@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 조회 (고객)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mem_view.css}">
+</head>
+<body>
+    <div class="mem_view_container">
+        <h1>회원 정보 조회</h1>
+        <hr>
+        <table class="mem_view_table">
+            <tr>
+                <th>회원 유형</th>
+                <td th:text="${user.role}"></td>
+            </tr>
+            <tr>
+                <th>아이디</th>
+                <td th:text="${user.userId}"></td>
+            </tr>
+            <tr>
+                <th>닉네임</th>
+                <td th:text="${user.userNickname}"></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td th:text="${user.userName}"></td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td th:text="${user.userPhone}"></td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td th:text="${user.userAddress}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="button">탈퇴처리</button>
+                    <p>탈퇴 처리는 신중히 결정하세요.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

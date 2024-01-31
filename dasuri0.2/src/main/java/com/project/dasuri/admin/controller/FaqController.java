@@ -2,7 +2,6 @@ package com.project.dasuri.admin.controller;
 
 import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
-import com.project.dasuri.admin.entity.FaqEntity;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +59,7 @@ public class FaqController {
     public String admin_faq_update_ok(@ModelAttribute FaqDTO faqDTO, Model model) {
         faqService.update(faqDTO);
         model.addAttribute("faq",faqDTO);
-        return "redirect:/admin_notice";
+        return "adminad/admin_faq_look";
     }
 
     //    관리자페이지 > 공지관리 > faq보기 > 삭제

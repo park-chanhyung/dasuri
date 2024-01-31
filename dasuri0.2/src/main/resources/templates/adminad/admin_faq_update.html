@@ -19,7 +19,7 @@
             <h1 class="blue">FAQ 수정</h1>
 
             <div class="mem_container">
-                <form action="admin_faq_update_ok" method="post" th:object="${faq}"  onsubmit="return confirm('수정하시겠습니까?');">
+                <form th:action="@{admin_faq_update_ok}" method="post" th:object="${faq}"  onsubmit="return confirm('수정하시겠습니까?');">
                     <input type="hidden" name="faqId" th:value="${faq.faqId}"/>
                     <input type="hidden" name="faq_firstDate" th:value="${faq.faq_firstDate}"/>
                     <input type="hidden" name="faq_updateDate" th:value="${faq.faq_updateDate}"/>
@@ -43,7 +43,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input type="text" th:value="${faq.faq_question}" name="faq_question">
+                                <input type="text" th:value="${faq.faqQuestion}" name="faqQuestion">
                             </td>
                         </tr>
                         <tr>
@@ -51,7 +51,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <textarea name="faq_answer" cols="60" rows="10" th:text="${faq.faq_answer}"></textarea>
+                                <textarea name="faqAnswer" cols="60" rows="10" th:text="${faq.faqAnswer}"></textarea>
                             </td>
                         </tr>
                     </table>
@@ -61,7 +61,7 @@
                             <th> <input type="submit" value="수정"> </th>
                 </form>
                             <th>
-                                <form action="admin_faq_view" method="post">
+                                <form th:action="@{admin_faq_view}" method="post">
                                     <input type="hidden" name="id" th:value="${faq.faqId}"/>
                                     <input type="submit" value="취소">
                                 </form>

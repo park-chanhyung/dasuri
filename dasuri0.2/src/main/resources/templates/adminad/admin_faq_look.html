@@ -49,18 +49,18 @@
                 <table class="moon_view_bottom">
                     <tr>
                         <th>
-                            <form action="admin_faq_update" method="post">
+                            <form th:action="@{admin_faq_update}" method="post">
                                 <input type="hidden" name="faqId" th:value="${faq.faqId}"/>
                                 <input type="hidden" name="faqTag" th:value="${faq.faqTag}"/>
                                 <input type="hidden" name="faq_firstDate" th:value="${faq.faq_firstDate}"/>
                                 <input type="hidden" name="faq_updateDate" th:value="${faq.faq_updateDate}"/>
-                                <input type="hidden" name="faq_question" th:value="${faq.faqQuestion}"/>
-                                <input type="hidden" name="faq_answer" th:value="${faq.faqAnswer}"/>
+                                <input type="hidden" name="faqQuestion" th:value="${faq.faqQuestion}"/>
+                                <input type="hidden" name="faqAnswer" th:value="${faq.faqAnswer}"/>
                                 <input type="submit" value="수정">
                             </form>
                         </th>
                         <th>
-                            <form action="admin_faq_delete" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
+                            <form th:action="@{admin_faq_delete}" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
                                 <input type="hidden" name="faqId" th:value="${faq.faqId}"/>
                                 <input type="submit" value="삭제">
                             </form>

@@ -20,14 +20,14 @@
 
             <div class="mem_container">
 
-                <form action="admin_faq_write_ok" onsubmit="return confirm('등록하시겠습니까?');">
+                <form th:action="@{admin_faq_write_ok}" onsubmit="return confirm('등록하시겠습니까?');">
                     <table border="1">
                         <tr>
                             <th colspan="2">질문</th>
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <input type="text" name="faq_question" placeholder="자주 찾는 질문을 입력하세요.">
+                                <input type="text" name="faqQuestion" placeholder="자주 찾는 질문을 입력하세요.">
                             </td>
                         </tr>
                         <tr>
@@ -41,7 +41,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <textarea name="faq_answer" cols="60" rows="20" placeholder="답변을 입력하세요."></textarea>
+                                <textarea name="faqAnswer" cols="60" rows="20" placeholder="답변을 입력하세요."></textarea>
                             </td>
                         </tr>
                     </table>

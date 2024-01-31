@@ -18,12 +18,6 @@ public class AdminController {
         return "/adminad/admin_home";
     }
 
-    //  관리자 페이지 > 회원관리 (회원리스트)
-    @RequestMapping("/admin_mem")
-    public String admin_mem() {
-        return "/adminad/admin_mem";
-    }
-
     //  관리자페이지 > 고객센터 (문의글 리스트)
     @RequestMapping("/admin_moon")
     public String admin_moon() {

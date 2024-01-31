@@ -1,0 +1,55 @@
+body{
+    background: #f6f7fb;
+}
+.mem_view_container {
+    width: 90%;
+    height: 650px;
+    margin: 0 auto;
+    margin-top: 20px;
+    position: relative;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
+    border-radius: 10px;
+    padding: 15px;
+    align-items: center;
+    background: white;
+}
+h1{
+    color: #4148C1;
+    text-align: center;
+    margin-bottom: 15px;
+}
+hr{
+    width: 80%;
+    color: #4148C1;
+}
+.mem_view_table{
+    /*border: 1px solid black;*/
+    width: 450px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+.mem_view_table tr th{
+    padding: 15px;
+    width: 30%;
+    color: #4148C1;
+}
+.mem_view_table tr td{
+    padding: 15px;
+    text-align: center;
+    width: 70%;
+}
+button{
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background: #E22427;
+    cursor: pointer;
+}
+button:hover{
+    opacity: 80%;
+}
+p{
+    font-weight: 650;
+    color: #E22427;
+}
