@@ -6,6 +6,8 @@ import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import com.project.dasuri.card.service.ProCardService;
 import com.project.dasuri.member.dto.ProDTO;
+import com.project.dasuri.member.dto.UserDTO;
+import com.project.dasuri.mypage.service.UserMyPageService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,10 +16,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -31,6 +30,7 @@ public class checkcontroller {
     private final NoticeService noticeService; //공지사항 관련
     private final FaqService faqService; //자주찾는질문 관련
     private final ProCardService proCardService;
+    private final UserMyPageService userMyPageService;
 
 //    메인화면
     @GetMapping("/index")
@@ -104,6 +104,22 @@ public class checkcontroller {
         model.addAttribute("cardList", proDTOList);
         return "/list/pro/proinfo";
     }
+
+    @GetMapping("/userprofile")
+//    public String userprofile(@RequestParam("userId")String userId, Model model){
+    public String userprofile(Model model){
+
+        // Spring Security를 통해 로그인한 사용자의 정보를 가져옴
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 사용자 아이디 추출
+        String userId = authentication.getName();
+        UserDTO userDTO = userMyPageService.findById(userId);
+        model.addAttribute("userpf", userDTO);
+        return "mypage/userprofile";
+    }
+
+
 
     //------------------------------- 고객센터 ------------------------------------------
     

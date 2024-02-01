@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/my_profile.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="/js/my_profile.js"></script>
+    <title>My Page</title>
+</head>
+<body>
+<div id="app">
+    <div id="profile">
+        <img id="profileImage" th:src="@{/img/login/default-profile.png}" alt="Profile Picture">
+        <h2 id="nickname" th:text="${userpf.userName}"></h2>
+        <div id="buttons">
+            <!-- userprofile.html -->
+<!--            <div class="button" id="editprofile" onclick="loadContent('EditProfile')">-->
+<!--                <a href="usermypage">회원 정보 수정</a>-->
+<!--            </div>-->
+<!--            <div class="button" id="editprofile" th:onclick="'submitForm(\'' + ${userpf.userId} + '\')'">-->
+<!--                회원 정보 수정-->
+<!--            </div>-->
+
+<!--            <form id="view_userpage" th:action="@{/usermypage}" method="get">-->
+<!--                <input type="hidden" id="userId" name="userId" value="" />-->
+<!--            </form>-->
+
+            <!-- userprofile.html -->
+            <form id="view_userpage" th:action="@{/usermypage}" method="post">
+                <input type="hidden" id="userId" name="userId" value="" />
+            </form>
+
+<!--            <div class="button" id="editprofile" onclick="submitForm('${userpf.userId}', '/usermypage')">-->
+<!--        submitForm('${userpf.userId}')": JavaScript 함수를 호출하여 폼을 제출-->
+            <div class="button" id="editprofile" onclick="submitForm('${userpf.userId}')">
+                회원 정보 수정
+            </div>
+
+            <div class="button" id="inquiries" onclick="loadContent('Inquiries')">문의 내역</div>
+            <div class="button" id="payments" onclick="loadContent('Payments')">결제 내역</div>
+            <div class="button" id="withdraw" onclick="loadContent('Withdraw')">회원 탈퇴</div>
+        </div>
+    </div>
+</div>
+
+<!--<script>-->
+<!--    function submitForm(userId) {-->
+<!--        // 클릭된 값 저장-->
+<!--        document.getElementById('userId').value = userId;-->
+
+<!--        // 폼 제출 (회원_마이페이지 보기)-->
+<!--        document.getElementById('view_userpage').submit();-->
+<!--    }-->
+<!--</script>-->
+
+<script>
+    // function submitForm(userId, action) {
+    function submitForm(userId) {
+        // 클릭된 값 저장
+        document.getElementById('userId').value = userId;
+
+        // 폼 action 변경
+        // document.getElementById('view_userpage').action = action;
+
+        // 폼 제출
+        document.getElementById('view_userpage').submit();
+    }
+</script>
+
+
+<script src="main.js"></script>
+</body>
+</html>

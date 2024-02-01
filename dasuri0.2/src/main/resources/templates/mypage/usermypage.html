@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>UserMyPage</title>
+</head>
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+<!--엿이나 무라~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<ul>
+    <li th:text="${usermodify.userName}"></li>
+    <li th:text="${usermodify.userPhone}"></li>
+    <li>업채명: <span th:text="${usermodify.userNickname}"></span></li>
+</ul>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+</body>
+</html>
