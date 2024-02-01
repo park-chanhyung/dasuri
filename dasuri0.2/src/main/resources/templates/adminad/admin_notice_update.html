@@ -19,7 +19,7 @@
             <h1 class="blue">공지글 수정</h1>
 
             <div class="mem_container">
-                <form th:action="@{admin_notice_update_ok}" method="post" th:object="${notice}"  onsubmit="return confirm('수정하시겠습니까?');">
+                <form th:action="@{/admin_notice_update_ok}" method="post" th:object="${noticeDTO}"  onsubmit="return confirm('수정하시겠습니까?');" enctype="multipart/form-data">
                     <input type="hidden" name="notice_id" th:value="${notice.notice_id}"/>
                     <input type="hidden" name="notice_firstDate" th:value="${notice.notice_firstDate}"/>
                     <input type="hidden" name="notice_updateDate" th:value="${notice.notice_updateDate}"/>
@@ -48,7 +48,13 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <textarea name="noticeContent" cols="70" rows="10" th:text="${notice.noticeContent}"></textarea>
+                                <textarea name="noticeContent" id="editor" cols="70" rows="10" th:text="${notice.noticeContent}"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <p>* 파일은 이미지만 첨부 가능합니다.</p>
+                                <input type="file" id="file" name="file" accept="image/*">
                             </td>
                         </tr>
                     </table>
@@ -76,3 +82,7 @@
 
 </body>
 </html>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor.create(document.querySelector('#editor'));
+</script>

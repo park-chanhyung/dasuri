@@ -42,12 +42,20 @@
                 <th th:text="'수정일 : '+${notice.notice_updateDate}" width="20%"></th>
             </tr>
             <tr>
-                <td colspan="3" id="notice_content" th:text="${notice.noticeContent}"></td>
+                <td colspan="3">
+<!--                    <span class="notice_content" th:text="${notice.noticeContent}"></span>-->
+<!--                    <span class="notice_content" th:utext="${#strings.replace(notice.noticeContent, '\n', '<br>')}"></span>-->
+                    <span class="notice_content" th:utext="${notice.noticeContent}"></span>
+                    <span>
+                        <img th:src="@{'http://localhost:9000' + ${notice.filePath}}" alt="Item image" class="notice_img">
+                    </span>
+                </td>
             </tr>
         </table>
         <button type="button" onclick="location='notice_main'">목록으로</button>
     </div>
 </div>
+
 <footer>
     <div th:include="/list/layout/footer"></div>
 </footer>

@@ -6,10 +6,14 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -40,9 +44,17 @@ public class NoticeEntity {
     @Column(nullable = true)
     private String important; //중요 여부 (y or null)
 
+//    첨부파일 이름 (uuid)
+    @Column(nullable = true)
+    private String filename;
+
+//    첨부파일 경로
+    @Column(nullable = true)
+    private String filePath;
+
 
 //    DTO객체를 DB를 오가는 엔티티 객체로 변환
-    public static NoticeEntity toNoticeEntity(NoticeDTO noticeDTO){
+    public static NoticeEntity toNoticeEntity(NoticeDTO noticeDTO) throws IOException {
         NoticeEntity noticeEntity = new NoticeEntity();
         noticeEntity.setNoticeTitle(noticeDTO.getNoticeTitle());
         noticeEntity.setNoticeContent(noticeDTO.getNoticeContent());
@@ -51,7 +63,7 @@ public class NoticeEntity {
     }
 
 //    DTO객체를 DB를 오가는 엔티티 객체로 변환 (수정)
-    public static NoticeEntity toUpdateNoticeEntity(NoticeDTO noticeDTO){
+    public static NoticeEntity toUpdateNoticeEntity(NoticeDTO noticeDTO) throws IOException {
         NoticeEntity noticeEntity = new NoticeEntity();
         noticeEntity.setNoticeId(noticeDTO.getNotice_id()); //고유번호
         noticeEntity.setNoticeTitle(noticeDTO.getNoticeTitle());

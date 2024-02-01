@@ -1,17 +1,13 @@
 package com.project.dasuri.admin.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.dasuri.admin.entity.NoticeEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.time.LocalDateTime;
+import jakarta.persistence.Column;
+import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticeDTO {
@@ -24,6 +20,10 @@ public class NoticeDTO {
     private String notice_type; //"중요" or "일반"
     private int notice_no; //공지사항 게시판에서의 일반공지 번호
 
+    private MultipartFile file; //첨부파일
+    private String filename; //첨부파일명(uuid)
+    private String filePath;//첨부파일경로
+
     //    DB를 오가는 엔티티 객체를 DTO 객체로 변환
     public static NoticeDTO toNoticeDTO(NoticeEntity noticeEntity){
         NoticeDTO noticeDTO = new NoticeDTO();
@@ -33,6 +33,8 @@ public class NoticeDTO {
         noticeDTO.setNotice_firstDate(noticeEntity.getNotice_firstDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         noticeDTO.setNotice_updateDate(noticeEntity.getNotice_updateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         noticeDTO.setImportant(noticeEntity.getImportant());
+        noticeDTO.setFilename(noticeEntity.getFilename());//파일명
+        noticeDTO.setFilePath(noticeEntity.getFilePath());//파일경로
         return noticeDTO;
     }
 }

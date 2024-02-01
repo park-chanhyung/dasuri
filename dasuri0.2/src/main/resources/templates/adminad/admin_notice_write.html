@@ -20,8 +20,9 @@
 
       <div class="mem_container">
 
-        <form action="admin_notice_write_ok" onsubmit="return confirm('등록하시겠습니까?');">
-          <table>
+<!--        파일 추가 -->
+        <form th:action="@{/admin_notice_write_ok}" method="post" onsubmit="return confirm('등록하시겠습니까?');" enctype="multipart/form-data">
+          <table class="notice_form_table">
             <tr>
               <th>제목</th>
               <td>
@@ -34,7 +35,13 @@
             <tr>
               <th>내용</th>
               <td>
-                <textarea name="noticeContent" cols="60" rows="20" placeholder="공지 내용을 입력하세요."></textarea>
+                <textarea name="noticeContent" id="editor" cols="60" rows="20" placeholder="공지 내용을 입력하세요."></textarea>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <p>* 파일은 이미지만 첨부 가능합니다.</p>
+                <input type="file" id="file" name="file" accept="image/*">
               </td>
             </tr>
           </table>
@@ -58,3 +65,7 @@
 
 </body>
 </html>
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+<script>
+  ClassicEditor.create(document.querySelector('#editor'));
+</script>

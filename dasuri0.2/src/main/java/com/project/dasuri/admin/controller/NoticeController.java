@@ -4,17 +4,24 @@ import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
+import com.project.dasuri.shop.ShopForm;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Slf4j
 public class NoticeController {
 
 //    생성자 주입
@@ -42,10 +49,12 @@ public class NoticeController {
         return "adminad/admin_notice_write";
     }
 
+
     //    관리자페이지 > 공지관리 > 공지올리기 (작성 완료)
-    @RequestMapping("/admin_notice_write_ok")
-    public String admin_notice_write_ok(@ModelAttribute NoticeDTO noticeDTO) {
-        noticeService.save(noticeDTO);
+    @PostMapping("/admin_notice_write_ok")
+    public String admin_notice_write_ok(@Valid NoticeDTO noticeDTO, @RequestParam("file") MultipartFile file) throws IOException {
+        noticeDTO.setNoticeContent(noticeDTO.getNoticeContent().replace("\r\n","<br>"));
+        noticeService.save(noticeDTO, file);
         return "redirect:/admin_notice";
     }
 
@@ -71,15 +80,12 @@ public class NoticeController {
         return "adminad/admin_notice_update";
     }
 
+    //    관리자페이지 > 공지관리 > 공지보기 > 수정 (완료)
     @PostMapping("/admin_notice_update_ok")
-    public String admin_notice_update_ok(@ModelAttribute NoticeDTO noticeDTO, Model model) {
-        noticeService.update(noticeDTO);
-        if (noticeDTO.getImportant() == null) {
-            noticeDTO.setNotice_type("일반");
-        }else{
-            noticeDTO.setNotice_type("중요");
-        }
-        model.addAttribute("notice",noticeDTO);
+    public String admin_notice_update_ok(@Valid NoticeDTO noticeDTO, @RequestParam("file") MultipartFile file, Model model) throws IOException {
+        noticeDTO.setNoticeContent(noticeDTO.getNoticeContent().replace("\r\n", "<br>"));
+        noticeService.update(noticeDTO, file);
+        model.addAttribute("notice", noticeDTO);
         return "adminad/admin_notice_look";
     }
 
