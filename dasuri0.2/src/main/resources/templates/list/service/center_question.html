@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1:1 문의하기</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/moon.css}">
 </head>
 <body>
 
@@ -20,26 +21,43 @@
 
 <div class="center_title">
     <h1>1:1 문의하기</h1>
+    <h4>
+        <span class="normal_span" th:utext="'회원 아이디 : <span>' + ${id} + '</span>'"></span>
+    </h4>
+<!--    role이 ROLE_USER일 경우, '고객'으로 출력 -->
+    <h4>
+        <span class="normal_span" th:utext="'구분 : <span>' + (${role} == 'ROLE_USER' ? '고객' : ${role}) + '</span>'"></span>
+    </h4>
 
-    <form action="center_question_ok">
+<!--    문의 제출 폼 (파일첨부 포함) -->
+    <form th:action="@{center_question_ok}" method="post"  onsubmit="return confirm('문의을 등록하시겠습니까?');" enctype="multipart/form-data">
+        <input type="hidden" name="moonUserId" th:value="${id}">
+<!--       회원 유형 - 고객1 기사2 -->
+        <input type="hidden" name="moonRole" th:value="${role == 'ROLE_USER' ? 1 : 2}">
         <table class="moon_write_form">
             <tr>
                 <td>유형</td>
                 <td>
-                    <input type="radio" name="moon_type" value="question"> 문의 &nbsp;&nbsp;
-                    <input type="radio" name="moon_type" value="report"> 신고
+                    <input type="radio" name="moonType" value="1"> 문의 &nbsp;&nbsp;
+                    <input type="radio" name="moonType" value="2"> 신고
                 </td>
             </tr>
             <tr>
                 <td>제목</td>
                 <td>
-                    <input type="text" width="160" placeholder="제목을 적어주세요." name="moon_title">
+                    <input type="text" width="160" placeholder="제목을 적어주세요." name="moonTitle">
                 </td>
             </tr>
             <tr>
                 <td>문의사항</td>
                 <td>
-                    <textarea cols="60" rows="20" placeholder="문의내용을 적어주세요."></textarea>
+                    <textarea cols="60" rows="20" placeholder="문의내용을 적어주세요." name="moonQuestion"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <p class="file_p">* 파일은 이미지만 첨부 가능합니다.</p>
+                    <input type="file" id="file" name="file" accept="image/*">
                 </td>
             </tr>
             <tr>

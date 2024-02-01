@@ -94,7 +94,7 @@ public class checkcontroller {
 
         return "/list/notice/notice_search_result";
     }
-    //------------------------------- 전문자찾기 ------------------------------------------
+    //------------------------------- 전문가찾기 ------------------------------------------
 
 //    메인 > 전문가찾기
     @GetMapping("/proinfo")
@@ -142,21 +142,6 @@ public class checkcontroller {
         model.addAttribute("keyword",faq_keyword);
 
         return "/list/service/center_faq_search";
-    }
-
-    //------------------------------- 1:1 문의하기 ------------------------------------------
-
-    //    메인 - 고객센터 - 1:1문의하기
-    @RequestMapping("/center_question")
-    public String center_question() {
-
-        return "/list/service/center_question";
-    }
-    //    메인 - 고객센터 - 1:1문의 등록 완료
-    @RequestMapping("/center_question_ok")
-    public String center_question_ok() {
-
-        return "/list/service/center_question_ok";
     }
 
     //------------------------------- 커뮤니티 ------------------------------------------

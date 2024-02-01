@@ -1,0 +1,12 @@
+.center_title span{
+    color: firebrick;
+}
+
+.center_title .normal_span{
+    color: #4148C1;
+}
+.file_p{
+    font-size: 0.8em;
+    text-align: center;
+    color: #4148C1;
+}
