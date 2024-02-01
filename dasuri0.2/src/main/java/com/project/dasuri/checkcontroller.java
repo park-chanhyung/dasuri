@@ -54,6 +54,8 @@ public class checkcontroller {
 
         return "index";
     }
+    
+    //------------------------------- 공지사항 ------------------------------------------
 
 //    메인 > 공지사항
     @GetMapping("/notice_main")
@@ -92,7 +94,7 @@ public class checkcontroller {
 
         return "/list/notice/notice_search_result";
     }
-//    ------------------------------------------
+    //------------------------------- 전문자찾기 ------------------------------------------
 
 //    메인 > 전문가찾기
     @GetMapping("/proinfo")
@@ -103,13 +105,16 @@ public class checkcontroller {
         return "/list/pro/proinfo";
     }
 
-
+    //------------------------------- 고객센터 ------------------------------------------
+    
     //    메인 > 고객센터 (자주찾는질문 / 문의하기로 갈라짐)
     @RequestMapping("/center_main")
     public String center_main() {
 
         return "/list/service/center_main";
     }
+
+    //------------------------------- 자주찾는질문 ------------------------------------------
 
     //    메인 - 고객센터 - 자주찾는질문 (리스트)
     @RequestMapping("/center_faq")
@@ -128,6 +133,19 @@ public class checkcontroller {
         return "/list/service/center_faq_tag";
     }
 
+    //    메인 - 고객센터 - 자주찾는질문 (검색)
+    @RequestMapping("/center_faq_search")
+    public String center_faq_search(@RequestParam String faq_keyword, Model model) {
+        List<FaqDTO> faqDTOS = faqService.searchFaq(faq_keyword); //FAQ 검색
+
+        model.addAttribute("faqs",faqDTOS);
+        model.addAttribute("keyword",faq_keyword);
+
+        return "/list/service/center_faq_search";
+    }
+
+    //------------------------------- 1:1 문의하기 ------------------------------------------
+
     //    메인 - 고객센터 - 1:1문의하기
     @RequestMapping("/center_question")
     public String center_question() {
@@ -141,8 +159,7 @@ public class checkcontroller {
         return "/list/service/center_question_ok";
     }
 
-
-
+    //------------------------------- 커뮤니티 ------------------------------------------
 
     @RequestMapping("/boardwrite")
     public String boardwrite() {

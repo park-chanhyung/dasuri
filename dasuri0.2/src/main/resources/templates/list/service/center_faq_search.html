@@ -21,7 +21,9 @@
 
     <div class="center_title">
         <h1>자주 찾는 질문</h1>
-        <h4>다수리 사이트에 관한 궁금하신 사항을 확인하세요.</h4>
+        <h4 th:text="'( '+${keyword}+' ) '" class="red"></h4>
+        <h4>으로 검색한 결과입니다.&nbsp;&nbsp;&nbsp; </h4>
+        <h4 class="red"><a href="center_faq"> 전체보기 </a></h4>
 
         <!--  	  검색창 영역 -->
         <form th:action="@{center_faq_search}" id="faq_search">
@@ -40,6 +42,9 @@
                         <li th:each="tag : ${uniqueTags}">
                             <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'" ></div>
                         </li>
+                        <li>
+                            <div class="hashTag" onclick="location='center_faq'">전체보기</div>
+                        </li>
                     </th:block>
                 </ul>
             </div>
@@ -51,12 +56,18 @@
         <div class="faq_table_area">
             <table class="faq_table" th:each="faq: ${faqs}">
                 <tr>
-                    <td th:text="${faq.faqTag}"></td>
-                    <td class="ck" th:text="${faq.faqQuestion}"></td>
+                    <td>
+                        <span class="yellow" th:utext="${#strings.replace(faq.faqTag, keyword, '<span>' + keyword + '</span>')}"></span>
+                    </td>
+                    <td class="ck">
+                        <span class="yellow" th:utext="${#strings.replace(faq.faqQuestion, keyword, '<span>' + keyword + '</span>')}"></span>
+                    </td>
                     <td class="ck">▼</td>
                 </tr>
                 <tr class="hide" style="height: 200px">
-                    <td colspan="3" th:text="${faq.faqAnswer}"></td>
+                    <td colspan="3">
+                        <span class="yellow" th:utext="${#strings.replace(faq.faqAnswer, keyword, '<span>' + keyword + '</span>')}"></span>
+                    </td>
                 </tr>
             </table>
         </div>

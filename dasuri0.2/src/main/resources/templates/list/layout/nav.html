@@ -14,8 +14,8 @@
             <!-- 로고 사진 -->
             <!--             <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg"> -->
             <!-- 이미지에 클릭 이벤트 추가 -->
-<!--            <img width="170px" src="/img/logo.png" id="logoImage" onclick="redirectToIndex()">-->
-            <img width="170px" src="/img/logo.png" id="logoImage" onclick="location='index'">
+            <!--            <img width="170px" src="/img/logo.png" id="logoImage" onclick="redirectToIndex()">-->
+            <img width="170px" src="/img/logo.png" id="logoImage" onclick="location.href='http://localhost:9000/'">
 
             <script>
                 // JavaScript로 페이지 이동 함수 정의
@@ -29,9 +29,9 @@
             </svg>
             <!-- 프로젝트 이름칸 -->
             <!--             <div> -->
-            <!--      		<h5>수리수리</h5>  -->
-            <!--      		<h2>&nbsp;다수리</h2> -->
-            <!--      		</div> -->
+            <!--            <h5>수리수리</h5>  -->
+            <!--            <h2>&nbsp;다수리</h2> -->
+            <!--            </div> -->
         </div>
         <!-- - **내정보 / 로그인 / 로그아웃**
 - **관리자홈**
@@ -43,21 +43,22 @@
             <li><a href="/notice_main">공지사항</a>  </li>
             <li><a href="/proinfo">전문가 찾기</a></li>
             <li><a th:href="@{/board/Communit_list}">커뮤니티</a></li>
+            <li><a href="/shop">Shop</a></li>
             <li><a href="/center_main">고객센터</a></li>
         </ul>
         <div id="utility">
+                    <span class="material-symbols-outlined">
+                        <a href="/admin">관리자</a>
+                    </span>
             <span class="material-symbols-outlined">
-              <a href="/admin">관리자</a>
-            </span>
+                        <a href="/my_profile">내정보</a>
+                    </span>
             <span class="material-symbols-outlined">
-              <a href="/my_profile">내정보</a>
-            </span>
+                        <a href="/login">로그인</a>
+                    </span>
             <span class="material-symbols-outlined">
-            <a href="/login">로그인</a>
-            </span>
-            <span class="material-symbols-outlined">
-            <a href="/sign_up">회원가입</a>
-            </span>
+                        <a href="/sign_up">회원가입</a>
+                    </span>
         </div>
     </nav>
 </header>

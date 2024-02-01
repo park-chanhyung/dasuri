@@ -84,7 +84,7 @@ public class FaqService {
         int x = faqEntities.size();
         for (FaqEntity faqEntity : faqEntities) {
             FaqDTO faqDTO = FaqDTO.toFaqDto(faqEntity);
-            faqDTO.setFaq_no(x); //일반공지 리스트에 번호매김
+            faqDTO.setFaq_no(x); //FAQ 리스트에 번호매김
             faqDTOS.add(faqDTO);
             x--;
         }

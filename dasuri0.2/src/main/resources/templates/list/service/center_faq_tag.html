@@ -24,10 +24,12 @@
     <h4>다수리 사이트에 관한 궁금하신 사항을 확인하세요.</h4>
 
     <!--  	  검색창 영역 -->
-    <div class="faq_search">
-        <input type="text" class="faq_searchTerm" placeholder="키워드로 검색하세요.">
-        <div class="faq_searchButton"><img class="faq_search_img" src="/img/admin/search.png"></div>
-    </div>
+    <form th:action="@{center_faq_search}" id="faq_search">
+        <div class="faq_search">
+            <input type="text" class="faq_searchTerm" name="faq_keyword" placeholder="태그or질문or답변">
+            <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
+        </div>
+    </form>
     <!--		검색창 영역 끝 -->
 
     <!--    해시태그(중복값 제거) -->
@@ -71,5 +73,9 @@
 
         // 폼 제출
         document.getElementById('hashForm').submit();
+    }
+    function submitSearch() {
+        // 폼 제출 (검색)
+        document.getElementById('faq_search').submit();
     }
 </script>

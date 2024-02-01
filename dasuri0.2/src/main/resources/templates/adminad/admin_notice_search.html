@@ -83,11 +83,15 @@
 				<h1 class="blue">자주 찾는 질문</h1>
 
 				<!--  	  검색창 영역 -->
-				<div class="search">
-					<button onclick="location='admin_faq_write'">FAQ 작성</button>
-					<input type="text" class="searchTerm" placeholder="제목or내용">
-					<div class="searchButton"><img class="search_img" src="/img/admin/search.png"></div>
-				</div>
+				<form th:action="@{admin_faq_search}" id="faq_search">
+					<div class="search">
+						<button type="button" onclick="location='admin_faq_write'">FAQ 작성</button>
+						<input type="text" class="searchTerm" name="faq_keyword" placeholder="제목or내용or태그 검색">
+						<div class="searchButton" onclick="submitSearch2()">
+							<img class="search_img" src="/img/admin/search.png">
+						</div>
+					</div>
+				</form>
 				<!--		검색창 영역 끝 -->
 
 				<div class="notice_container">
@@ -99,7 +103,7 @@
 							<th style="width: 30%">답변</th>
 							<th style="width: 5%"></th>
 						</tr>
-						<form th:action="@{admin_faq_view}" id="faq_search" method="post">
+						<form th:action="@{admin_faq_view}" id="faq_look" method="post">
 							<input type="hidden" name="id" id="faq_id" value=""/>
 							<tr th:each="faq: ${faqList}">
 								<th th:text="${faq.faq_no}"></th>
@@ -135,10 +139,6 @@
 </body>
 </html>
 <script>
-	function submitSearch() {
-		// 폼 제출 (검색)
-		document.getElementById('notice_search').submit();
-	}
 	function submitLook(noticeId) {
 		document.getElementById('id').value = noticeId;
 		// 폼 제출 (공지보기)
@@ -147,6 +147,14 @@
 	function submitFaqLook(faqId) {
 		document.getElementById('faq_id').value = faqId;
 		// 폼 제출 (faq보기)
+		document.getElementById('faq_look').submit();
+	}
+	function submitSearch() {
+		// 폼 제출 (공지 검색)
+		document.getElementById('notice_search').submit();
+	}
+	function submitSearch2() {
+		// 폼 제출 (FAQ 검색)
 		document.getElementById('faq_search').submit();
 	}
 </script>

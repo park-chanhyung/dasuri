@@ -36,6 +36,14 @@
             </tr>
             <tr>
                 <td colspan="2">
+                    <form th:action="@{/prolist}" method="post">
+                        <input type="hidden" name="proId" th:value="${pro.proId}">
+                        <input type="submit" value="기사 프로필 보러가기 >>" class="go_profile">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
                     <button type="button">탈퇴처리</button>
                     <p>탈퇴 처리는 신중히 결정하세요.</p>
                 </td>
