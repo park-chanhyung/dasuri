@@ -1,0 +1,95 @@
+.faq_area{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+}
+.faq_table_area{
+    width: 80%;
+    height: 600px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.faq_table{
+    width: 100%;
+    border-collapse: collapse;
+}
+.faq_table:nth-child(1){
+    border-top: 1px solid black;
+}
+.faq_table tr th, .faq_table tr td {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #dddddd;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.faq_table tr td {
+    color: black;
+}
+.faq_table tr:nth-child(1) td:nth-child(1){
+    width: 15%;
+    color:#6192FA;
+    font-weight: bold;
+    text-align: center;
+}
+.faq_table tr td:nth-child(2):hover{
+    text-decoration: underline;
+    color: #6192FA;
+}
+.faq_table tr td:nth-child(3){
+    width: 5%;
+    text-align: right;
+}
+.ck{
+    cursor: pointer;
+}
+.hide {
+    display: none;
+}
+.hashTag_area{
+    height: 40px;
+    margin: 0 auto;
+    display: flex;
+}
+.hashTag_area ul{
+    margin: 0 auto;
+}
+.hashTag_area ul li{
+    list-style-type: none;
+    float: left;
+}
+
+.hashTag_table{
+    max-height: 40px;
+    margin: 0 auto;
+}
+.hashTag_table tr{
+    height: 40px;
+}
+.hashTag{
+    color: black;
+    font-weight: 700;
+    font-size: 0.8em;
+}
+#hashTagList .hashTagStyled {
+    border-radius: 5px;
+    padding: 0.4em;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

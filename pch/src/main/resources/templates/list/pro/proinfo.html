@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Card Menu</title>
+
+<!--    <script src="/js/pet.js"></script>-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/card_list.css}">
+<!--    <script>-->
+<!--        function cards(){-->
+<!--            location.href="prolist";-->
+<!--        }-->
+<!--    </script>-->
+</head>
+
+<body>
+    <header style="font-size: 50px;">
+        <div th:include="/list/layout/nav"></div>
+    </header>
+<br>
+<br>
+<br>
+<div class="container1">
+
+<!--    <form action="/profile/card" method="post">-->
+    <section>
+        <form th:action="@{/prolist}" id="view_pro" method="post">
+            <input type="hidden" id="proId" name="proId" value=""/>
+            <div th:each="card : ${cardList}"
+                    class="card1"
+                 th:attr="onclick='submitForm(\'' + ${card.proId} + '\')'">
+<!--                 th:attr="onclick='submitForm(' + ${card.proId} + ')'">-->
+
+
+                    <img th:src="@{/img/티모시.jpg}">
+                <br>
+                ☆☆☆☆☆☆☆
+                <br>
+                <td th:text="${card.proId}"></td>
+            </div>
+        </form>
+
+
+</section>
+
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+
+</body>
+</html>
+
+<script>
+    function submitForm(proId) {
+        // 클릭된 값 저장
+        document.getElementById('proId').value = proId;
+
+        // 폼 제출 (공지 게시물 보기)
+        document.getElementById('view_pro').submit();//view_pro는 form id
+    }
+</script>

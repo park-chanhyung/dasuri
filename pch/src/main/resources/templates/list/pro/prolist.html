@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>card</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>proid</th>
+        <th>pro_legions</th>
+        <th>pro_name</th>
+        <th>memberName</th>
+        <th>pro_nickname</th>
+    </tr>
+    <tr>
+        <td th:text="${pro.proId}"></td>
+        <td th:text="${pro.proLegions}"></td>
+        <td th:text="${pro.proName}"></td>
+        <td th:text="${pro.proNickname}"></td>
+    </tr>
+    <!-- query string /member?id=1
+                rest api /member/1 -->
+</table>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+
+    .img-fluid{
+        height: 400px;
+        width: 400px;
+    }
+</style>
+</head>
+
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <img  th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="img-fluid">
+        </div>
+        <div class="col-md-6">
+            <h2 th:text="${item.itemname}"></h2>
+            <p>브랜드: <span th:text="${item.seller}"></span></p>
+            <p>가격: <span th:text="${item.price}"></span></p>
+            <p>요약: <span th:text="${item.shortinfo}"></span></p>
+            <p>제품설명: <span th:text="${item.iteminfo}"></span></p>
+            <p>배송 정보: <span th:text="${item.deliveryinfo}"></span></p>
+            <div class="my-3">
+                <a th:href="@{|/shop/modify/${item.id}|}" class="btn btn-sm btn-outline-secondary">수정</a>
+                <a href="javascript:void(0);"   th:data-uri="@{|/shop/delete/${item.id}|}"
+                   class="delete btn btn-sm btn-outline-secondary">삭제</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div class="my-3">-->
+<!--    <a th:href="@{|/item/modify/${item.id}|}" class="btn btn-sm btn-outline-secondary"-->
+<!--       sec:authorize="isAuthenticated()"-->
+<!--       th:if="${item.seller != null and #authentication.getPrincipal().getUsername() == item.seller}"-->
+<!--       th:text="수정"></a>-->
+<!--</div>-->
+
+
+<!--푸터-->
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+
+<script type='text/javascript'>
+    const delete_elements = document.getElementsByClassName("delete");
+    Array.from(delete_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 삭제하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>
+</body>
+</html>

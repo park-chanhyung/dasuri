@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--xmlns:th="http://www.thymeleaf.org"-->
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<!--네브바-->
+<header style="font-size: 50px;">
+ <div th:include="/list/layout/nav"></div>
+</header>
+
+<button onclick="saveReq()">글작성</button>
+<table border="1">
+ <tr>
+  <th>id</th>
+  <th>title</th>
+<!--  <th>title(||쓰지 않은 경우)</th>-->
+  <th>writer</th>
+  <th>date</th>
+  <th>hits</th>
+ </tr>
+ <tr th:each="CommunityDto: ${commuList}">
+  <td th:text="${CommunityDto.id}"></td>
+  <td><a th:href="@{|/community_list/${CommunityDto.id}|}" th:text="${CommunityDto.commuTitle}"></a></td>
+<!--  <td><a th:href="@{/community_list/${community.id}}" th:text="${community.boardTitle}"></a></td>-->
+  <td th:text="${CommunityDto.commuWriter}"></td>
+  <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+  <td th:text="${CommunityDto.commuHits}"></td>
+ </tr>
+</table>
+
+</body>
+
+<!--푸터-->
+<footer>
+ <div th:include="/list/layout/footer"></div>
+</footer>
+
+<script>
+
+ const saveReq = () => {
+  location.href = "/board/community_post";
+ }
+
+</script>
+
+</html>
