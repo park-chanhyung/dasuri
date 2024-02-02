@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "pro_table")
-public class ProEntity {
+public class ProEntity implements UserDetailEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int num;
@@ -40,6 +40,21 @@ public class ProEntity {
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
+    // UserDetailEntity 인터페이스 구현
+    @Override
+    public String getRole() {
+        return role;
+    }
+
+    @Override
+    public String getUserPwd() {
+        return proPwd;
+    }
+
+    @Override
+    public String getUserId() {
+        return proId;
+    }
 
     public static ProEntity toProEntity(ProDTO proDTO){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();

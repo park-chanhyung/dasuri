@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Getter
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "user_table")
-public class UserEntity {
+public class UserEntity implements UserDetailEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int num;

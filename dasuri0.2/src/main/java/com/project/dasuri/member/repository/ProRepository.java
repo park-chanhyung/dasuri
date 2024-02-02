@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ProRepository extends JpaRepository<ProEntity,Integer> {
 
     boolean existsByProId(String userId);
+
+    ProEntity findByProId(String username);
 }

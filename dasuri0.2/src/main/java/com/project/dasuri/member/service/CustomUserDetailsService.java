@@ -1,7 +1,10 @@
 package com.project.dasuri.member.service;
 
 import com.project.dasuri.member.dto.CustomUserDetails;
+import com.project.dasuri.member.entity.ProEntity;
+import com.project.dasuri.member.entity.UserDetailEntity;
 import com.project.dasuri.member.entity.UserEntity;
+import com.project.dasuri.member.repository.ProRepository;
 import com.project.dasuri.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,18 +27,28 @@ import java.util.Optional;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final ProRepository proRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserEntity userData = userRepository.findByUserId(username);
-        System.out.println("@#@# username(ID) ===================> " + userData.getUserId());
-        System.out.println("@#@# userData.비밀번호 = " + userData.getUserPwd());
-
-        if (userData != null) {
-            System.out.println("@#@#@# userDATA 정보가 있습니다. ============================");
-            return new CustomUserDetails(userData);
+        UserDetailEntity userDetailEntity = userRepository.findByUserId(username);
+        if (userDetailEntity == null) {
+            userDetailEntity = proRepository.findByProId(username);
         }
-        return null;
+        if (userDetailEntity == null) {
+            throw new UsernameNotFoundException("User not found with username: " + username);
+        }
+
+        return new CustomUserDetails(userDetailEntity);
+
+//        UserEntity userData = userRepository.findByUserId(username);
+//        ProEntity proData =  proRepository.findByUserId(username);
+//
+//        if (userData != null) {
+//            System.out.println("@#@#@# userDATA 정보가 있습니다. ============================");
+//            return new CustomUserDetails(userData);
+//        }
+
     }
 }
