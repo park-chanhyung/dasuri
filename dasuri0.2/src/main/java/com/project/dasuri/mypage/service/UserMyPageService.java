@@ -3,15 +3,22 @@ package com.project.dasuri.mypage.service;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.entity.UserEntity;
 import com.project.dasuri.mypage.Repository.UserMyPageRepository;
+import com.project.dasuri.mypage.Repository.UserUpPageRepository;
+import com.project.dasuri.mypage.entity.UserPageEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserMyPageService {
     private final UserMyPageRepository userMyPageRepository;
+    private final UserUpPageRepository userUpPageRepository;
     public UserDTO findById(String userId) {// findById사용자 아이디에 해당하는 db 정보를 dto로 변환
         Optional<UserEntity> userEntityOptional = userMyPageRepository.findByUserId(userId);
 //            if (userEntityOptional.isPresent()) {
@@ -20,6 +27,27 @@ public class UserMyPageService {
 //                return null;
 //            }
         return userEntityOptional.map(UserDTO::toUserDTO).orElse(null);
+    }
+
+    public void create(Long id, MultipartFile file) throws IOException{
+
+        UserPageEntity userPageEntity = new UserPageEntity();
+        userPageEntity.setId(id);
+
+        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\pro_files";
+
+        UUID uuid = UUID.randomUUID();
+
+        String fileName = uuid + "_" + file.getOriginalFilename();
+
+        File saveFile = new File(projectPath, fileName);
+
+        file.transferTo(saveFile);
+
+        userPageEntity.setFilename(fileName);
+        userPageEntity.setFilePath("/pro_files/" + fileName);
+        this.userUpPageRepository.save(userPageEntity);
+
     }
 }
 //    // 새로운 메서드 추가: 데이터 업데이트

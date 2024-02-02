@@ -9,14 +9,16 @@ import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.mypage.service.UserMyPageService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -116,10 +118,8 @@ public class checkcontroller {
         String userId = authentication.getName();
         UserDTO userDTO = userMyPageService.findById(userId);
         model.addAttribute("userpf", userDTO);
-        return "mypage/userprofile";
+        return "usermypage/userprofile";
     }
-
-
 
     //------------------------------- 고객센터 ------------------------------------------
     

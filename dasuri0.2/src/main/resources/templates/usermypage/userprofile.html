@@ -26,17 +26,22 @@
 <!--            </form>-->
 
             <!-- userprofile.html -->
-            <form id="view_userpage" th:action="@{/usermypage}" method="post">
+            <form id="view_userpage" th:action="@{/userpage}" method="post">
                 <input type="hidden" id="userId" name="userId" value="" />
-            </form>
+
 
 <!--            <div class="button" id="editprofile" onclick="submitForm('${userpf.userId}', '/usermypage')">-->
 <!--        submitForm('${userpf.userId}')": JavaScript 함수를 호출하여 폼을 제출-->
-            <div class="button" id="editprofile" onclick="submitForm('${userpf.userId}')">
-                회원 정보 수정
-            </div>
+                <div class="button" id="editprofile" onclick="submitForm('${userpf.userId}')">
+                    회원 정보 수정
+                </div>
+            </form>
 
-            <div class="button" id="inquiries" onclick="loadContent('Inquiries')">문의 내역</div>
+            <form id="view_usermoon" th:action="@{/usermoonpage}" method="post">
+                <div class="button" id="inquiries" onclick="submitMoon('${userpf.userId}')">
+                    문의 내역
+                </div>
+            </form>
             <div class="button" id="payments" onclick="loadContent('Payments')">결제 내역</div>
             <div class="button" id="withdraw" onclick="loadContent('Withdraw')">회원 탈퇴</div>
         </div>
@@ -64,6 +69,20 @@
 
         // 폼 제출
         document.getElementById('view_userpage').submit();
+    }
+</script>
+
+<script>
+    function submitMoon(userId){
+        // 클릭된 값 저장
+        document.getElementById('userId').value = userId;
+
+        // 폼 action 변경
+        // document.getElementById('view_userpage').action = action;
+
+        // 폼 제출
+        document.getElementById('view_usermoon').submit();
+
     }
 </script>
 
