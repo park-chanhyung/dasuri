@@ -4,12 +4,16 @@ import com.project.dasuri.community.dto.CommunityDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 //DB의 테이블 역할을 하는 클래스
 @Entity
 @Getter
 @Setter
 @Table(name = "community")
+@SQLDelete(sql = "UPDATE community SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class CommunityEntity extends TimeEntity {
     @Id // pk 컬럼 지정. 필수
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
@@ -27,15 +31,41 @@ public class CommunityEntity extends TimeEntity {
     @Column
     private int commuHits;
 
+    @Column
+    private String role;
+
+    @Column
+    private String userId;
+
+
+    @Column
+    private boolean deleted = Boolean.FALSE;
+
+
     public static CommunityEntity toSaveEntity (CommunityDto communityDto){
         CommunityEntity communityEntity = new CommunityEntity();
         communityEntity.setCommuWriter(communityDto.getCommuWriter());
         communityEntity.setCommuTitle(communityDto.getCommuTitle());
         communityEntity.setCommuContents(communityDto.getCommuContents());
+        communityEntity.setUserId(communityDto.getUserID()); //새로추가
+        communityEntity.setRole(communityDto.getRole()); //role추가
         communityEntity.setCommuHits(0);
         return communityEntity;
     }
 
+    public static CommunityEntity toUpdateEntity(CommunityDto communityDto) {
+        CommunityEntity communityEntity = new CommunityEntity();
+        communityEntity.setId(communityDto.getId());
+        communityEntity.setCommuWriter(communityDto.getCommuWriter());
+        communityEntity.setCommuTitle(communityDto.getCommuTitle());
+        communityEntity.setCommuContents(communityDto.getCommuContents());
+        communityEntity.setCommuHits(communityDto.getCommuHits());
+//        communityEntity.setUserId(communityDto.getUserID()); //새로추가
+//        communityEntity.setRole(communityDto.getRole()); //role추가
+        return communityEntity;
+    }
+
+//
 //    @Column
 //    private int fileAttached; // 1 or 0
 //

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/board/Update/" method="post" name="updateForm" th:object="${communityUpdate}">
+    <input type="hidden" name="id" th:value="${communityUpdate.id}">
+    writer: <input type="text" name="commuWriter" th:value="${communityUpdate.commuWriter}" readonly> <br>
+    title: <input type="text" name="commuTitle" th:value="${communityUpdate.commuTitle}"> <br>
+    contents: <textarea name="commuContents" cols="30" rows="10" th:text="${communityUpdate.commuContents}"></textarea> <br>
+    <input type="hidden" name="commuHits" th:value="${communityUpdate.commuHits}">
+    <input type="button" value="글수정" onclick="communityUpdate()">
+</form>
+<script th:inline="javascript">
+    const communityUpdate = () => {
+            document.updateForm.submit();
+
+    }
+</script>
+</body>
+</html>
