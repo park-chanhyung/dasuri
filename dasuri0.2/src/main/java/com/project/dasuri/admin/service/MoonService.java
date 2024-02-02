@@ -1,13 +1,8 @@
 package com.project.dasuri.admin.service;
 
 import com.project.dasuri.admin.dto.MoonDTO;
-import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.entity.MoonEntity;
-import com.project.dasuri.admin.entity.NoticeEntity;
-import com.project.dasuri.admin.repository.AdminProRepository;
 import com.project.dasuri.admin.repository.MoonRepository;
-import com.project.dasuri.member.dto.ProDTO;
-import com.project.dasuri.member.entity.ProEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,9 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -54,9 +46,9 @@ public class MoonService {
 
 
 //    문의글에 답변 등록
-//    public void answerSave(MoonDTO moonDTO, MultipartFile file) throws IOException {
-//        MoonEntity moonEntity = MoonEntity.toAnswerMoonEntity(moonDTO);
-//        moonRepository.save(moonEntity);
-//    }
+    public void answerSave(MoonDTO moonDTO) throws IOException {
+        MoonEntity moonEntity = MoonEntity.toAnswerMoonEntity(moonDTO);
+        moonRepository.save(moonEntity);
+    }
 
 }

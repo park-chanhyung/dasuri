@@ -5,6 +5,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/moon.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 
@@ -27,23 +30,26 @@
 			<!--		검색창 영역 끝 -->
 
 			<div class="mem_container">
-				<table class="mem_table">
-					<tr>
-						<th colspan="2" style="width: 20%">회원</th>
-						<th style="width: 25%">유형</th>
-						<th style="width: 25%">질문</th>
-						<th style="width: 10%">작성일</th>
-						<th style="width: 10%">상태</th>
-					</tr>
-					<tr th:each="moon: ${moons}">
-						<td th:text="${moon.moonUserId}"></td>
-						<td th:utext="${moon.moonRole == 1 ? '고객' : '기사'}"></td>
-						<td th:utext="${moon.moonType == 1 ? '문의' : '신고'}"></td>
-						<td th:text="${moon.moonQuestion}"></td>
-						<td th:text="${#temporals.format(moon.moonQuestionDate, 'yyyy-MM-dd')}"></td>
-						<td th:text="${moon.moonStatus == 1 ? '대기' : '완료'}"></td>
-					</tr>
-				</table>
+				<form th:action="@{/admin_moon_view}" method="post" id="moonView">
+					<input type="hidden" id="moonPkId" name="moonPkId" value="">
+					<table class="moon_table">
+						<tr>
+							<th colspan="2" style="width: 20%">회원</th>
+							<th>구분</th>
+							<th>질문</th>
+							<th>작성일</th>
+							<th>상태</th>
+						</tr>
+						<tr th:each="moon: ${moons}" th:attr="onclick='submitLook('+${moon.moonPkId}+')'" class="gomoonq">
+							<td th:text="${moon.moonUserId}"></td>
+							<td th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></td>
+							<td th:utext="${moon.moonType == '1' ? '문의' : '신고'}"></td>
+							<td th:text="${moon.moonQuestion}"></td>
+							<td th:text="${#temporals.format(moon.moonQuestionDate, 'yyyy-MM-dd')}"></td>
+							<td th:text="${moon.moonStatus == '1' ? '대기' : '완료'}"></td>
+						</tr>
+					</table>
+				</form>
 
 				<div class="mem_paging_wrap">
 					<table class="mem_paging">
@@ -63,7 +69,7 @@
 
 
 		<!--   푸터 -->
-		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
 
 
   	</section>
@@ -71,3 +77,9 @@
 
 </body>
 </html>
+<script type="text/javascript">
+	function submitLook(moonPkId) {
+		document.getElementById("moonPkId").value = moonPkId;
+		document.getElementById("moonView").submit();
+	}
+</script>

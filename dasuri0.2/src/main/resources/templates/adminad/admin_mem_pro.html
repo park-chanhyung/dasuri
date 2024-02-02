@@ -6,6 +6,7 @@
     <title>관리자페이지 : 고객관리 > 기사</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin_mem.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
 </head>
 <body>
 
@@ -72,7 +73,7 @@
         </div>
 
         <!--   푸터 -->
-        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
 
     </section>
 </main>

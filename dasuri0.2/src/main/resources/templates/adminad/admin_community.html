@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자페이지 : 커뮤니티관리</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
 </head>
 <body>
 
@@ -76,7 +77,7 @@
         </div>
 
         <!--   푸터 -->
-        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
 
     </section>
 </main>

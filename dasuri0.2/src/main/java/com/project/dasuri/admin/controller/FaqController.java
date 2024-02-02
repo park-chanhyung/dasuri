@@ -2,6 +2,7 @@ package com.project.dasuri.admin.controller;
 
 import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
+import com.project.dasuri.admin.service.Admin_MoonService;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -24,17 +25,20 @@ public class FaqController {
 //    생성자 주입
     private final FaqService faqService;
     private final NoticeService noticeService;
+    private final Admin_MoonService adminMoonService;
 
     //    관리자페이지 > 공지관리 > faq올리기 (작성 폼)
     @RequestMapping("/admin_faq_write")
-    public String admin_faq_write() {
+    public String admin_faq_write(Model model) {
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_faq_write";
     }
 
     //    관리자페이지 > 공지관리 > faq올리기 (작성 완료)
     @RequestMapping("/admin_faq_write_ok")
-    public String admin_faq_write_ok(@ModelAttribute FaqDTO faqDTO) {
+    public String admin_faq_write_ok(@ModelAttribute FaqDTO faqDTO,Model model) {
         faqService.save(faqDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "redirect:/admin_notice";
     }
 
@@ -43,6 +47,7 @@ public class FaqController {
     public String admin_faq_view(@RequestParam Long id,Model model) {
         FaqDTO faqDTO = faqService.findByFaqId(id);
         model.addAttribute("faq",faqDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_faq_look";
     }
 
@@ -51,6 +56,7 @@ public class FaqController {
     public String admin_faq_update(@ModelAttribute FaqDTO faqDTO, Model model) {
         log.info("##@#$@ 태그 : "+faqDTO.getFaqTag());
         model.addAttribute("faq",faqDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_faq_update";
     }
 
@@ -59,6 +65,7 @@ public class FaqController {
     public String admin_faq_update_ok(@ModelAttribute FaqDTO faqDTO, Model model) {
         faqService.update(faqDTO);
         model.addAttribute("faq",faqDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_faq_look";
     }
 
@@ -68,6 +75,7 @@ public class FaqController {
     public String admin_faq_delete(@ModelAttribute FaqDTO faqDTO, Model model) {
         faqService.deleteByFaqId(faqDTO.getFaqId());
         model.addAttribute("faq",faqDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "redirect:/admin_notice";
     }
 
@@ -85,6 +93,8 @@ public class FaqController {
 
         model.addAttribute("importants",importantDTOs);//(같은 화면)중요공지리스트
         model.addAttribute("normals",normalDTOs);//(같은 화면)일반공지리스트
+
+        model.addAttribute("moons",adminMoonService.findAll());
 
         return "/adminad/admin_faq_search";
     }

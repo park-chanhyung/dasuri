@@ -1,8 +1,10 @@
 package com.project.dasuri.admin.repository;
 
-import com.project.dasuri.admin.entity.FaqEntity;
 import com.project.dasuri.admin.entity.MoonEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface MoonRepository extends JpaRepository<MoonEntity, Long> {
+    Optional<MoonEntity> findByMoonPkId(Long id);
 }

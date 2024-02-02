@@ -2,6 +2,7 @@ package com.project.dasuri.admin.controller;
 
 import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
+import com.project.dasuri.admin.service.Admin_MoonService;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import com.project.dasuri.shop.ShopForm;
@@ -27,6 +28,7 @@ public class NoticeController {
 //    생성자 주입
     private final NoticeService noticeService;
     private final FaqService faqService;
+    private final Admin_MoonService adminMoonService;
 
     //  관리자페이지 > 공지관리 (공지&FAQ 리스트)
     @RequestMapping("/admin_notice")
@@ -39,22 +41,26 @@ public class NoticeController {
         model.addAttribute("normals",normalDTOs);
         model.addAttribute("faqList",faqDTOS);
 
+        model.addAttribute("moons",adminMoonService.findAll());
+
         return "/adminad/admin_notice";
     }
 
 
     //    관리자페이지 > 공지관리 > 공지올리기 (작성 폼)
     @RequestMapping("/admin_notice_write")
-    public String admin_notice_write() {
+    public String admin_notice_write(Model model) {
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_notice_write";
     }
 
 
     //    관리자페이지 > 공지관리 > 공지올리기 (작성 완료)
     @PostMapping("/admin_notice_write_ok")
-    public String admin_notice_write_ok(@Valid NoticeDTO noticeDTO, @RequestParam("file") MultipartFile file) throws IOException {
+    public String admin_notice_write_ok(@Valid NoticeDTO noticeDTO, @RequestParam("file") MultipartFile file, Model model) throws IOException {
         noticeDTO.setNoticeContent(noticeDTO.getNoticeContent().replace("\r\n","<br>"));
         noticeService.save(noticeDTO, file);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "redirect:/admin_notice";
     }
 
@@ -69,6 +75,7 @@ public class NoticeController {
             noticeDTO.setNotice_type("중요");
         }
         model.addAttribute("notice",noticeDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_notice_look";
     }
 
@@ -77,6 +84,7 @@ public class NoticeController {
     @PostMapping("/admin_notice_update")
     public String admin_notice_update(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         model.addAttribute("notice",noticeDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_notice_update";
     }
 
@@ -86,6 +94,7 @@ public class NoticeController {
         noticeDTO.setNoticeContent(noticeDTO.getNoticeContent().replace("\r\n", "<br>"));
         noticeService.update(noticeDTO, file);
         model.addAttribute("notice", noticeDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "adminad/admin_notice_look";
     }
 
@@ -96,6 +105,7 @@ public class NoticeController {
     public String admin_notice_delete(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         noticeService.deleteByNoticeId(noticeDTO.getNotice_id());
         model.addAttribute("notice",noticeDTO);
+        model.addAttribute("moons",adminMoonService.findAll());
         return "redirect:/admin_notice";
     }
 
@@ -110,6 +120,8 @@ public class NoticeController {
         model.addAttribute("normals",normalDTOs); //일반공지 검색결과
         model.addAttribute("keyword",notice_keyword); //검색한 키워드
         model.addAttribute("faqList",faqDTOS); //같은 화면에 담을 faq리스트
+
+        model.addAttribute("moons",adminMoonService.findAll());
 
         return "/adminad/admin_notice_search";
     }

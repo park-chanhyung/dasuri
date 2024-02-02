@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>faq 보기</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
 </head>
 <body>
 
@@ -73,7 +74,7 @@
         </div>
 
         <!--   푸터 -->
-        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
 
     </section>
 </main>

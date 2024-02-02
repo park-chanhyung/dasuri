@@ -5,6 +5,8 @@
 <meta charset="UTF-8">
 <title>문의글 보기</title>
 	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/moon.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
 </head>
 <body>
 	
@@ -19,48 +21,74 @@
 			<h1 class="blue">문의글 보기</h1>
 
 			<div class="mem_container">
-				<table class="mem_table">
-					<tr>
-						<td width="30%">유형 :: 문의</td>
-						<td>상태 :: 답변완료</td>
-					</tr>
-					<tr>
-						<td>id</td>
-						<td>naMoon1234</td>
-					</tr>
-					<tr>
-						<td>작성자</td>
-						<td>나문희</td>
-					</tr>
-					<tr>
-						<td>제목</td>
-						<td>문희는포도가먹고찌픈데	</td>
-					</tr>
-					<tr>
-						<td>내용</td>
-						<td>포도사주세요빨리 </td>
-					</tr>
-				</table>
-
-				<br>
-				<br>
-				<br>
-				답글 기능 필요
-
-				<table class="moon_view_bottom">
-					<tr>
-						<th> <button onclick="location='admin_moon'">목록으로</button> </th>
-					</tr>
-				</table>
-
+				<form th:action="@{admin_moon_answer}" th:object="${moon}" method="post" name="goAnswer">
+					<input type="hidden" name="moonPkId" th:value="${moon.moonPkId}">
+					<table class="moon_q_table">
+						<tr>
+							<td>작성자 : <span th:text="${moon.moonUserId}"></span></td>
+							<td><span th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></span></td>
+						</tr>
+						<tr>
+							<td th:utext="${moon.moonType=='1'?'문의':'신고'}"></td>
+							<td>문의상태 : <span th:text="${moon.moonStatus == '1' ? '대기' : '완료'}"></span></td>
+						</tr>
+						<tr>
+							<td>문의시간</td>
+							<td><span th:text="${#temporals.format(moon.moonQuestionDate, 'yyyy-MM-dd (HH:mm)')}"></span></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								제목 [ <span th:text="${moon.moonTitle}"></span> ]
+							</td>
+						</tr>
+						<tr>
+							<th colspan="2"> 문의사항 </th>
+						</tr>
+						<tr>
+							<td colspan="2" class="x">
+								<span th:text="${moon.moonQuestion}"></span>
+								<span>
+									<img th:src="@{'http://localhost:9000' + ${moon.filePath}}" alt="Item image" class="moon_q_img" onclick="openImagePopup(this.src)">
+								</span>
+							</td>
+						</tr>
+						<!-- 답변이 있을때만 나옴 -->
+						<tr th:if="${moon.moonAnswer != null}">
+							<th colspan="2"> 답변 </th>
+						</tr>
+						<tr th:if="${moon.moonAnswer != null}">
+							<th colspan="2" class="x" id="xx"><span th:text="${moon.moonAnswer}"></span></th>
+						</tr>
+						<tr>
+							<th colspan="2">
+								<button type="button" onclick="openAnswerPopup()">답변작성</button> &nbsp;&nbsp;&nbsp;
+								<button type="button" onclick="location='admin_moon'">목록으로</button>
+							</th>
+						</tr>
+					</table>
+				</form>
 			</div>
 		</div>
 
 		<!--   푸터 -->
-		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
 
   	</section>
 	</main>
-	
 </body>
 </html>
+<script type="text/javascript">
+<!--	이미지 원본 보기 (팝업) -->
+	function openImagePopup(imageUrl) {
+		var popupWindow = window.open(imageUrl, 'Image Popup', 'width=800, height=600');
+		popupWindow.focus();
+	}
+	// 답변 작성 폼 띄우기 (팝업)
+	function openAnswerPopup() {
+		var answerPopup = window.open('', 'Answer Popup', 'width=800, height=550');
+		document.goAnswer.target = 'Answer Popup';
+		document.goAnswer.action = 'admin_moon_answer';
+		document.goAnswer.submit();
+		answerPopup.focus();
+	}
+</script>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>관리자페이지 : 홈</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 </head>
 <body>
@@ -70,7 +71,7 @@
     </div>
 
     <!--   푸터 -->
-    <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer}"></nav>
+    <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
 
   </section>
 </main>

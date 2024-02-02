@@ -18,10 +18,10 @@ public class MoonDTO {
 
     private String moonUserId; //문의한 회원 아이디
 
-    private int moonRole; //문의한 회원 유형 (1고객 or 2기사)
+    private String moonRole; //문의한 회원 유형 (1고객 or 2기사)
     private String moonType; //문의글 유형 (1문의 or 2신고)
 
-    private int moonStatus; //문의글 상태 (1대기 or 2완료)
+    private String moonStatus; //문의글 상태 (1대기 or 2완료)
 
     private String moonTitle; //문의글 제목
     private String moonQuestion; //문의글 내용
@@ -43,7 +43,7 @@ public class MoonDTO {
         moonDTO.setMoonUserId(moonEntity.getMoonUserId()); //문의한 회원
         moonDTO.setMoonRole(moonEntity.getMoonRole()); //회원유형 1고객 2기사
         moonDTO.setMoonType(moonEntity.getMoonType()); //문의유형 1문의 2신고
-        moonDTO.setMoonType(moonEntity.getMoonType()); //문의상태 1대기 2완료
+        moonDTO.setMoonStatus(moonEntity.getMoonStatus()); //문의상태 1대기 2완료
 
         moonDTO.setMoonTitle(moonEntity.getMoonTitle()); //문의제목
         moonDTO.setMoonQuestion(moonEntity.getMoonQuestion()); //문의내용

@@ -1,0 +1,27 @@
+.moon_total{
+    width: 180px;
+}
+.footer_moon{
+    border-collapse: collapse;
+    width: 90%;
+}
+.footer_moon tr td:nth-child(1){
+    text-align: left;
+    width: 100px;
+    font-weight: 700;
+}
+.footer_moon tr td:nth-child(2){
+    text-align: center;
+    width: 50px;
+}
+.footer_moon tr td:nth-child(3){
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.yy{
+    border-bottom: 1px solid #6192FA;
+}
+#moonh4{
+    margin-left: 15px;
+}
