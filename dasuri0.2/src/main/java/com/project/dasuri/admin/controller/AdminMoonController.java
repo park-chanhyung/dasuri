@@ -60,4 +60,18 @@ public class AdminMoonController {
         return "/adminad/admin_moon_answer_ok";
 //        return "/adminad/admin_moon_view";
     }
+
+    //  관리자페이지 > 고객센터 (문의글 검색)
+    @RequestMapping("/admin_moon_search")
+    public String admin_moon_search(@RequestParam String moon_keyword, Model model) {
+
+//        검색결과
+        List<MoonDTO> moonDTOSearch = adminMoonService.moonSearch(moon_keyword);
+        model.addAttribute("moonsSearch",moonDTOSearch);
+        model.addAttribute("keyword",moon_keyword); //검색한 키워드
+//        푸터용
+        List<MoonDTO> moonDTOS = adminMoonService.findAll();
+        model.addAttribute("moons",moonDTOS);
+        return "/adminad/admin_moon_search";
+    }
 }

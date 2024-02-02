@@ -46,4 +46,14 @@ public class Admin_MoonService {
         }
         return moonDTOS;
     }
+
+//    문의글 검색
+    public List<MoonDTO> moonSearch(String keyword){
+        List<MoonEntity> moonEntities = moonRepository.findByMoonUserIdContainingOrMoonQuestionContainingOrMoonAnswerContainingOrMoonTitleContaining(keyword,keyword,keyword,keyword);
+        List<MoonDTO> moonDTOS = new ArrayList<>();
+        for (MoonEntity moonEntity : moonEntities) {
+            moonDTOS.add(MoonDTO.toMoonDTO(moonEntity));
+        }
+        return moonDTOS;
+    }
 }

@@ -34,4 +34,9 @@ public class Admin_UserService {
         return userDTO;
     }
 
+    //    고객 수
+    public Long userCount(){
+        return userRepository.count();
+    }
+
 }

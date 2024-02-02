@@ -1056,12 +1056,25 @@ main {
   position: relative;
   float: right;
   margin-bottom: 20px;
+  margin-right: 20px;
   left: 30px;
   overflow: clip;
 }
 .searchTerm {
   display: inline-block;
   width: 150px;
+  border: 3px solid #6192FA;
+  border-right: none;
+  height: 35px;
+  border-radius: 5px 0 0 5px;
+  outline: none;
+  color: #9DBFAF;
+  text-overflow:ellipsis;
+  padding: 10px;
+}
+.moonsearchTerm {
+  display: inline-block;
+  width: 300px;
   border: 3px solid #6192FA;
   border-right: none;
   height: 35px;

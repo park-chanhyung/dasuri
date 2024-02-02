@@ -10,4 +10,6 @@ public interface MoonRepository extends JpaRepository<MoonEntity, Long> {
     Optional<MoonEntity> findByMoonPkId(Long id);
 
     List<MoonEntity> findByMoonUserId(String id);
+
+    List<MoonEntity> findByMoonUserIdContainingOrMoonQuestionContainingOrMoonAnswerContainingOrMoonTitleContaining(String keyword1,String keyword2,String keyword3,String keyword4);
 }

@@ -35,4 +35,10 @@ public class Admin_ProService {
             return null;
         }
     }
+
+    //    기사 수
+    public Long proCount(){
+        return proRepository.count();
+    }
+
 }
