@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,6 +45,8 @@ public class UserDTO {
     private String userExtraaddress;
     private String role;
 
+    private LocalDateTime signupDate;
+    private LocalDateTime lastModifiedDate;
     public static UserDTO toUserDTO(UserEntity userEntity){
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(userEntity.getUserId());
@@ -56,6 +60,9 @@ public class UserDTO {
         userDTO.setUserDetailaddress(userEntity.getUserDetailaddress());
         userDTO.setUserExtraaddress(userEntity.getUserExtraaddress());
         userDTO.setRole(userEntity.getRole());
+
+        userDTO.setSignupDate(userEntity.getSignupDate());
+        userDTO.setLastModifiedDate(userEntity.getLastModifiedDate());
 
         return userDTO;
     }

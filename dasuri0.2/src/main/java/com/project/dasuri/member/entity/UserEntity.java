@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -45,6 +46,9 @@ public class UserEntity {
 
     @CreatedDate
     private LocalDateTime signupDate;
+
+    @LastModifiedDate
+    private LocalDateTime lastModifiedDate;
 
 //    @Embedded
 //    private UserAddress userAddr;

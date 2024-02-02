@@ -1,38 +1,35 @@
 /*==========================================================================================================================================================
  * 중복 검사 ajax
  */
-$(document).ready(function() { // 아이디 중복검사
-    $('#userId').on('input', function() {
-        var userId = $(this).val();
-        // 정규식 패턴
+$(document).ready(function() {
+    function checkId(idInput, messageElement) { // `messageType` 파라미터 제거
+        var id = $(idInput).val();
         var pattern = /^[a-z0-9]{4,12}$/;
 
-        if (!pattern.test(userId)) {
-            // 아이디가 정규식 패턴과 일치하지 않는 경우
-            $('#duplicateMessage').text('영문 소문자/숫자 4~12자리여야 합니다.').css({
+        if (!pattern.test(id)) {
+            $(messageElement).text('영문 소문자/숫자 4~12자리여야 합니다.').css({
                 'color': '#ff0909',
                 'font-weight': 'bold',
                 'font-size': '0.8em'
             });
-            return; // 검사 종료
+            return;
         }
 
-        // AJAX 요청
         $.ajax({
             type: 'POST',
             url: '/check_duplicate',
-            data: {'userId': userId},
+            data: {
+                'userId': id, // 서버 측에서 기대하는 파라미터명으로 변경
+            },
             success: function(response) {
                 if (response.duplicate) {
-                    // 빨간색 텍스트 스타일
-                    $('#duplicateMessage').text('이미 사용 중인 아이디입니다.').css({
+                    $(messageElement).text('이미 사용 중인 아이디입니다.').css({
                         'color': '#ff0909',
                         'font-weight': 'bold',
                         'font-size': '0.8em'
                     });
                 } else {
-                    // 녹색 텍스트 스타일 #7CFC00
-                    $('#duplicateMessage').text('사용할 수 있는 아이디입니다.').css({
+                    $(messageElement).text('사용할 수 있는 아이디입니다.').css({
                         'color': '#14da3b',
                         'font-size': '0.8em'
                     });
@@ -42,50 +39,18 @@ $(document).ready(function() { // 아이디 중복검사
                 console.error('아이디 중복 확인 요청 실패');
             }
         });
+    }
+
+    // userId 중복 검사
+    $('#userId').on('input', function() {
+        checkId('#userId', '#duplicateMessage');
+    });
+
+    // proId 중복 검사
+    $('#proId').on('input', function() {
+        checkId('#proId', '#duplicateProMessage');
     });
 });
-// $(document).ready(function() { //아이디 중복검사
-//     $('#userId').on('input', function() {
-//         var userId = $(this).val();
-//         $.ajax({
-//             type: 'POST',
-//             url: '/check_duplicate',
-//             data: {'userId': userId},
-//             success: function(response) {
-//                 if (response.duplicate) { // 빨간색 텍스트 스타일
-//                     $('#duplicateMessage').text('이미 사용 중인 아이디입니다.').css({'color': '#ff0909', 'font-weight': 'bold', 'font-size': '0.8em'});
-//                 } else { // 녹색 텍스트 스타일 #7CFC00
-//                     $('#duplicateMessage').text('사용할 수 있는 아이디입니다.').css({'color': '#14da3b', 'font-size': '0.8em'});
-//                 }
-//             },
-//             error: function() { console.error('아이디 중복 확인 요청 실패'); }
-//         });
-//     });
-// });
-
-//비밀번호 확인
-// $(document).ready(function() {
-//     $('#userPwdConfirm').on('input', function() {
-//         validatePassword();
-//     });
-//
-//     function validatePassword() {
-//         var password = $('#userPwd').val();
-//         var confirmPassword = $('#userPwdConfirm').val();
-//
-//         if (password === '') {
-//             // 비밀번호가 입력되지 않은 경우
-//             $('#passwordMatchMessage').text('비밀번호를 먼저 입력하세요.').css({'color': '#ff0909', 'font-weight': 'bold', 'font-size': '0.8em'});
-//         } else if (password === confirmPassword) {
-//             // 비밀번호가 일치하는 경우
-//             $('#passwordMatchMessage').text('비밀번호가 일치합니다.').css({'color': '#14da3b', 'font-size': '0.8em'});
-//         } else {
-//             // 비밀번호가 일치하지 않는 경우
-//             $('#passwordMatchMessage').text('비밀번호가 일치하지 않습니다.').css({'color': '#ff0909', 'font-weight': 'bold', 'font-size': '0.8em'});
-//         }
-//     }
-// });
-
 
 $(document).ready(function() {
     $('#userPwdConfirm').on('input', function() {
@@ -135,83 +100,41 @@ $(document).ready(function() {
 /*==========================================================================================================================================================
  * 기사 지역구 전체 선택 처리 (start)
  */
-
-function toggleCheckboxes() {
-    var selectAllCheckbox = document.getElementById("selectAll");
-    var checkboxes = document.querySelectorAll('input[name="proLegions"]');
-
-    checkboxes.forEach(function (checkbox) {
-        checkbox.disabled = selectAllCheckbox.checked;
-        checkbox.checked = selectAllCheckbox.checked;
+document.addEventListener("DOMContentLoaded", function() {
+    // 전체 선택 체크박스의 상태 변경을 감지하는 이벤트 리스너
+    document.getElementById("selectAll").addEventListener("change", function() {
+        var checkboxes = document.querySelectorAll('input[name="proLegions"]');
+        var allChecked = this.checked;
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox !== document.getElementById("selectAll")) {
+                checkbox.checked = allChecked;
+                checkbox.disabled = allChecked; // 전체 선택 시 다른 체크박스 비활성화
+            }
+        });
     });
-}
 
-document.getElementById("regionForm").addEventListener("submit", function (event) {
-    event.preventDefault(); // 기존의 submit 동작 방지
+    // 폼 제출 처리
+    document.querySelector("form").addEventListener("submit", function(e) {
+        // e.preventDefault(); // 실제 제출을 방지하기 위해
 
-    var selectAllCheckbox = document.getElementById("selectAll");
-    var checkboxes = document.querySelectorAll('input[name="proLegions"]:checked');
+        var selectedRegions = [];
+        var checkboxes = document.querySelectorAll('input[name="proLegions"]:checked:not(#selectAll)'); // 전체 선택을 제외한 체크된 체크박스
 
-    // 선택된 지역들을 저장할 변수
-    var selectedRegions = [];
-
-    if (selectAllCheckbox.checked) {
-        selectedRegions.push("aaa");
-    } else {
-        checkboxes.forEach(function (checkbox) {
+        checkboxes.forEach(function(checkbox) {
             selectedRegions.push(checkbox.value);
         });
-    }
 
-    // 선택된 지역들을 문자열로 합치기 (구분자: '/')
-    var result = selectedRegions.join('/');
+        var result = selectedRegions.join('/');
+        console.log('선택된 지역: ' + result); // 선택된 지역을 콘솔에 출력
 
-    // 결과 변수를 어딘가에 전달하거나 로직에 활용
-    console.log('선택된 지역: ' + result);
-
+        // 여기서 result 값을 서버로 전송하는 코드를 추가할 수 있습니다.
+        // 예: AJAX 요청을 사용해서 서버에 result 값 전송
+    });
 });
-// function toggleCheckboxes() {
-//     var selectAllCheckbox = document.getElementById("selectAll");
-//     var checkboxes = document.querySelectorAll('input[name="proLegions"]');
-//
-//     checkboxes.forEach(function (checkbox) {
-//         checkbox.disabled = selectAllCheckbox.checked;
-//         checkbox.checked = selectAllCheckbox.checked;
-//     });
-// }
-//
-// document.getElementById("regionForm").addEventListener("submit", function (event) {
-//     event.preventDefault(); // 기존의 submit 동작 방지
-//
-//     var selectAllCheckbox = document.getElementById("selectAll");
-//     var checkboxes = document.querySelectorAll('input[name="proLegions"]:checked');
-//
-//     // 선택된 지역들을 저장할 변수
-//     var selectedRegions = [];
-//
-//     if (selectAllCheckbox.checked) {
-//         selectedRegions.push("aaa");
-//         var result = selectedRegions;
-//     } else {
-//         checkboxes.forEach(function (checkbox) {
-//             selectedRegions.push(checkbox.value);
-//             // 선택된 지역들을 문자열로 합치기 (구분자: '/')
-//             var result = selectedRegions.join('/');
-//         });
-//     }
-//
-//
-//     // 결과 변수를 어딘가에 전달하거나 로직에 활용
-//     // console.log('선택된 지역: ' + result);
-// });
-
 
 /*
  * 기사 지역구 전체 선택 처리 (end)
  */
-
-
-
 /*==========================================================================================================================================================
  * 휴대폰 인증 script (start)
  *
@@ -224,27 +147,6 @@ function verifyPhoneNumber() {
 /*
  * 휴대폰 인증 script (end)
  */
-
-/*==========================================================================================================================================================
- * 기사 활동 구역 부산 (start)
- */
-$(document).ready(function() {
-    // 부산 전체 선택
-    $("#selectAllBusan").change(function() {
-        var isChecked = $(this).prop("checked");
-        $(".busanDistrict").prop("checked", isChecked).prop("disabled", isChecked);
-    });
-
-    // 부산 구 선택
-    $(".busanDistrict").change(function() {
-        $("#selectAllBusan").prop("checked", false);
-    });
-});
-/*
- * 기사 활동 구역 부산 (end)
- */
-
-
 /*==========================================================================================================================================================
  * kakao 우편번호 API script (start)
  */
