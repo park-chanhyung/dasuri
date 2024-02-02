@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <!-- 다른 head 요소들... -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
@@ -15,7 +16,8 @@
             <!--             <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg"> -->
             <!-- 이미지에 클릭 이벤트 추가 -->
             <!--            <img width="170px" src="/img/logo.png" id="logoImage" onclick="redirectToIndex()">-->
-            <img width="170px" src="/img/logo.png" id="logoImage" onclick="location.href='http://localhost:9000/'">
+<!--            <img width="170px" src="/img/logo.png" id="logoImage" onclick="location.href='http://localhost:9000/'">-->
+            <img width="170px" src="/img/logo.png" id="logoImage" onclick="location.href='http://localhost:9000/index'">
 
             <script>
                 // JavaScript로 페이지 이동 함수 정의
@@ -47,22 +49,43 @@
             <li><a href="/center_main">고객센터</a></li>
         </ul>
         <div id="utility">
-                    <span class="material-symbols-outlined">
-                        <a href="/admin">관리자</a>
-                    </span>
-<!--            <span class="material-symbols-outlined">-->
-<!--                        <a href="/my_profile">내정보</a>-->
+<!--                    <span class="material-symbols-outlined">-->
+<!--                        <a href="/admin">관리자</a>-->
 <!--                    </span>-->
-            <span class="material-symbols-outlined">
-                        <a href="/userprofile">내정보</a>
-                    </span>
+<!--            <span class="material-symbols-outlined">-->
+<!--                        <a href="/userprofile">내정보</a>-->
+<!--                    </span>-->
 
-            <span class="material-symbols-outlined">
-                        <a href="/login">로그인</a>
-                    </span>
-            <span class="material-symbols-outlined">
-                        <a href="/sign_up">회원가입</a>
-                    </span>
+<!--            <span class="material-symbols-outlined">-->
+<!--                        <a href="/login">로그인</a>-->
+<!--                    </span>-->
+<!--            <span class="material-symbols-outlined">-->
+<!--                        <a href="/sign_up">회원가입</a>-->
+<!--                    </span>-->
+                <!-- 관리자 링크: ROLE_ADMIN 권한이 있을 때만 표시 -->
+                <span class="material-symbols-outlined" sec:authorize="hasRole('ADMIN')">
+        <a href="/admin">관리자</a>
+    </span>
+
+                <!-- 내정보 링크: 로그인한 사용자이고, ROLE_USER 또는 ROLE_PRO 권한이 있을 때 표시 -->
+                <span class="material-symbols-outlined" sec:authorize="isAuthenticated() and (hasRole('USER') or hasRole('PRO'))">
+        <a href="/userprofile">내정보</a>
+    </span>
+
+                <!-- 로그인 링크: 비로그인 상태일 때만 표시 -->
+                <span class="material-symbols-outlined" sec:authorize="isAnonymous()">
+        <a href="/login">로그인</a>
+    </span>
+
+                <!-- 회원가입 링크: 비로그인 상태일 때만 표시 -->
+                <span class="material-symbols-outlined" sec:authorize="isAnonymous()">
+        <a href="/sign_up">회원가입</a>
+    </span>
+
+                <!-- 로그아웃 링크: 로그인 상태일 때만 표시 -->
+                <span class="material-symbols-outlined" sec:authorize="isAuthenticated()">
+        <a href="/logout">로그아웃</a>
+    </span>
         </div>
     </nav>
 </header>

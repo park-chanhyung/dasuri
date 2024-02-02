@@ -41,7 +41,6 @@ public class SecurityConfig{
         //admin 접근 거부만 뜸 로그인폼설정을 안했기 때문
         http
                 .formLogin((auth) -> auth.loginPage("/login")
-                        .loginProcessingUrl("/loginProc") //login 폼태그에서 로그인 데이터를 action 경로로.
                         .defaultSuccessUrl("/index") //login Success 매핑
                         //널포인트 오류로 강제로 파라미터명 설정. 강제로 안하면 로그인 안됨.
                         .usernameParameter("userId")
