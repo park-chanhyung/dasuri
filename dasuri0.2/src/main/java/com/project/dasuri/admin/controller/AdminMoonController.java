@@ -31,7 +31,7 @@ public class AdminMoonController {
     //  관리자페이지 > 고객센터 (문의글 조회)
     @PostMapping("/admin_moon_view")
     public String admin_moon(@RequestParam Long moonPkId, Model model) {
-        MoonDTO moonDTO = adminMoonService.findByMoonUserId(moonPkId);
+        MoonDTO moonDTO = adminMoonService.findByMoonPkId(moonPkId);
         moonDTO.setMoonQuestion(moonDTO.getMoonQuestion().replace("<br>","\n"));
         model.addAttribute("moon", moonDTO);
         model.addAttribute("moons",adminMoonService.findAll());
@@ -41,7 +41,7 @@ public class AdminMoonController {
     //  관리자페이지 > 고객센터 (문의글 답변 폼)
     @PostMapping("/admin_moon_answer")
     public String admin_moon_answer(@RequestParam Long moonPkId, Model model) {
-        MoonDTO moonDTO = adminMoonService.findByMoonUserId(moonPkId);
+        MoonDTO moonDTO = adminMoonService.findByMoonPkId(moonPkId);
         model.addAttribute("moon", moonDTO);
         model.addAttribute("moons",adminMoonService.findAll());
         return "/adminad/admin_moon_answer";
@@ -50,12 +50,14 @@ public class AdminMoonController {
     //  관리자페이지 > 고객센터 (문의글 답변 완료)
     @PostMapping("/admin_moon_answer_ok")
     public String admin_moon_answer(@ModelAttribute("moonPkId") Long moonPkId, @RequestParam("moonAnswer") String moonAnswer, Model model) throws IOException {
-        MoonDTO moonDTO = adminMoonService.findByMoonUserId(moonPkId);
+        MoonDTO moonDTO = adminMoonService.findByMoonPkId(moonPkId);
         //        답변저장
         moonDTO.setMoonAnswer(moonAnswer);
         moonService.answerSave(moonDTO);
         model.addAttribute("moon", moonDTO);
         model.addAttribute("moons",adminMoonService.findAll());
-        return "/adminad/admin_moon_view";
+        // 답변 작성 완료 후 리다이렉션할 페이지로 이동
+        return "/adminad/admin_moon_answer_ok";
+//        return "/adminad/admin_moon_view";
     }
 }

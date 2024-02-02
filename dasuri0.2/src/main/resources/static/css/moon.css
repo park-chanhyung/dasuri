@@ -112,3 +112,12 @@
     background: #efefef;
     padding: 30px;
 }
+.moon_blue{
+    color: blue;
+    font-weight: 700;
+}
+
+.moon_red{
+    color: red;
+    font-weight: 700;
+}

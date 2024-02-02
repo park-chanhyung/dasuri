@@ -28,12 +28,22 @@ public class Admin_MoonService {
     }
 
 //    문의글
-    public MoonDTO findByMoonUserId(Long id){
+    public MoonDTO findByMoonPkId(Long id){
         Optional<MoonEntity> optionalMoonEntity = moonRepository.findByMoonPkId(id);
         if (optionalMoonEntity.isPresent()){
             return MoonDTO.toMoonDTO(optionalMoonEntity.get());
         }else {
             return null;
         }
+    }
+
+//    내 아이디로 문의글 불러오기
+    public List<MoonDTO> findByMoonUserId(String id){
+        List<MoonEntity> moonEntities = moonRepository.findByMoonUserId(id);
+        List<MoonDTO> moonDTOS = new ArrayList<>();
+        for (MoonEntity moonEntity : moonEntities) {
+            moonDTOS.add(MoonDTO.toMoonDTO(moonEntity));
+        }
+        return moonDTOS;
     }
 }

@@ -43,7 +43,7 @@
 						<tr th:each="moon: ${moons}" th:attr="onclick='submitLook('+${moon.moonPkId}+')'" class="gomoonq">
 							<td th:text="${moon.moonUserId}"></td>
 							<td th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></td>
-							<td th:utext="${moon.moonType == '1' ? '문의' : '신고'}"></td>
+							<td th:utext="${moon.moonType=='1' ? '문의' : '신고'}" th:class="${moon.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>
 							<td th:text="${moon.moonQuestion}"></td>
 							<td th:text="${#temporals.format(moon.moonQuestionDate, 'yyyy-MM-dd')}"></td>
 							<td th:text="${moon.moonStatus == '1' ? '대기' : '완료'}"></td>

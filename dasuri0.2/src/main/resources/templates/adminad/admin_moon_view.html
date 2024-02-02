@@ -29,7 +29,7 @@
 							<td><span th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></span></td>
 						</tr>
 						<tr>
-							<td th:utext="${moon.moonType=='1'?'문의':'신고'}"></td>
+							<td th:utext="${moon.moonType=='1' ? '문의' : '신고'}" th:class="${moon.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>
 							<td>문의상태 : <span th:text="${moon.moonStatus == '1' ? '대기' : '완료'}"></span></td>
 						</tr>
 						<tr>
@@ -61,7 +61,9 @@
 						</tr>
 						<tr>
 							<th colspan="2">
-								<button type="button" onclick="openAnswerPopup()">답변작성</button> &nbsp;&nbsp;&nbsp;
+								<span th:if="${moon.moonStatus == '1'}">
+									<button type="button" onclick="openAnswerPopup()">답변작성</button> &nbsp;&nbsp;&nbsp;
+								</span>
 								<button type="button" onclick="location='admin_moon'">목록으로</button>
 							</th>
 						</tr>

@@ -5,6 +5,7 @@ import com.project.dasuri.admin.dto.NoticeDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -50,9 +51,9 @@ public class MoonEntity {
     @Column(updatable = false)
     private LocalDateTime moonQuestionDate = LocalDateTime.now(); //문의 최초 등록 시 들어감
 
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime moonAnswerDate; //답변한 시간 (답변 때 들어감)
+    @UpdateTimestamp
+    @Column(updatable = true)
+    private LocalDateTime moonAnswerDate = LocalDateTime.now(); //답변한 시간 (답변 때 들어감)
 
 //    문의 신규 등록
     public static MoonEntity toQuestionMoonEntity(MoonDTO moonDTO) throws IOException {
@@ -64,6 +65,8 @@ public class MoonEntity {
         moonEntity.setMoonStatus("1");
         moonEntity.setMoonTitle(moonDTO.getMoonTitle()); //제목
         moonEntity.setMoonQuestion(moonDTO.getMoonQuestion()); //문의내용
+
+        moonEntity.setMoonAnswerDate(null); //신규에는 답변시간 없음
 
         // 첨부파일 컬럼은 서비스단에서 처리
 
