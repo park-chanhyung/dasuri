@@ -55,18 +55,18 @@ public class UserController {
             // 유효성 검사에 성공한 경우
             // 아이디 중복 확인
             boolean isDuplicate = userService.isUserIdDuplicate(userDTO.getUserId());
-            if (isDuplicate) {
+            boolean isNicknameDuplicate = userService.isUserNicknameDuplicate(userDTO.getUserNickname());
+            if (isDuplicate||isNicknameDuplicate) {
                 // 아이디가 중복된 경우
                 model.addAttribute("userDTO", userDTO);
                 model.addAttribute("errorMessage", "이미 사용 중인 아이디입니다.");
+                model.addAttribute("NickerrorMessage","이미 사용 중인 닉네임입니다.");
                 return "/login/user_signup";
-            } else {
+            }else {
                 // 아이디가 중복되지 않은 경우
                 userService.user_signup(userDTO);
                 return "redirect:login";
             }
-//        }
-
         }
     }
 
@@ -79,21 +79,14 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-//    @PostMapping("/check_duplicate")
-//    @ResponseBody
-//    public ResponseEntity<?> checkDuplicate(@RequestParam String userId, @RequestParam(required = false) String type) {
-//        boolean isDuplicate = false;
-//
-//        if (type == null || "userId".equals(type)) {
-//            // user_table에서 아이디 검사
-//            isDuplicate = userRepository.existsByUserId(userId);
-//        } else if ("proId".equals(type)) {
-//            // pro_table에서 아이디 검사
-//            isDuplicate = proRepository.existsByProId(userId);
-//        }
-//
-//        Map<String, Boolean> response = new HashMap<>();
-//        response.put("duplicate", isDuplicate);
-//        return ResponseEntity.ok(response);
-//    }
+    @PostMapping("/check_duplicate_nickname")
+    @ResponseBody
+    public ResponseEntity<?> checkDuplicateUserNickname(@RequestParam String userNickname) {
+        boolean isDuplicate = userService.isUserNicknameDuplicate(userNickname);
+        System.out.println("유저 닉네임 중복검사중 = " + isDuplicate);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("duplicate", isDuplicate);
+        return ResponseEntity.ok(response);
+    }
+
 }

@@ -40,6 +40,7 @@
                     <div class="group">
                         <label for="userNickname" class="label">닉네임</label>
                         <input id="userNickname" name="userNickname" type="text" class="input" th:field="*{userNickname}">
+                            <p id="nickduplicateMessage" th:text="${errorMessage}"></p> <!-- 에러 메시지 출력 -->
                         <div th:if="${#fields.hasErrors('userNickname')}" class="group">
                             <p id="error-Message" th:each="err : ${#fields.errors('userNickname')}" th:text="${err}"></p>
                         </div>

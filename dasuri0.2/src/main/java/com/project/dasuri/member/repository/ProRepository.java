@@ -8,4 +8,6 @@ public interface ProRepository extends JpaRepository<ProEntity,Integer> {
     boolean existsByProId(String userId);
 
     ProEntity findByProId(String username);
+
+    boolean existsByProNickname(String userNickname);
 }

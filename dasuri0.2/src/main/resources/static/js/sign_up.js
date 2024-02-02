@@ -52,6 +52,58 @@ $(document).ready(function() {
     });
 });
 
+//닉네임 중복검사
+$(document).ready(function() {
+    function checkNickname(NicknameInput, messageElement) { // `messageType` 파라미터 제거
+        var Nickname = $(NicknameInput).val();
+        var pattern = /^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$/;
+
+        if (!pattern.test(Nickname)) {
+            $(messageElement).text('특수문자를 제외한 2~10자리여야 합니다.').css({
+                'color': '#ff0909',
+                'font-weight': 'bold',
+                'font-size': '0.8em'
+            });
+            return;
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '/check_duplicate_nickname',
+            data: {
+                'userNickname': Nickname, // 서버 측에서 기대하는 파라미터명으로 변경
+            },
+            success: function(response) {
+                if (response.duplicate) {
+                    $(messageElement).text('이미 사용 중인 닉네임입니다.').css({
+                        'color': '#ff0909',
+                        'font-weight': 'bold',
+                        'font-size': '0.8em'
+                    });
+                } else {
+                    $(messageElement).text('사용할 수 있는 닉네임입니다.').css({
+                        'color': '#14da3b',
+                        'font-size': '0.8em'
+                    });
+                }
+            },
+            error: function() {
+                console.error('닉네임 중복 확인 요청 실패');
+            }
+        });
+    }
+
+    // userId 중복 검사
+    $('#userNickname').on('input', function() {
+        checkNickname('#userNickname', '#nickduplicateMessage');
+    });
+
+    // proId 중복 검사
+    $('#proNickname').on('input', function() {
+        checkNickname('#proNickname', '#nickduplicateProMessage');
+    });
+});
+
 $(document).ready(function() {
     $('#userPwdConfirm').on('input', function() {
         validatePassword();

@@ -36,7 +36,14 @@ public class UserService {
         boolean isDuplicateInProTable = proRepository.existsByProId(userId);
 
         return isDuplicateInUserTable || isDuplicateInProTable;
-//        // userId가 이미 존재하는지 여부를 검사하여 반환
-//        return userRepository.existsByUserId(userId);
+    }
+
+    public boolean isUserNicknameDuplicate(String userNickname) {
+        // user_table에서 닉네임 검사
+        boolean isNicknameDuplicateInUserTable = userRepository.existsByUserNickname(userNickname);
+        // pro_table에서 닉네임 검사
+        boolean isNicknameDuplicateInProTable = proRepository.existsByProNickname(userNickname);
+
+        return isNicknameDuplicateInUserTable || isNicknameDuplicateInProTable;
     }
 }
