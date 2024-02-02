@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Form</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script th:src="@{/js/jquery.js}"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script th:inline="javascript" src="/js/payform.js"></script>
+    <script th:inline="javascript" src="/js/payment.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h2>Pay Form</h2>
+<form th:action="@{/shop/payForm}" th:object="${payForm}" method="post" id="payment-form">
+    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+        <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+    </div>
+    <input type="hidden" id="userId" name="userId" th:value="${username}"><br>
+    <label for="payusername">구매자</label><br>
+        <input type="text" id="payusername" name="payusername"><br>
+
+        <input type="hidden" id="itemname" name="itemname" th:value="${itemname}"><br>
+
+        <input type="hidden" id="price" name="price" th:value="${price}"><br>
+        <label for="payrequest">요청사항 : </label><br>
+        <input type="text" id="payrequest" name="payrequest"><br>
+
+        <div class="group">
+            <label for="userAddr" class="label">주소</label>
+            <input class="input" type="text" id="sample6_postcode" name="userPostcode" placeholder="우편번호">
+            <input type="button" class="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
+            <input class="input" type="text" id="sample6_address" name="userAddress" placeholder="주소"><br>
+            <input class="input" type="text" id="sample6_detailAddress" name="userDetailaddress" placeholder="상세주소">
+            <input class="input" type="text" id="sample6_extraAddress" name="userExtraaddress" placeholder="참고항목">
+        </div>
+
+        <label for="number">연락처 :</label><br>
+        <input type="text" id="number" name="number"><br>
+        <input  type="hidden" id="paycheck" name="paycheck" value=5>
+
+</form>
+    <button id="pay-button"
+            th:data-price="${price}"
+            th:data-itemname="${itemname}">
+        결제하기
+    </button>
+</body>
+</html>

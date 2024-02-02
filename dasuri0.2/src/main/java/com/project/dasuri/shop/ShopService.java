@@ -1,6 +1,9 @@
 package com.project.dasuri.shop;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,8 +47,9 @@ public class ShopService {
         this.shopRepository.save(s);
     }
 
-    public List<ShopEntity> itemlist() {
-        return this.shopRepository.findAll();
+    public Page<ShopEntity> itemlist(int page) {
+        Pageable pageable= PageRequest.of(page,12);
+        return this.shopRepository.findAll(pageable);
     }
 
     public ShopEntity getItem(Long id) {
@@ -86,4 +90,22 @@ public class ShopService {
     public void delete(ShopEntity item){
         this.shopRepository.delete(item);
     }
+
+//    public Page<ShopEntity> searchItem(int page) {
+//        Pageable pageable= PageRequest.of(page,12);
+//        return shopRepository.findByItemnameContaining(pageable);
+//    }
+    public List<ShopEntity> searchItem(String keyword) {
+
+    return shopRepository.findByItemnameContaining(keyword);
+    }
+
+    public List<ShopEntity> getlist() {
+        return this.shopRepository.findAll();
+    }
+
+
+//    public List<ShopEntity> findByPriceAndItemName(String price, String itemName) {
+//        return shopRepository.findByPriceAndItemName(price, itemName);
+//    }
 }

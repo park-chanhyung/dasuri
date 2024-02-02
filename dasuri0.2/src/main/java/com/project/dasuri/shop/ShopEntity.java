@@ -44,4 +44,10 @@ public class ShopEntity {
 
     @Column
     private String filePath;
+//
+//    @OneToMany(mappedBy = "shopEntity",cascade = CascadeType.REFRESH)
+//    private List<PayEntity> payEntityList;
+
+
+
 }

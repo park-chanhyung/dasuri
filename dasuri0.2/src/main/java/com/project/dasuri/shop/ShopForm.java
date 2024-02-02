@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class ShopForm {
     private Long id;
+
     @NotEmpty(message = "제목은 필수항목입니다.")
     @Size(max=100)
     private String itemname;
@@ -23,13 +24,13 @@ public class ShopForm {
     @NotEmpty(message = "배송정보는 필수항목입니다.")
     private String deliveryinfo;
 
-    // 추가된 부분
-    private MultipartFile file;
-
     @NotEmpty(message = "한줄소개를 적어주세요. 이건 카드에 들어갈 내용입니다.")
     private String shortinfo;
 
 
     @NotEmpty(message = "한줄소개를 적어주세요 이건 카드에 들어갈 내용입니다.")
     private String iteminfo;
+    // 추가된 부분
+    private MultipartFile file;
+
 }

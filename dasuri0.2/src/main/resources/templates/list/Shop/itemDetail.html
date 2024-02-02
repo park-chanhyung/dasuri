@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<style>
+    <script th:inline="javascript" src="/js/payform.js"></script>
+    <style>
 
     .img-fluid{
         height: 400px;
@@ -33,18 +34,23 @@
                 <a th:href="@{|/shop/modify/${item.id}|}" class="btn btn-sm btn-outline-secondary">수정</a>
                 <a href="javascript:void(0);"   th:data-uri="@{|/shop/delete/${item.id}|}"
                    class="delete btn btn-sm btn-outline-secondary">삭제</a>
+
+
+<!--                <h1 th:text="${item.itemname}"></h1>-->
+                <button id="payForm" th:data-price="${item.price}" th:data-itemname="${item.itemname}">팝업열기</button>
+<!--                <button id="payForm" th:data-itemname="${item.itemname}">팝업열기</button>-->
+
+<!--                <button id="pay-button"-->
+<!--                        th:data-price="${item.price}"-->
+<!--                        th:data-seller="${item.seller}"-->
+<!--                        th:data-itemname="${item.itemname}">-->
+<!--                    결제하기-->
+<!--                </button>-->
+
             </div>
         </div>
     </div>
 </div>
-<!--<div class="my-3">-->
-<!--    <a th:href="@{|/item/modify/${item.id}|}" class="btn btn-sm btn-outline-secondary"-->
-<!--       sec:authorize="isAuthenticated()"-->
-<!--       th:if="${item.seller != null and #authentication.getPrincipal().getUsername() == item.seller}"-->
-<!--       th:text="수정"></a>-->
-<!--</div>-->
-
-
 <!--푸터-->
 <footer>
     <div th:include="/list/layout/footer"></div>

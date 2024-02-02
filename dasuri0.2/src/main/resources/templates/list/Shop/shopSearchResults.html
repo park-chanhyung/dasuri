@@ -45,6 +45,10 @@
         .card-body{
             text-align: left;
         }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
         .shop_search {
             width: 40%;
             height: 40px;
@@ -89,17 +93,20 @@
         .null-search{
             color: red;
             font-weight: bold;
+            margin: auto;
+            text-align: center;
         }
     </style>
 </head>
-
 <body>
 <header style="font-size: 50px;">
     <div th:include="/list/layout/nav"></div>
 </header>
-<a th:href="@{/shop/create}">상품 등록하기</a>
-<!-- 검색 폼 -->
 
+<!--<form action="/shop/search" method="get">-->
+<!--    <input type="text" name="keyword" placeholder="검색어를 입력하세요">-->
+<!--    <button type="submit">검색</button>-->
+<!--</form>-->
 <form action="/shop/search"  method="get"  id="shop-search">
     <div class="shop_search">
         <input type="text" class="shop-searchTem" name="keyword" placeholder="제목 또는 내용으로 검색하세요.">
@@ -107,8 +114,8 @@
     </div>
 </form>
 <div class="shop-body">
-    <div class="row">
-        <div class="col-md-3" th:each="item,loop :${paging}">
+    <div class="row row-cols-4">
+        <div th:if="${not #lists.isEmpty(searchResults)}" th:each="item : ${searchResults}" class="col">
             <div class="card mb-4">
                 <a th:href="@{|/shop/detail/${item.id}|}">
                     <img th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="card-img-top">
@@ -126,32 +133,20 @@
     </div>
 </div>
 
-<!-- 페이징처리 시작 -->
-<div th:if="${!paging.isEmpty()}">
-    <ul class="pagination justify-content-center">
-        <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-            <a class="page-link"
-               th:href="@{|?page=${paging.number-1}|}">
-                <span>이전</span>
-            </a>
-        </li>
-        <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
-            th:classappend="${page == paging.number} ? 'active'"
-            class="page-item">
-            <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
-        </li>
-        <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
-            <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
-                <span>다음</span>
-            </a>
-        </li>
-    </ul>
+<div th:unless="${not #lists.isEmpty(searchResults)}">
+    <p class="null-search">검색 결과가 없습니다.</p>
 </div>
-<!-- 페이징처리 끝 -->
-<!--푸터-->
+
+
+
 <footer>
     <div th:include="/list/layout/footer"></div>
 </footer>
-
+<script>
+    function submitSearch() {
+    // 폼 제출 (검색)
+    document.getElementById('shop-search').submit();
+    }
+</script>
 </body>
 </html>
