@@ -1,5 +1,6 @@
 package com.project.dasuri.member.controller;
 
+import com.project.dasuri.member.dto.FinduserDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.service.ProService;
 import com.project.dasuri.member.service.UserService;
@@ -13,7 +14,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -86,6 +89,28 @@ public class UserController {
         System.out.println("유저 닉네임 중복검사중 = " + isDuplicate);
         Map<String, Boolean> response = new HashMap<>();
         response.put("duplicate", isDuplicate);
+        return ResponseEntity.ok(response);
+    }
+
+//    @PostMapping("/find_user_id")
+//    public ResponseEntity<?> findUserId(@RequestParam String name, @RequestParam String birth) {
+//        List<String> userIds = userService.findUserIdsByUserNameAndBirth(name, birth); // 사용자 ID 검색 로직
+//        List<String> maskedIds = userIds.stream()
+//                .map(id -> id.substring(0, id.length() - 3) + "***")
+//                .collect(Collectors.toList());
+//
+//        if (!maskedIds.isEmpty()) {
+//            return ResponseEntity.ok(Map.of("success", true, "maskedIds", maskedIds));
+//        } else {
+//            return ResponseEntity.ok(Map.of("success", false));
+//        }
+//    }
+
+    @PostMapping("/findUserIds")
+    public ResponseEntity<?> findUserIds(@RequestBody FinduserDTO finduserDTO) {
+        List<String> userIds = userService.findUserIdsByUserNameAndBirth(finduserDTO.getName(), finduserDTO.getBirth());
+        Map<String, Object> response = new HashMap<>();
+        response.put("userIds", userIds); // 항상 userIds 키를 가진 객체를 반환
         return ResponseEntity.ok(response);
     }
 

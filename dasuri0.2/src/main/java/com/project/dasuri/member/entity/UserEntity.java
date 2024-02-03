@@ -43,6 +43,8 @@ public class UserEntity implements UserDetailEntity{
     private String userExtraaddress;
     @Column
     private String role;
+    @Column
+    private String birth;
 
     @CreatedDate
     private LocalDateTime signupDate;
@@ -70,6 +72,7 @@ public class UserEntity implements UserDetailEntity{
         userEntity.setUserDetailaddress(userDTO.getUserDetailaddress());
         userEntity.setUserExtraaddress(userDTO.getUserExtraaddress());
         userEntity.setRole("ROLE_USER");
+        userEntity.setBirth(userDTO.getBirth());
 
         return userEntity;
     }

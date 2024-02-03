@@ -24,6 +24,10 @@ public class UserDTO {
     @NotBlank(message = "이름을 입력해주세요.")
     private String userName;
 
+    @NotBlank(message = "생년월일을 입력해주세요.")
+    @Pattern(regexp = "^(19|20)\\d{6}$",message = "생년월일은 숫자 8자리로 입력해주세요(19990101)")
+    private String birth;
+
     @NotBlank(message = "닉네임을 입력해주세요.")
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
     private String userNickname;
@@ -60,6 +64,7 @@ public class UserDTO {
         userDTO.setUserDetailaddress(userEntity.getUserDetailaddress());
         userDTO.setUserExtraaddress(userEntity.getUserExtraaddress());
         userDTO.setRole(userEntity.getRole());
+        userDTO.setBirth(userEntity.getBirth());
 
         userDTO.setSignupDate(userEntity.getSignupDate());
         userDTO.setLastModifiedDate(userEntity.getLastModifiedDate());

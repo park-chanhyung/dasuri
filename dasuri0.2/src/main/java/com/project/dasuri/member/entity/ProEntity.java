@@ -34,6 +34,9 @@ public class ProEntity implements UserDetailEntity{
     private String proLegions;
     @Column
     private String role;
+    @Column
+    private String birth;
+
 
     @CreatedDate
     private LocalDateTime signupDate;
@@ -67,7 +70,7 @@ public class ProEntity implements UserDetailEntity{
         proEntity.setProPhone(proDTO.getProPhone());
         proEntity.setProLegions(proDTO.getProLegions());
         proEntity.setRole("ROLE_PRO");
-
+        proEntity.setBirth(proDTO.getBirth());
         return proEntity;
     }
 }

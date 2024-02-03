@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,11 @@ public class ProDTO {
 
     @NotBlank(message = "이름을 입력해주세요.")
     private String proName;
+
+    @NotBlank(message = "생년월일을 입력해주세요.")
+    @Pattern(regexp = "^(19|20)\\d{6}$",message = "생년월일은 숫자 8자리로 입력해주세요(19990101)")
+    private String birth;
+
 
     @NotBlank(message = "닉네임을 입력해주세요.")
     @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$", message = "닉네임은 특수문자를 제외한 2~10자리여야 합니다.")
@@ -48,7 +54,7 @@ public class ProDTO {
         proDTO.setProPwd(proEntity.getProPwd());
         proDTO.setProPhone(proEntity.getProPhone());
         proDTO.setProLegions(proEntity.getProLegions());
-
+        proDTO.setBirth(proEntity.getBirth());
         proDTO.setSignupDate(proEntity.getSignupDate());
         proDTO.setLastModifiedDate(proEntity.getLastModifiedDate());
         return proDTO;
