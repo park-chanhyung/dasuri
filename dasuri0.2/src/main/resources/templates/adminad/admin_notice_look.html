@@ -43,6 +43,11 @@
                     <tr>
                         <td colspan="2" th:text="${notice.noticeContent}"></td>
                     </tr>
+                    <tr th:if="${notice.filePath != null}">
+                        <td colspan="2">
+                            <img th:src="@{'http://localhost:9000' + ${notice.filePath}}" alt="Item image" class="admin_notice_img">
+                        </td>
+                    </tr>
                 </table>
 
                 <table class="moon_view_bottom">

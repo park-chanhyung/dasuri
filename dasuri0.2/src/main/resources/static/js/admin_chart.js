@@ -1,88 +1,86 @@
-<!--바 그래프-->
-    var context2 = document
-    .getElementById('myChart2')
-    .getContext('2d');
-    var myChart2 = new Chart(context2, {
-    type: 'bar', // 차트의 형태
-    data: { // 차트에 들어갈 데이터
-    labels: [
-    //x 축
-    '금정구','부산진구','동래구','북구','수영구'
-    ],
-    datasets: [
-{ //데이터
-  // label: '', //차트 제목
-  // fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-    data: [
-    43,37,31,24,19 //x축 label에 대응되는 데이터 값
-    ],
-    backgroundColor: [
-    //색상
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    ],
-    borderColor: [
-    //경계선 색상
-    'rgba(255, 99, 132, 1)',
-    'rgba(54, 162, 235, 1)',
-    'rgba(255, 206, 86, 1)',
-    'rgba(75, 192, 192, 1)',
-    'rgba(153, 102, 255, 1)',
-    ],
-    borderWidth: 0 //경계선 굵기
-}
-    ]
-},
+<!--지역 회원수 top3 (고객) -->
+var ctx = document.getElementById('myChart_loc').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: [userLocName0, userLocName1, userLocName2],
+        datasets: [{
+            data: [userLocAmount0, userLocAmount1, userLocAmount2],
+            backgroundColor: ['rgba(178, 34, 34, 1)','rgba(178, 34, 34, 0.6)','rgba(178, 34, 34, 0.3)'],
+            borderWidth: 0 // 막대 테두리 없앰
+        }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        legend: {
+            display: false // 레전드 숨기기
+        }
+    }
+});
+
+
+<!-- 유형별 비율 (원 그래프) -->
+    var context1 = document.getElementById('myChart1').getContext('2d');
+    var myChart1 = new Chart(context1, {
+    type: 'pie',
+    data: {
+        labels: ['고객', '기사'],
+        datasets: [{
+        data: [userCount, proCount],
+        backgroundColor: ['rgba(52, 152, 219, 0.5)',
+            'rgba(241, 196, 15, 0.5)'],
+        borderColor: [
+            'rgba(52, 152, 219, 0.8)',
+            'rgba(241, 196, 15, 0.8)'
+        ],
+        borderWidth: 1
+        }]
+    },
     options: {
     legend: {
     display: false
-},
-    scales: {
-    yAxes: [
-{
-    ticks: {
-    beginAtZero: true
-}
-}
-    ]
 }
 }
 });
 
-
-
-<!--원 그래프-->
-var context1 = document
-    .getElementById('myChart1')
-    .getContext('2d');
-var myChart1 = new Chart(context1, {
-    type: 'pie', // 차트의 형태
-    data: { // 차트에 들어갈 데이터
-        labels: [
-            //x 축
-            '고객','기사'
-        ],
+<!--신규 가입 수-->
+var myChart5 = new Chart(document.getElementById('myChart5').getContext('2d'), {
+    type: 'bar',
+    data: {
+        labels: ['6일 전','5일 전','4일 전','3일 전','2일 전','어제','오늘'],
         datasets: [
-            { //데이터
-              // fill: false, // line 형태일 때, 선 안쪽을 채우는지 안채우는지
-                data: [
-                    300,100 //x축 label에 대응되는 데이터 값
-                ],
+            {
+                data: [day6, day5, day4, day3, day2, day1, day0],
                 backgroundColor: [
-                    //색상
-                    'rgba(154, 205, 50, 1)',
-                    'rgba(219, 112, 147, 1)',
+                    'rgba(65, 72, 193, 0.08)',
+                    'rgba(65, 72, 193, 0.15)',
+                    'rgba(65, 72, 193, 0.3)',
+                    'rgba(65, 72, 193, 0.45)',
+                    'rgba(65, 72, 193, 0.6)',
+                    'rgba(65, 72, 193, 0.75)',
+                    'rgba(65, 72, 193, 0.85)'
                 ],
-                borderWidth: 0 //경계선 굵기
+                borderColor: 'rgba(65, 72, 193, 1)',
+                borderWidth: 1
             }
         ]
     },
     options: {
         legend: {
             display: false
+        },
+        scales: {
+            yAxes: [
+                {
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }
+            ]
         }
     }
 });

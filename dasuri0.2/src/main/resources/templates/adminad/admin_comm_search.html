@@ -43,9 +43,9 @@
 <!--                        <tr th:each="comm: ${communityList}" th:attr="onclick='@{|/board/Community_list/${CommunityDto.id}|}'" class="goComm">-->
                     <tr th:each="comm: ${communityList}" th:attr="data-id=${comm.id}" class="goComm">
                         <td th:text="${comm.id}"></td>
-                        <td th:text="${comm.userID}"></td>
+                        <td th:text="${comm.userID}" th:utext="${#strings.replace(comm.userID, keyword, '<span>' + keyword + '</span>')}"></td>
                         <td th:text="${comm.role == 'ROLE_USER' ? '고객' : (comm.role == 'ROLE_PRO' ? '기사' : (comm.role == 'ROLE_ADMIN' ? '관리자' : '기타'))}"></td>
-                        <td th:text="${comm.commuTitle}"></td>
+                        <td th:text="${comm.commuTitle}" th:utext="${#strings.replace(comm.commuTitle, keyword, '<span>' + keyword + '</span>')}"></td>
                     </tr>
                 </table>
                 <div class="mem_paging_wrap">

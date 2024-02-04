@@ -1,7 +1,6 @@
 package com.project.dasuri.admin.controller;
 
 import com.project.dasuri.admin.dto.MoonDTO;
-import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.service.MoonService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,18 +32,23 @@ public class MoonController {
     //세션 현재 사용자 id값
     String id = SecurityContextHolder.getContext().getAuthentication().getName();
 
-    //현재 로그인한 사용자의 role값
-    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // 로그인 상태가 아닐 시 로그인 페이지로 이동
+        if(id.equals("anonymousUser")) {
+            return "redirect:/login";
+        }else {
+            //현재 로그인한 사용자의 role값
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-    Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-    GrantedAuthority auth = iter.next();
-    String role = auth.getAuthority();
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+            Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+            GrantedAuthority auth = iter.next();
+            String role = auth.getAuthority();
 
-        model.addAttribute("id", id);
-        model.addAttribute("role",role);
+            model.addAttribute("id", id);
+            model.addAttribute("role",role);
 
-        return "/list/service/center_question";
+            return "/list/service/center_question";
+        }
     }
 
     //    메인 - 고객센터 - 1:1문의하기 (등록 완료)

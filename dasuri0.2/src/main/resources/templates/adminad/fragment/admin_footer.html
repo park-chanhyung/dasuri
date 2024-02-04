@@ -10,6 +10,9 @@
 <body>
 
         <div th:fragment="admin_footer" class="right-content">
+			<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+			<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+
           <div class="user-info">
 			  <h4 class="blue">관리자 님 환영합니다!</h4>
 			  <a href="index"> 메인으로>> </a>
@@ -46,16 +49,22 @@
               </div>
             </div>
           </div>
+			<script>
+				function submitFooter(moonPkId) {
+					document.getElementById("moonPkId").value = moonPkId;
+					document.getElementById("moonView").submit();
+				}
+			</script>
         </div>
           
 </body>
 </html>
-<script type="text/javascript">
-	function submitFooter(moonPkId) {
-		document.getElementById("moonPkId").value = moonPkId;
-		document.getElementById("moonView").submit();
-	}
-</script>
+<!--<script type="text/javascript">-->
+<!--	function submitFooter(moonPkId) {-->
+<!--		document.getElementById("moonPkId").value = moonPkId;-->
+<!--		document.getElementById("moonView").submit();-->
+<!--	}-->
+<!--</script>-->
 
 
 

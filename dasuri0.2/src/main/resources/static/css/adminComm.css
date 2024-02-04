@@ -1,0 +1,21 @@
+.comm_table{
+    width: 100%;
+    height: 90%;
+    margin-bottom: 50px;
+    overflow: scroll;
+    border-collapse: collapse;
+}
+.comm_table th,.comm_table td {
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px solid #6192FA;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.goComm:hover{
+    cursor: pointer;
+    background: #efefef;
+}
+.comm_table span{
+    background: yellow;
+}

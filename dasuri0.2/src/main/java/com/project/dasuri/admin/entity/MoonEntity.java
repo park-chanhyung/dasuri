@@ -1,12 +1,10 @@
 package com.project.dasuri.admin.entity;
 
 import com.project.dasuri.admin.dto.MoonDTO;
-import com.project.dasuri.admin.dto.NoticeDTO;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;

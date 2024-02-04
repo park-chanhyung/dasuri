@@ -26,7 +26,7 @@
     </h4>
 <!--    role이 ROLE_USER일 경우, '고객'으로 출력 -->
     <h4>
-        <span class="normal_span" th:utext="'구분 : <span>' + (${role} == 'ROLE_USER' ? '고객' : ${role}) + '</span>'"></span>
+        <span class="normal_span" th:utext="'구분 : <span>' + (${role} == 'ROLE_USER' ? '고객' : '기사') + '</span>'"></span>
     </h4>
 
 <!--    문의 제출 폼 (파일첨부 포함) -->

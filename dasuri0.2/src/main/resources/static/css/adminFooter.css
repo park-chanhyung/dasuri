@@ -14,14 +14,11 @@
     text-align: center;
     width: 50px;
 }
-.footer_moon tr td:nth-child(3){
-    text-align: left;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
+
 .yy{
     border-bottom: 1px solid #6192FA;
+    cursor: pointer;
 }
-#moonh4{
-    margin-left: 15px;
+.yy:hover{
+    background: #efefef;
 }

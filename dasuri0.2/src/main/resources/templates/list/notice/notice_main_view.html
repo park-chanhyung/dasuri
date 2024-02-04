@@ -46,8 +46,9 @@
 <!--                    <span class="notice_content" th:text="${notice.noticeContent}"></span>-->
 <!--                    <span class="notice_content" th:utext="${#strings.replace(notice.noticeContent, '\n', '<br>')}"></span>-->
                     <span class="notice_content" th:utext="${notice.noticeContent}"></span>
-                    <span>
-                        <img th:src="@{'http://localhost:9000' + ${notice.filePath}}" alt="Item image" class="notice_img">
+                    <span th:if="${notice.filePath != null}">
+                        <p class="notice_img_p">(클릭 시 원본 이미지를 확인하실 수 있습니다.)</p>
+                        <img th:src="@{'http://localhost:9000' + ${notice.filePath}}" alt="Item image" class="notice_img" onclick="openImagePopup(this.src)">
                     </span>
                 </td>
             </tr>
@@ -62,8 +63,15 @@
 
 </body>
 <script>
+
+    // 폼 제출 (검색)
     function submitSearch() {
-        // 폼 제출 (검색)
         document.getElementById('notice_search').submit();
+    }
+
+    // 이미지 원본 보기 (팝업)
+    function openImagePopup(imageUrl) {
+        var popupWindow = window.open(imageUrl, 'Image Popup', 'width=800, height=600');
+        popupWindow.focus();
     }
 </script>

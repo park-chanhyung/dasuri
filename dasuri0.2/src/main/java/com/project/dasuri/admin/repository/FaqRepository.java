@@ -1,7 +1,6 @@
 package com.project.dasuri.admin.repository;
 
 import com.project.dasuri.admin.entity.FaqEntity;
-import com.project.dasuri.admin.entity.NoticeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,12 +1,10 @@
 package com.project.dasuri.admin.dto;
 
 import com.project.dasuri.admin.entity.FaqEntity;
-import com.project.dasuri.admin.entity.NoticeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Data

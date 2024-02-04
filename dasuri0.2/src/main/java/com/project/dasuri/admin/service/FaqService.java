@@ -1,11 +1,8 @@
 package com.project.dasuri.admin.service;
 
 import com.project.dasuri.admin.dto.FaqDTO;
-import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.entity.FaqEntity;
-import com.project.dasuri.admin.entity.NoticeEntity;
 import com.project.dasuri.admin.repository.FaqRepository;
-import com.project.dasuri.admin.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

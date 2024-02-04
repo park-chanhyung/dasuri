@@ -627,10 +627,10 @@ main {
   margin: 0 auto;
 }
 .t_1{
-  color: palevioletred;
+  color: rgba(52, 152, 219, 0.5);
 }
 .t_2{
-  color: yellowgreen;
+  color: rgba(241, 196, 15, 0.5);
 }
 
 .active-calories li::marker {
@@ -1231,4 +1231,8 @@ main {
 }
 .notice_form_table{
   margin-bottom: 20px;
+}
+.admin_notice_img{
+  max-width: 300px;
+  max-height: 300px;
 }

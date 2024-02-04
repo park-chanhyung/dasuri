@@ -1,6 +1,5 @@
 package com.project.dasuri.admin.controller;
 
-import com.project.dasuri.admin.dto.MoonDTO;
 import com.project.dasuri.admin.service.Admin_MoonService;
 import com.project.dasuri.admin.service.Admin_ProService;
 import com.project.dasuri.admin.service.Admin_UserService;
@@ -47,6 +46,7 @@ public class AdminMemController {
         model.addAttribute("moons",adminMoonService.findAll());
         return "/adminad/admin_mem_user_view";
     }
+
     //  관리자 페이지 > 회원관리 (회원리스트 > 기사보기)
     @PostMapping("/admin_mem_pro_view")
     public String admin_mem_pro_view(@RequestParam String proId, Model model) {
