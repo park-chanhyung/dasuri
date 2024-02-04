@@ -30,7 +30,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
-
+	//coolsms휴대폰인증
+	implementation 'net.nurigo:sdk:4.3.0'
 
 	// 롬복
 	compileOnly 'org.projectlombok:lombok'

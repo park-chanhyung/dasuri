@@ -191,11 +191,40 @@ document.addEventListener("DOMContentLoaded", function() {
  * 휴대폰 인증 script (start)
  *
  */
-
-function verifyPhoneNumber() {
-
+/*<![CDATA[*/
+function sendVerificationCode() {
+    var userPhone = $('#userPhone').val();
+    $.ajax({
+        url: '/sendVerificationCode', // 인증번호를 보내는 서버의 URL
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ phoneNumber: userPhone }),
+        success: function(response) {
+            alert("인증번호가 발송되었습니다.");
+        },
+        error: function(error) {
+            alert("인증번호 발송에 실패했습니다.");
+        }
+    });
 }
 
+function verifyCode() {
+    var userPhone = $('#userPhone').val();
+    var verificationCode = $('#verificationCode').val();
+    $.ajax({
+        url: '/verifyCode', // 사용자가 입력한 인증번호를 확인하는 서버의 URL
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ phoneNumber: userPhone, code: verificationCode }),
+        success: function(response) {
+            $('#verificationMessage').text("인증 성공!");
+        },
+        error: function(error) {
+            $('#verificationMessage').text("인증 실패. 다시 시도해주세요.");
+        }
+    });
+}
+/*]]>*/
 /*
  * 휴대폰 인증 script (end)
  */

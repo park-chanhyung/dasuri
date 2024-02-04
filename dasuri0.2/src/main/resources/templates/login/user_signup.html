@@ -70,8 +70,16 @@
                         <div th:if="${#fields.hasErrors('userPhone')}" class="group">
                             <p id="error-Message" th:each="err : ${#fields.errors('userPhone')}" th:text="${err}"></p>
                         </div>
-                        <button type="button" class="button" onclick="verifyPhoneNumber()">인증하기</button>
+                        <button type="button" class="button" onclick="sendVerificationCode()">인증번호 보내기</button>
                     </div>
+
+                    <div class="group">
+                        <label for="verificationCode" class="label">인증번호 입력</label>
+                        <input id="verificationCode" name="verificationCode" type="text" class="input" placeholder="인증번호를 입력하세요">
+                        <button type="button" class="button" onclick="verifyCode()">인증번호 확인</button>
+                        <p id="verificationMessage"></p> <!-- 인증 결과 메시지 출력 -->
+                    </div>
+
                     <div class="group">
                         <label for="userAddr" class="label">주소</label>
 <!--                        <input class="input" type="text" id="sample6_postcode" name="userPostcode" placeholder="우편번호" th:field="*{userPostcode}">-->
