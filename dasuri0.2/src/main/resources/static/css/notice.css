@@ -89,3 +89,13 @@
     font-size: 1em;
     color: firebrick;
 }
+.pageArea{
+    width: 40%;
+    margin: 20px auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+.pageArea a, .pageArea span{
+    margin: 0 auto;
+}

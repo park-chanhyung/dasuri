@@ -27,6 +27,12 @@ public class NoticeDTO {
     private String filename; //첨부파일명(uuid)
     private String filePath;//첨부파일경로
 
+    public NoticeDTO(Long notice_id, String noticeTitle, String notice_updateDate) {
+        this.notice_id = notice_id;
+        this.noticeTitle = noticeTitle;
+        this.notice_updateDate = notice_updateDate;
+    }
+
     //    DB를 오가는 엔티티 객체를 DTO 객체로 변환
     public static NoticeDTO toNoticeDTO(NoticeEntity noticeEntity){
         NoticeDTO noticeDTO = new NoticeDTO();

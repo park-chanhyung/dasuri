@@ -2,23 +2,27 @@ package com.project.dasuri;
 
 import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
+import com.project.dasuri.admin.entity.NoticeEntity;
+import com.project.dasuri.admin.repository.NoticeRepository;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import com.project.dasuri.card.service.ProCardService;
+import com.project.dasuri.community.dto.CommunityDto;
 import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.mypage.service.UserMyPageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -59,20 +63,44 @@ public class checkcontroller {
     
     //------------------------------- 공지사항 ------------------------------------------
 
-//    메인 > 공지사항
+////    메인 > 공지사항
+//    @GetMapping("/notice_main")
+//    public String notice(Model model) {
+//        List<NoticeDTO> importantDTOs = noticeService.findByImportantNotNull(); //중요공지리스트
+//        List<NoticeDTO> normalDTOs = noticeService.findByImportantNull(); //일반공지리스트
+//        model.addAttribute("importants",importantDTOs);
+//        model.addAttribute("normals",normalDTOs);
+//
+//        return "/list/notice/notice_main";
+//    }
+
+//    메인 > 공지사항 (페이징)
     @GetMapping("/notice_main")
-    public String notice(Model model) {
+    public String notice(@PageableDefault(page = 1) Pageable pageable,  Model model) {
+//        pageable.getPageNumber();
+
+//        일반공지 페이징 (고유번호 내림차순)
+        Page<NoticeDTO> normalDTOs = noticeService.paging(pageable); //글번호, 제목, 수정일자
+
+//        현재 페이지에서 앞 뒤 갯수 ex> 1 2 3 (4) 5 6 7
+        int blockLimit  = 3;
+
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) -1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < normalDTOs.getTotalPages()) ? startPage + blockLimit - 1 : normalDTOs.getTotalPages();
+
+        model.addAttribute("normals",normalDTOs); //일반공지리스트(페이징)
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
         List<NoticeDTO> importantDTOs = noticeService.findByImportantNotNull(); //중요공지리스트
-        List<NoticeDTO> normalDTOs = noticeService.findByImportantNull(); //일반공지리스트
         model.addAttribute("importants",importantDTOs);
-        model.addAttribute("normals",normalDTOs);
 
         return "/list/notice/notice_main";
     }
 
 //    메인 > 공지사항 > 공지 보기
-    @PostMapping("/notice_main_view")
-    public String notice_main_view(@RequestParam Long id, Model model) {
+    @GetMapping("/notice_main_view/{id}")
+    public String notice_main_view(@PathVariable Long id, Model model) {
         NoticeDTO noticeDTO = noticeService.findByNoticeId(id);
         if (noticeDTO.getImportant() == null) {
             noticeDTO.setNotice_type("일반");
