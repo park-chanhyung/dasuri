@@ -46,7 +46,8 @@
                     </tr>
                     <tr th:if="${notice.filePath != null}">
                         <td colspan="2">
-                            <img th:src="@{'http://localhost:9000' + ${notice.filePath}}" alt="Item image" class="admin_notice_img">
+                            <p class="notice_img_p">(클릭 시 원본 이미지를 확인하실 수 있습니다.)</p>
+                            <img th:src="@{'http://localhost:9000' + ${notice.filePath}}" alt="Item image" class="admin_notice_img" onclick="openImagePopup(this.src)">
                         </td>
                     </tr>
                 </table>
@@ -54,18 +55,12 @@
                 <table class="moon_view_bottom">
                     <tr>
                         <th>
-                            <form th:action="@{admin_notice_update}" method="post">
-                                <input type="hidden" name="notice_id" th:value="${notice.notice_id}"/>
-                                <input type="hidden" name="noticeTitle" th:value="${notice.noticeTitle}"/>
-                                <input type="hidden" name="notice_firstDate" th:value="${notice.notice_firstDate}"/>
-                                <input type="hidden" name="notice_updateDate" th:value="${notice.notice_updateDate}"/>
-                                <input type="hidden" name="noticeContent" th:value="${notice.noticeContent}"/>
+                            <form th:action="@{/admin_notice_update/{notice_id}(notice_id=${notice.notice_id})}" method="get">
                                 <input type="submit" value="수정">
                             </form>
                         </th>
                         <th>
-                            <form th:action="@{admin_notice_delete}" method="post" onsubmit="return confirm('삭제하시겠습니까?');">
-                                <input type="hidden" name="notice_id" th:value="${notice.notice_id}"/>
+                            <form th:action="@{/admin_notice_delete/{notice_id}(notice_id=${notice.notice_id})}" method="get" onsubmit="return confirm('삭제하시겠습니까?');">
                                 <input type="submit" value="삭제">
                             </form>
                         </th>
@@ -100,5 +95,10 @@
             // 'page' 값이 없다면 기본적으로 1페이지로 이동
             window.location.href = '/admin_notice?page=1';
         }
+    }
+    // 이미지 원본 보기 (팝업)
+    function openImagePopup(imageUrl) {
+        var popupWindow = window.open(imageUrl, 'Image Popup', 'width=800, height=600');
+        popupWindow.focus();
     }
 </script>

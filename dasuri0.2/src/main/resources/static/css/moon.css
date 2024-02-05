@@ -1,23 +1,33 @@
 .moon_table{
     width: 100%;
     height: 90%;
+    margin-top: 30px;
     margin-bottom: 50px;
     overflow: scroll;
     border-collapse: collapse;
 }
+.moon_table tr:nth-child(1){
+    background: #E2EBFF;
+}
 .moon_table tr td span{
     background: yellow;
+}
+.moonTr:hover{
+    background: #efefef;
+    cursor: pointer;
 }
 .moon_table th,.moon_table td {
     padding: 5px;
     text-align: center;
-    border-bottom: 1px solid #6192FA;
+    border-bottom: 1px solid #E2EBFF;
     text-overflow: ellipsis;
     overflow: hidden;
+    height: 50px;
 }
 .gomoonq{cursor: pointer;}
 .gomoonq:hover{background: #eeeeee}
 
+.moon_table tr td:nth-child(1){font-weight: bold;}
 .moon_table tr td:nth-child(2){width: 10%;}
 .moon_table tr td:nth-child(3){width: 10%;}
 .moon_table tr td:nth-child(4){
@@ -123,4 +133,22 @@
 .moon_red{
     color: red;
     font-weight: 700;
+}
+.moonBtn{
+    width: 50%;
+    display: inline;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.moonBtn h1{
+    font-weight: bolder;
+}
+#moon_search{
+    width: 250px;
+    display: flex;
+    position: relative;
+    float: right;
+    margin-top: 60px;
+    margin-right: 30px;
 }

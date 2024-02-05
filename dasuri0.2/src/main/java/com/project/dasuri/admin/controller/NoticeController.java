@@ -98,9 +98,9 @@ public class NoticeController {
 
     //    관리자페이지 > 공지관리 > 공지보기 > 수정
 //    @GetMapping("/admin_notice_update")
-    @PostMapping("/admin_notice_update")
-    public String admin_notice_update(@ModelAttribute NoticeDTO noticeDTO, Model model) {
-        model.addAttribute("notice",noticeDTO);
+    @GetMapping("/admin_notice_update/{notice_id}")
+    public String admin_notice_update(@PathVariable Long notice_id, Model model) {
+        model.addAttribute("notice",noticeService.findByNoticeId(notice_id));
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "adminad/admin_notice_update";
     }
@@ -118,10 +118,9 @@ public class NoticeController {
 
     //    관리자페이지 > 공지관리 > 공지보기 > 삭제
     @Transactional
-    @PostMapping("/admin_notice_delete")
-    public String admin_notice_delete(@ModelAttribute NoticeDTO noticeDTO, Model model) {
-        noticeService.deleteByNoticeId(noticeDTO.getNotice_id());
-        model.addAttribute("notice",noticeDTO);
+    @GetMapping("/admin_notice_delete/{notice_id}")
+    public String admin_notice_delete(@PathVariable Long notice_id, Model model) {
+        noticeService.deleteByNoticeId(notice_id);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "redirect:/admin_notice";
     }

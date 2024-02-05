@@ -20,8 +20,8 @@
 
 		<div class="admin_one_area">
 
-			<h1 class="blue">문의 관리</h1>
-			<div>
+			<div class="moonBtn">
+				<h1 class="blue">문의 관리</h1>
 				<button class="mem_type_btn_ck" type="button" onclick="location='/admin_moon'">전체보기</button>
 				<button class="mem_type_btn" type="button" th:onclick="'statusView(1)'">대기</button>
 				<button class="mem_type_btn" type="button" th:onclick="'statusView(2)'">완료</button>
@@ -47,7 +47,7 @@
 						<th>작성일</th>
 						<th>상태</th>
 					</tr>
-					<tr th:each="moon: ${moons}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moons.number} + 1) + ')'">
+					<tr th:each="moon: ${moons}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moons.number} + 1) + ')'" class="moonTr">
 						<td th:text="${moon.moonUserId}"></td>
 						<td th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></td>
 						<td th:utext="${moon.moonType=='1' ? '문의' : '신고'}" th:class="${moon.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>

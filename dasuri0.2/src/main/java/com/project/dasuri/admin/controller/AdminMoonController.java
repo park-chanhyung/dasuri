@@ -115,4 +115,5 @@ public class AdminMoonController {
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_moon_status";
     }
+
 }

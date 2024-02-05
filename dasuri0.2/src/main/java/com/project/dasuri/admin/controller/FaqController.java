@@ -53,29 +53,27 @@ public class FaqController {
     }
 
     //    관리자페이지 > 공지관리 > faq보기 > 수정
-    @PostMapping("/admin_faq_update")
-    public String admin_faq_update(@ModelAttribute FaqDTO faqDTO, Model model) {
-        log.info("##@#$@ 태그 : "+faqDTO.getFaqTag());
-        model.addAttribute("faq",faqDTO);
+    @GetMapping("/admin_faq_update/{faqId}")
+    public String admin_faq_update(@PathVariable Long faqId, Model model) {
+        model.addAttribute("faq",faqService.findByFaqId(faqId));
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "adminad/admin_faq_update";
     }
 
     //    관리자페이지 > 공지관리 > faq보기 > 수정 (완료)
-    @PostMapping("/admin_faq_update_ok")
-    public String admin_faq_update_ok(@ModelAttribute FaqDTO faqDTO, Model model) {
+    @PostMapping("/admin_faq_update_ok/{id}")
+    public String admin_faq_update_ok(@PathVariable Long id, @ModelAttribute FaqDTO faqDTO, Model model) {
         faqService.update(faqDTO);
-        model.addAttribute("faq",faqDTO);
+        model.addAttribute("faq", faqDTO);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "adminad/admin_faq_look";
     }
 
     //    관리자페이지 > 공지관리 > faq보기 > 삭제
     @Transactional
-    @PostMapping("/admin_faq_delete")
-    public String admin_faq_delete(@ModelAttribute FaqDTO faqDTO, Model model) {
-        faqService.deleteByFaqId(faqDTO.getFaqId());
-        model.addAttribute("faq",faqDTO);
+    @GetMapping("/admin_faq_delete/{faqId}")
+    public String admin_faq_delete(@PathVariable Long faqId, Model model) {
+        faqService.deleteByFaqId(faqId);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "redirect:/admin_notice";
     }

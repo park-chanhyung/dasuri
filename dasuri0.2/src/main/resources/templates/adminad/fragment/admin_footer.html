@@ -29,18 +29,21 @@
 
           <div class="friends-activity">
             <div class="card-container">
-            <h4>신규 문의글</h4>
+            <h4>신규 문의글 <span class="red_new">new!</span></h4>
               <div class="card">
 				  <table class="footer_moon">
 					  <tr>
-						  <th colspan="3">
+						  <th colspan="4">
 							  <a href="/admin_moon" class="moon_total">전체보기</a>
 						  </th>
 					  </tr>
 					  <tr th:each="moon: ${moons}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moons.number} + 1) + ')'" class="yy">
 						  <td th:text="${moon.moonUserId}"></td>
-						  <td th:utext="${moon.moonType == '1' ? '문의' : '신고'}"></td>
+						  <td>
+							  <span th:utext="${moon.moonType == '1' ? '문의' : '신고'}" th:class="${moon.moonType == '1' ? 'moon_blue' : 'moon_red'}"></span>
+						  </td>
 						  <td th:text="${moon.moonTitle}"></td>
+						  <td><span class="red_new">new!</span></td>
 					  </tr>
 				  </table>
               </div>

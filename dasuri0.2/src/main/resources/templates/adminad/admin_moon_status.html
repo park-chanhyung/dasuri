@@ -20,8 +20,8 @@
 
 		<div class="admin_one_area">
 
-			<h1 class="blue">문의 관리</h1>
-			<div>
+			<div class="moonBtn">
+				<h1 class="blue">문의 관리</h1>
 				<button class="mem_type_btn_ck" type="button" onclick="location='/admin_moon'">전체보기</button>
 				<button class="mem_type_btn" type="button" th:onclick="'statusView(1)'">대기</button>
 				<button class="mem_type_btn" type="button" th:onclick="'statusView(2)'">완료</button>
@@ -37,6 +37,7 @@
 				</div>
 			</form>
 			<!--		검색창 영역 끝 -->
+
 			<div class="mem_container">
 				<table class="moon_table">
 					<tr>
@@ -46,7 +47,7 @@
 						<th>작성일</th>
 						<th>상태</th>
 					</tr>
-					<tr th:each="moon: ${moonsStatus}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moonsStatus.number} + 1) + ')'">
+					<tr th:each="moon: ${moonsStatus}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moonsStatus.number} + 1) + ')'" class="moonTr">
 						<td th:text="${moon.moonUserId}"></td>
 						<td th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></td>
 						<td th:utext="${moon.moonType=='1' ? '문의' : '신고'}" th:class="${moon.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>
@@ -60,18 +61,18 @@
 				<div class="mem_paging_wrap">
 					<table class="mem_paging">
 						<tr>
-							<td> <a th:href="@{/admin_moon_status(page=1, status=${moonsStatus})}"> << </a> </td>
+							<td> <a th:href="@{'/admin_moon_status/' + ${moonStatus} + '?page=1'}"> << </a> </td>
 							<td> <a th:href="${moonsStatus.first} ? '#' : @{/admin_moon_status(page=${moonsStatus.number}, status=${moonStatus})}"> < </a> </td>
 							<td>
-								<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-									<span class="current" th:if="${page == moonsStatus.number + 1}" th:text="${page}"></span>
-									<span th:unless="${page == moonsStatus.number + 1}">
-										<a th:href="@{/admin_moon_status(page=${page}, status=${moonsStatus})}" th:text="${page}"></a>
-									</span>
-								</span>
+                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                    <span class="current" th:if="${page == moonsStatus.number + 1}" th:text="${page}"></span>
+                    <span th:unless="${page == moonsStatus.number + 1}">
+                        <a th:href="@{'/admin_moon_status/' + ${moonStatus} + '?page=' + ${page}}" th:text="${page}"></a>
+                    </span>
+                </span>
 							</td>
-							<td> <a th:href="${moonsStatus.last} ? '#' : @{/admin_moon_status(page=${moonsStatus.number + 2}, status=${moonsStatus})}"> > </a> </td>
-							<td> <a th:href="@{/admin_moon_status(page=${moonsStatus.totalPages}, status=${moonsStatus})}"> >> </a> </td>
+							<td> <a th:href="${moonsStatus.last} ? '#' : @{'/admin_moon_status/' + ${moonStatus} + '?page=' + ${moonsStatus.number + 2}}"> > </a> </td>
+							<td> <a th:href="@{'/admin_moon_status/' + ${moonStatus} + '?page=' + ${moonsStatus.totalPages}}"> >> </a> </td>
 						</tr>
 					</table>
 				</div>
@@ -96,8 +97,8 @@
 		window.location.href = '/admin_moon_view/' + moonPkId + '?page=' + currentPage;
 	}
 	<!--	상태 보기  -->
-	function statusView(moonStatus) {
-		window.location.href = '/admin_moon_status/' + moonStatus;
+	function statusView(status) {
+		window.location.href = '/admin_moon_status/' + status;
 	}
 
 	// 문의 검색

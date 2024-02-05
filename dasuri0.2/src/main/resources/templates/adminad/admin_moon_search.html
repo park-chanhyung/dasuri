@@ -20,12 +20,16 @@
 
 		<div class="admin_one_area">
 
-			<h1 class="blue">문의 관리</h1>
+			<div class="moonBtn">
+				<h1 class="blue">문의 관리</h1>
+				<button class="mem_type_btn_ck" type="button" onclick="location='/admin_moon'">전체보기</button>
+				<button class="mem_type_btn" type="button" th:onclick="'statusView(1)'">대기</button>
+				<button class="mem_type_btn" type="button" th:onclick="'statusView(2)'">완료</button>
+			</div>
 
 			<!--  	  검색창 영역 -->
 			<form th:action="@{admin_moon_search}" id="moon_search">
 				<div class="search">
-
 					<input type="text" class="moonsearchTerm" name="moon_keyword" placeholder="아이디or제목or질문or답변">
 					<div class="searchButton" onclick="submitSearch()">
 						<img class="search_img" src="/img/admin/search.png">
@@ -45,13 +49,13 @@
 							<th>작성일</th>
 							<th>상태</th>
 						</tr>
-						<tr th:each="moon: ${moonsSearch}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moonsSearch.number} + 1) + ')'">
+						<tr th:each="moon: ${moonsSearch}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moonsSearch.number} + 1) + ')'"  class="moonTr">
 							<td th:text="${moon.moonUserId}" th:utext="${#strings.replace(moon.moonUserId, keyword, '<span>' + keyword + '</span>')}"></td>
 							<td th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></td>
 							<td th:utext="${moon.moonType=='1' ? '문의' : '신고'}" th:class="${moon.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>
 							<td th:text="${moon.moonTitle}" th:utext="${#strings.replace(moon.moonTitle, keyword, '<span>' + keyword + '</span>')}"></td>
 							<td th:text="${#temporals.format(moon.moonQuestionDate, 'yyyy-MM-dd')}"></td>
-							<td th:text="${moon.moonStatus == '1' ? '대기' : '완료'}"></td>
+							<td th:text="${moon.moonStatus == '1' ? '대기' : '완료'}" th:class="${moon.moonStatus=='1' ? 'moon_red' : 'moon_blue'}"></td>
 						</tr>
 					</table>
 				</form>

@@ -20,7 +20,7 @@
             <h1 class="blue">FAQ 수정</h1>
 
             <div class="mem_container">
-                <form th:action="@{admin_faq_update_ok}" method="post" th:object="${faq}"  onsubmit="return confirm('수정하시겠습니까?');">
+                <form th:action="@{'/admin_faq_update_ok/' + ${faq.faqId}}" method="post" th:object="${faq}" onsubmit="return confirm('수정하시겠습니까?');">
                     <input type="hidden" name="faqId" th:value="${faq.faqId}"/>
                     <input type="hidden" name="faq_firstDate" th:value="${faq.faq_firstDate}"/>
                     <input type="hidden" name="faq_updateDate" th:value="${faq.faq_updateDate}"/>
