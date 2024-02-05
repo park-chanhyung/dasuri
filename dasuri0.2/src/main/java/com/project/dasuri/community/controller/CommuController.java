@@ -1,6 +1,8 @@
 package com.project.dasuri.community.controller;
 
+import com.project.dasuri.community.dto.CommentDto;
 import com.project.dasuri.community.dto.CommunityDto;
+import com.project.dasuri.community.service.CommentService;
 import com.project.dasuri.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 @Controller
 @Slf4j
@@ -23,6 +27,7 @@ import java.util.Iterator;
 @RequestMapping("/board")
 public class CommuController {
     private final CommunityService communityService;
+    private final CommentService commentService;
     //리스트 목록[페이징이랑 합침]
     @GetMapping("/Community_list")
     public String Communit_list(@PageableDefault(page = 1)Pageable pageable, Model model){
@@ -39,7 +44,7 @@ public class CommuController {
 
         pageable.getPageNumber();
         Page<CommunityDto> communityList = communityService.paging(pageable);
-        int blockLimit = 3;
+        int blockLimit = 5;
         int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
         int endPage = ((startPage + blockLimit - 1) < communityList.getTotalPages()) ? startPage + blockLimit - 1 : communityList.getTotalPages();
 
@@ -48,6 +53,18 @@ public class CommuController {
         model.addAttribute("endPage", endPage);
 
         return "/list/community/community_list";
+    }
+
+
+    //커뮤니티 게시판 검색
+    @GetMapping("/search")
+    public String searchCommunity(@RequestParam String community_keyword, Model model){
+
+        List<CommunityDto> searchResult = communityService.searchNo(community_keyword);
+        model.addAttribute("keyword",community_keyword); //검색한 키워드
+        model.addAttribute("result" ,searchResult); //검색결과
+
+        return "/list/community/community_searchResult";
     }
 
     //글작성
@@ -75,7 +92,7 @@ public class CommuController {
 
     //글작성 저장
     @PostMapping("/community_post")
-    public String post(@ModelAttribute CommunityDto communityDto, Model model){
+    public String post(@ModelAttribute CommunityDto communityDto, Model model) throws IOException {
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -87,6 +104,7 @@ public class CommuController {
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
 
+        //사용자 아이디와 역할 가져오기
         communityDto.setUserID(id);
         communityDto.setRole(role);
 
@@ -97,13 +115,16 @@ public class CommuController {
         return "redirect:Community_list";
     }
 
-    @GetMapping("Community_list/{post_id}")
-    public String findById(@PathVariable Long post_id, Model model){
+    @GetMapping("Community_list/{id}")
+    public String findById(@PathVariable Long id, Model model){
 //        해당 게시글의 조회수를 하나 올리고
 //        게시글 데이터를 가져와서 list/community/community_detail.html에출력
 
-        communityService.updateHits(post_id);
-        CommunityDto communityDto = communityService.findById(post_id);
+        communityService.updateHits(id);
+        CommunityDto communityDto = communityService.findById(id);
+//        댓글 목록 가져오기
+        List<CommentDto> commentDtoList = commentService.findAll(id);
+        model.addAttribute("commentList", commentDtoList);
         model.addAttribute("community", communityDto);
         return "list/community/community_detail";
     }

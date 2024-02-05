@@ -3,7 +3,10 @@
 <!--xmlns:th="http://www.thymeleaf.org"-->
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>커뮤니티 게시판</title>
+ <link rel="stylesheet" type="text/css" th:href="@{/css/community_list.css}">
+ <link rel="stylesheet" type="text/css" th:href="@{/css/pagingBtn.css}">
+
 </head>
 <body>
 <!--네브바-->
@@ -11,51 +14,84 @@
  <div th:include="/list/layout/nav"></div>
 </header>
 
-<button onclick="saveReq()">글작성</button>
+<div class="title">
+ <h3>커뮤니티 게시판</h3>
+</div>
+<!--  	  검색창 영역 -->
+<form th:action="@{/board/search}" method="get">
+ <div class="faq_search">
+  <input type="text" class="faq_searchTerm" name="community_keyword" placeholder="제목 또는 내용으로 검색하세요.">
+  <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
+ </div>
+</form>
+<!--		검색창 영역 끝 -->
 
-<table border="1">
- <tr>
-  <th>id</th>
-  <th>title</th>
-<!--  <th>title(||쓰지 않은 경우)</th>-->
-  <th>writer</th>
-  <th>date</th>
-  <th>hits</th>
- </tr>
- <tr th:each="CommunityDto: ${communityList}">
-  <td th:text="${CommunityDto.id}"></td>
-  <td><a th:href="@{|/board/Community_list/${CommunityDto.id}|}" th:text="${CommunityDto.commuTitle}"></a></td>
-<!--  <td><a th:href="@{/community_list/${community.id}}" th:text="${community.boardTitle}"></a></td>-->
-  <td th:text="${CommunityDto.commuWriter}"></td>
-  <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
-  <td th:text="${CommunityDto.commuHits}"></td>
- </tr>
-</table>
+<button class="button1" onclick="saveReq()">글작성</button>
+
+
+<!--    커뮤니티 리스트 영역 -->
+<div class="notice_area">
+ <div class="notice_table_area">
+  <form id="noticeView" th:action="@{/board/search}" method="post">
+   <table class="notice_table">
+    <tr>
+     <th>구분</th>
+     <th>작성자</th>
+     <th>제목</th>
+     <th>수정일자</th>
+     <th>조회수</th>
+     <th>유형</th>
+    <tr th:each="CommunityDto: ${communityList}">
+     <td th:text="${CommunityDto.id}"></td>
+     <td th:text="${CommunityDto.getUserID()}"></td>
+     <td>
+      <a th:href="@{|/board/Community_list/${CommunityDto.id}|}" th:text="${CommunityDto.commuTitle}"></a>
+     </td>
+     <!--  <td><a th:href="@{/community_list/${community.id}}" th:text="${community.boardTitle}"></a></td>-->
+     <!--  <td th:text="${CommunityDto.commuWriter}"></td>-->
+     <!--  <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
+     <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd')}"></td>
+     <td th:text="${CommunityDto.commuHits}"></td>
+     <td th:text="${CommunityDto.getRole()}"></td>
+    </tr>
+   </table>
+<!--   <input type="hidden" id="selectedNoticeId" name="id" value="">-->
+  </form>
+ </div>
+</div>
 
 <!-- 첫번째 페이지로 이동 -->
 <!-- /board/paging?page=1 -->
-<a th:href="@{/board/Community_list(page=1)}">First</a>
+<div class="page_wrap">
+<div class="page_nation">
+
+<a id="page1" class="arrow pprev" th:href="@{/board/Community_list(page=1)}"></a>
 <!-- 이전 링크 활성화 비활성화 -->
 <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
-<a th:href="${communityList.first} ? '#' : @{/board/Community_list(page=${communityList.number})}">prev</a>
+<a id="page1" class="arrow prev" th:href="${communityList.first} ? '#' : @{/board/Community_list(page=${communityList.number})}"></a>
 
 <!-- 페이지 번호 링크(현재 페이지는 숫자만)
         for(int page=startPage; page<=endPage; page++)-->
-<span th:each="page: ${#numbers.sequence(startpage, endPage)}">
+<span class="page" th:each="page: ${#numbers.sequence(startpage, endPage)}">
 <!-- 현재페이지는 링크 없이 숫자만 -->
-    <span th:if="${page == communityList.number + 1}" th:text="${page}"></span>
+<!-- <span th:if="${page == communityList.number + 1}" th:text="${page}"></span>-->
+ <span th:if="${page == communityList.number + 1}">
+  <span th:text="${page}"></span>
+ </span>
  <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
-    <span th:unless="${page == communityList.number + 1}">
-        <a th:href="@{/board/Community_list(page=${page})}" th:text="${page}"></a>
+    <span  th:unless="${page == communityList.number + 1}">
+        <a  th:href="@{/board/Community_list(page=${page})}" th:text="${page}"></a>
     </span>
+
 </span>
 
 <!-- 다음 링크 활성화 비활성화
     사용자: 2페이지, getNumber: 1, 3페이지-->
-<a th:href="${communityList.last} ? '#' : @{/board/Community_list(page=${communityList.number + 2})}">next</a>
+<a id="page1" class="arrow next" th:href="${communityList.last} ? '#' : @{/board/Community_list(page=${communityList.number + 2})}"></a>
 <!-- 마지막 페이지로 이동 -->
-<a th:href="@{/board/Community_list(page=${communityList.totalPages})}">Last</a>
-
+<a id="page1" class="arrow nnext" th:href="@{/board/Community_list(page=${communityList.totalPages})}"></a>
+</div>
+</div>
 
 </body>
 
@@ -64,12 +100,16 @@
  <div th:include="/list/layout/footer"></div>
 </footer>
 
-<script>
+<script >
 
  const saveReq = () => {
+  //글쓰기
   location.href = "/board/community_post";
  }
-
+ function submitSearch() {
+  // 폼 제출 (검색)
+  document.getElementById('/board/search').submit();
+ }
 
 </script>
 

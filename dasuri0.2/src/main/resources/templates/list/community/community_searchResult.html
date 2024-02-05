@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--xmlns:th="http://www.thymeleaf.org"-->
+<head>
+    <meta charset="UTF-8">
+    <title>커뮤니티 게시판</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/community_list.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/pagingBtn.css}">
+
+</head>
+<body>
+<!--네브바-->
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="title">
+    <h3>커뮤니티 게시판</h3>
+</div>
+
+<div class="center_title">
+    <h4 th:text="'( '+${keyword}+' ) '" class="red"></h4>
+    <h4>으로 검색한 결과입니다.&nbsp;&nbsp;&nbsp; </h4>
+    <h4 class="red"><a href="community_list.html"> 전체보기 </a></h4>
+
+<!--  	  검색창 영역 -->
+<form th:action="@{/board/search}" id="notice_search">
+    <div class="faq_search">
+        <input type="text" class="faq_searchTerm" name="community_keyword" placeholder="제목 또는 내용으로 검색하세요.">
+        <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
+    </div>
+</form>
+<!--		검색창 영역 끝 -->
+
+<button class="button1" onclick="saveReq()">글작성</button>
+
+
+<!--    커뮤니티 리스트 영역 -->
+<div class="notice_area">
+    <div class="notice_table_area">
+        <table class="notice_table">
+            <tr>
+                <th>구분</th>
+                <th>작성자</th>
+                <th>제목</th>
+                <th>수정일자</th>
+                <th>조회수</th>
+            <tr th:each="Results: ${result}">
+                <td th:text="${Results.id}"></td>
+<!--                <td th:text="${Results.userID}"></td>-->
+                <td style="color:#6192FA;font-weight: bold"></td>
+                <!--                        <td th:text="${important.noticeTitle}" th:attr="onclick='submitForm(' + ${important.notice_id} + ')'" ></td>-->
+                <!--                        검색한 키워드를 노랗게 표시 -->
+                <td>
+                            <span th:href="@{|/board/Community_list/${Results.id}|}" th:text="${Results.commuTitle}"></span>
+                </td>
+
+                <td th:text="*{#temporals.format(Results.commuCreatedTime, 'yyyy-MM-dd')}"></td>
+                <td th:text="${Results.commuHits}"></td>
+            </tr>
+        </table>
+        <!--   <input type="hidden" id="selectedNoticeId" name="id" value="">-->
+    </div>
+</div>
+
+</body>
+
+<!--푸터-->
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+
+<script >
+
+    const saveReq = () => {
+        //글쓰기
+        location.href = "/board/community_post";
+    }
+    function submitSearch() {
+        // 폼 제출 (검색)
+        document.getElementById('/board/search').submit();
+    }
+
+    function submitForm(id) {
+        // 클릭된 값 저장
+        document.getElementById('selectedNoticeId').value = noticeId;
+
+        // 폼 제출 (공지 게시물 보기)
+        document.getElementById('noticeView').submit();
+    }
+</script>
+
+</html>

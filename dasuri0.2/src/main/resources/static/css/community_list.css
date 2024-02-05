@@ -1,0 +1,163 @@
+
+.notice_area{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+.notice_table_area{
+    width: 80%;
+    min-height: 600px;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.notice_table_area button{
+    margin: 0 auto;
+    margin-top: 40px;
+}
+.notice_table{
+    width: 100%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+.notice_table tr {
+    border-bottom: 1px solid #bbbbbb;
+}
+.notice_table th {
+    height: 70px;
+    border-top: 1px solid black;
+    background: #eeeeee;
+    font-weight: 600;
+    padding: 10px;
+}
+.notice_table th:nth-child(1) {
+    color: #6192FA;
+}
+.notice_table th:nth-child(4) {
+    padding: 5px;
+    color: gray;
+    font-size: 0.8em;
+}
+.notice_table th:nth-child(5) {
+    padding: 5px;
+    color: gray;
+    font-size: 0.8em;
+}
+.notice_table th:nth-child(6) {
+    padding: 5px;
+    color: gray;
+    font-size: 0.8em;
+}
+.notice_table th:nth-child(3) {
+    width: 100%;
+}
+.notice_table td{
+    min-height: 400px;
+    height: 60px;
+    text-align: center;
+    padding: 20px;
+}
+.notice_table td:nth-child(1){
+    width: 10%;
+}
+.notice_table td:nth-child(2):hover{
+    color: #4148C1;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.notice_table td:nth-child(3){
+    width: 20%;
+}
+.notice_img{
+    max-height: 500px;
+    max-width: 800px ;
+}
+.notice_content{
+    display: block;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.notice_content p{
+    text-decoration: none;
+    font-size: 1em;
+}
+.notice_content *{
+    text-align: center;
+    color: #45413E;
+}
+.notice_content strong{
+    text-decoration: none;
+    font-size: 1em;
+    color: firebrick;
+}
+
+.faq_search {
+    width: 40%;
+    height: 40px;
+    display: flex;
+    /*position: relative;*/
+    margin: 20px auto;
+    margin-bottom: 10px;
+    left: 30px;
+    overflow: clip;
+}
+.faq_searchTerm {
+    display: inline-block;
+    width: 100%;
+    border: 3px solid #4148C1;
+    border-right: none;
+    height: 35px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+    text-overflow:ellipsis;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.faq_searchTerm:focus{
+    color: #4148C1;
+}
+.faq_searchButton {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #4148C1;
+    background: #4148C1;
+    border-radius: 0 5px 5px 0;
+    text-align: center;
+    cursor: pointer;
+}
+.faq_search_img{
+    width: 60%;
+    margin-top: 5px;
+}
+
+
+.button1{
+    background: #6192FA;
+    border: none;
+    /*margin: 0 auto;*/
+    margin-left: auto;  /* 왼쪽 여백을 자동으로 최대화 */
+    display: block;  /* 블록 레벨로 표시하여 너비 조절 가능 */
+    margin-right: 20%;  /* 오른쪽 여백 제거 */
+}
+
+.title{
+    border-top:1px solid #bbbbbb;
+    height:70px;
+    background:#d3e7e8;
+    font-weight:600;
+    padding: 2%;
+    color:#0e3d40;
+    font-size:2em;
+    border-bottom:1px solid #bbbbbb;
+    width: 64%;
+    min-height:100px;
+    margin: 0 auto;
+    margin-top:100px;
+    margin-bottom:50px;
+}

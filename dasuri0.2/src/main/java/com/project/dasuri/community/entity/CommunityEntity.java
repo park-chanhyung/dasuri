@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //DB의 테이블 역할을 하는 클래스
 @Entity
 @Getter
@@ -41,6 +44,16 @@ public class CommunityEntity extends TimeEntity {
     @Column
     private boolean deleted = Boolean.FALSE;
 
+    @Column
+    private Integer fileAttached ; // 1 or 0
+
+//    게시글 : 파일
+    @OneToMany(mappedBy = "communityEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommunityFileEntity> communityFileEnityList = new ArrayList<>();
+
+//    게시글: 댓글
+    @OneToMany(mappedBy = "communityEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
     public static CommunityEntity toSaveEntity (CommunityDto communityDto){
         CommunityEntity communityEntity = new CommunityEntity();
@@ -49,7 +62,9 @@ public class CommunityEntity extends TimeEntity {
         communityEntity.setCommuContents(communityDto.getCommuContents());
         communityEntity.setUserId(communityDto.getUserID()); //새로추가
         communityEntity.setRole(communityDto.getRole()); //role추가
-        communityEntity.setCommuHits(0);
+        communityEntity.setCommuHits(0); //조회수 0으로 시작
+        communityEntity.setFileAttached(0); //파일없음
+
         return communityEntity;
     }
 
@@ -60,8 +75,21 @@ public class CommunityEntity extends TimeEntity {
         communityEntity.setCommuTitle(communityDto.getCommuTitle());
         communityEntity.setCommuContents(communityDto.getCommuContents());
         communityEntity.setCommuHits(communityDto.getCommuHits());
-//        communityEntity.setUserId(communityDto.getUserID()); //새로추가
-//        communityEntity.setRole(communityDto.getRole()); //role추가
+        communityEntity.setUserId(communityDto.getUserID()); //새로추가
+        communityEntity.setRole(communityDto.getRole()); //role추가
+        return communityEntity;
+    }
+
+    public static CommunityEntity toSaveFileEntity(CommunityDto communityDto) {
+        CommunityEntity communityEntity = new CommunityEntity();
+        communityEntity.setCommuWriter(communityDto.getCommuWriter());
+        communityEntity.setCommuTitle(communityDto.getCommuTitle());
+        communityEntity.setCommuContents(communityDto.getCommuContents());
+        communityEntity.setUserId(communityDto.getUserID()); //새로추가
+        communityEntity.setRole(communityDto.getRole()); //role추가
+        communityEntity.setCommuHits(0); //조회수 0으로 시작
+        communityEntity.setFileAttached(1); //파일있음
+
         return communityEntity;
     }
 
