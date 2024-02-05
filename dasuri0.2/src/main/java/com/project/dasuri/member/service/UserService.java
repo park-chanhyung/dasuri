@@ -123,4 +123,27 @@ public class UserService {
             proRepository.delete(pro);
         }
     }
+    public UserEntity getSiteUser(int id) {
+        Optional<UserEntity> userEntity = this.userRepository.findById(id);
+        if (userEntity.isPresent()) {
+            return userEntity.get();
+        } else {
+            throw new RuntimeException();
+        }
+    }
+
+    public UserEntity findByUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+//    public UserEntity findByUserNickName(String userNickname) {
+//        return userRepository.findByUserNickName(userNickname);
+//    }
+
+    public UserEntity mappingId(String userId) {
+        return userRepository.findByUserId(userId);
+    }
+
+    public UserEntity findByUserId(String userId) {
+        return userRepository.findByUserId(userId);
+    }
 }

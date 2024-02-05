@@ -1,0 +1,91 @@
+
+.shop-body{
+    width: 60%;
+    max-height: 1800px;
+    text-decoration: none;
+    margin: auto;
+}
+a {
+    text-decoration: none; /* 링크의 밑줄 제거 */
+    color: inherit; /* 링크의 기본 색상 유지 */
+}
+.card {
+    width: 250px;
+    height: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.card-text {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.list-group-item {
+    border: none;
+    padding: 5px 0;
+}
+.shop_search {
+    width: 40%;
+    height: 40px;
+    display: flex;
+    /*position: relative;*/
+    margin: 20px auto;
+    margin-bottom: 10px;
+    left: 30px;
+    overflow: clip;
+}
+.shop-searchTem {
+    display: inline-block;
+    width: 100%;
+    border: 3px solid #4148C1;
+    border-right: none;
+    height: 35px;
+    border-radius: 5px 0 0 5px;
+    outline: none;
+    color: #9DBFAF;
+    text-overflow:ellipsis;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.shop-searchTem:focus{
+    color: #4148C1;
+}
+.shop_searchButton {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    border: 1px solid #4148C1;
+    background: #4148C1;
+    border-radius: 0 5px 5px 0;
+    text-align: center;
+    cursor: pointer;
+}
+.shop_search_img{
+    width: 60%;
+    margin-top: 5px;
+}

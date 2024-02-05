@@ -8,6 +8,7 @@ import com.project.dasuri.shop.service.ShopService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -40,12 +41,13 @@ public class ShopController {
         model.addAttribute("paging", paging);
         return "list/Shop/shop";
     }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/create")
     public String createForm(ShopForm shopForm){
 
         return  "list/Shop/shopForm";
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/create")
     public String itemCreate(@Valid ShopForm shopForm, BindingResult bindingResult,  @RequestParam("file")MultipartFile file) throws IOException {
         if(bindingResult.hasErrors()){

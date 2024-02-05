@@ -7,9 +7,12 @@ import com.project.dasuri.admin.repository.NoticeRepository;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import com.project.dasuri.card.service.ProCardService;
+import com.project.dasuri.chat.mysql.MysqlChatService;
 import com.project.dasuri.community.dto.CommunityDto;
 import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
+import com.project.dasuri.member.entity.UserEntity;
+import com.project.dasuri.member.service.UserService;
 import com.project.dasuri.mypage.service.UserMyPageService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -37,15 +41,34 @@ public class checkcontroller {
     private final FaqService faqService; //자주찾는질문 관련
     private final ProCardService proCardService;
     private final UserMyPageService userMyPageService;
-
+    private final UserService userService;
+    private final MysqlChatService mysqlChatService;
 //    메인화면
     @GetMapping("/index")
-    public String index(Model model) {
+    public String index(Model model, Principal principal) {
 
         System.out.println("@#@# 로그인 성공하면 메인페이지로 이동함.");
 
-        //세션 현재 사용자 id값
-        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        System.out.println("@#@# 로그인 성공하면 메인페이지로 이동함.");
+        if (principal != null) {
+            String userId = principal.getName();
+            System.out.println("userID 아이디!!@#!@#" + userId);
+
+            UserEntity user = userService.mappingId(userId);
+            model.addAttribute("id", userId); // 현재 사용자 아이디
+            model.addAttribute("user", user);
+            System.out.println("user 아이디!!@#!@#" + user);
+
+            Integer maxroomNum = mysqlChatService.findmaxRoomNum();
+            if (maxroomNum != null) {
+                model.addAttribute("maxroomNum", maxroomNum);
+            } else {
+                return "/index"; // 로그인 페이지의 URL
+            }
+        } else {
+            return "/index"; // 로그인 페이지의 URL
+        }
 
         //현재 로그인한 사용자의 role값
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,7 +78,6 @@ public class checkcontroller {
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
 
-        model.addAttribute("id", id);
         model.addAttribute("role",role);
 
         return "index";

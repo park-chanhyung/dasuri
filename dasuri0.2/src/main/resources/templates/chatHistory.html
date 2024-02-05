@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room Management</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Custom CSS for Chat Room Management Page */
+        .room-list-item {
+            margin-bottom: 10px;
+        }
+        body{
+            min-height: 1000px;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <div th:include="/list/layout/nav"></div>
+</header>
+<div class="container mt-5">
+    <h2 class="mb-4">채팅 내역</h2>
+    <ul class="list-group">
+        <li th:each="roomNum : ${roomNumList}" class="list-group-item room-list-item">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <form id="chatForm" method="get" th:action="@{'/chatroom/' + ${user.num}}">
+                        <button type="submit" class="btn btn-primary mr-2">
+                            <span th:text="${roomNum + '번방 이동하기'}"></span>
+                        </button>
+                        <input type="hidden" id="roomNumInput" name="roomNum" th:value="${roomNum}">
+                    </form>
+                </div>
+                <div>
+                    <form id="deleteRoom" method="post" th:action="@{'/chatHistory/delete'}">
+                        <button type="submit" class="btn btn-danger">
+                            <span th:text="'나가기 - ' + ${roomNum + '번방'}"></span>
+                        </button>
+                        <input type="hidden" id="deleteRoomNum" name="roomNum" th:value="${roomNum}">
+                    </form>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+<!-- Bootstrap and jQuery Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,18 +1,17 @@
 package com.project.dasuri.shop.controller;
 
 import com.project.dasuri.member.service.UserService;
+import com.project.dasuri.shop.entity.ShopEntity;
 import com.project.dasuri.shop.form.PayForm;
 import com.project.dasuri.shop.service.PayService;
+import com.project.dasuri.shop.service.ReviewService;
 import com.project.dasuri.shop.service.ShopService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -24,12 +23,13 @@ public class PayController {
     private final UserService userService;
     private final PayService payService;
     private final ShopService shopService;
+    private final ReviewService reviewService;
 
-    @GetMapping("/payForm")
+    @GetMapping("/payForm/{id}")
     public String payForm(Model model, Principal principal,
                           @RequestParam("price") String price,
                           @RequestParam("itemname") String itemname
-                          , PayForm payForm
+                          , PayForm payForm,@PathVariable("id") Long id
 
     ) {
         String username = principal.getName();
@@ -39,6 +39,10 @@ public class PayController {
         model.addAttribute("itemname", itemname);
         System.out.println("price##@!@" + price);
         System.out.println("itemname##@!@" + itemname);
+        ShopEntity shopEntity = this.shopService.getItem(id);
+        model.addAttribute("item", shopEntity);
+        Double avgRating = this.reviewService.calculateAverageRating(shopEntity);
+        model.addAttribute("avgRating", avgRating);
         return "list/Shop/payForm";
     }
 

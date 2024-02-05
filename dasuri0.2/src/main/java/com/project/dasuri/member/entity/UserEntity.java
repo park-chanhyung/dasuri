@@ -1,5 +1,6 @@
 package com.project.dasuri.member.entity;
 
+import com.project.dasuri.chat.mysql.MysqlChat;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.repository.UserRepository;
 import jakarta.persistence.*;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Setter
@@ -53,6 +55,9 @@ public class UserEntity implements UserDetailEntity{
     private LocalDateTime lastModifiedDate;
 
     private LocalDateTime suspensionExpiry; // 계정 정지 만료 시간
+
+    @OneToMany(mappedBy = "userEntity",cascade = CascadeType.REMOVE)
+    private List<MysqlChat> mysqlChatList;
 
 
 //    @Embedded

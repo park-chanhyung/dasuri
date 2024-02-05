@@ -56,12 +56,20 @@
             <p>제품설명: <span th:text="${item.iteminfo}"> </span></p>
             <p>배송 정보: <span th:text="${item.deliveryinfo}"></span></p>
             <div class="my-3">
+
                 <a th:href="@{|/shop/modify/${item.id}|}" class="btn btn-sm btn-outline-secondary">수정</a>
                 <a href="javascript:void(0);"   th:data-uri="@{|/shop/delete/${item.id}|}"
                    class="delete btn btn-sm btn-outline-secondary">삭제</a>
 
-                <button id="payForm" th:data-price="${item.price}" th:data-itemname="${item.itemname}">결제하기</button>
-
+<!--                <button id="payForm" th:data-price="${item.price}" th:data-itemname="${item.itemname}" class="btn btn-sm btn-primary">-->
+<!--                    <i class="fas fa-shopping-cart mr-1"></i> 결제하기-->
+<!--                </button>-->
+<!--                <button id="payForm" th:data-price="${item.price}" th:data-itemname="${item.itemname}">결제하기</button>-->
+                <form th:action="@{|/shop/payForm/${item.id}|}" method="get">
+                    <input type="hidden" th:value="${item.price}" name="price" />
+                    <input type="hidden" th:value="${item.itemname}" name="itemname" />
+                    <button type="submit" id="payForm">결제하기</button>
+                </form>
             </div>
         </div>
     </div>
