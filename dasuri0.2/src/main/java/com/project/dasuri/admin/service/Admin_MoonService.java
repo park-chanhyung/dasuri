@@ -60,12 +60,36 @@ public class Admin_MoonService {
     }
 
 //    문의글 검색
-    public List<MoonDTO> moonSearch(String keyword){
-        List<MoonEntity> moonEntities = moonRepository.findByMoonUserIdContainingOrMoonQuestionContainingOrMoonAnswerContainingOrMoonTitleContaining(keyword,keyword,keyword,keyword);
-        List<MoonDTO> moonDTOS = new ArrayList<>();
-        for (MoonEntity moonEntity : moonEntities) {
-            moonDTOS.add(MoonDTO.toMoonDTO(moonEntity));
-        }
+    public Page<MoonDTO> moonSearch(String keyword, Pageable pageable){
+
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 7; // 한 페이지당 글 7개
+
+//        검색결과 페이징 - 문의글 고유번호 기준으로 내림차순 (최신순)
+        Page<MoonEntity> moonEntities =
+                moonRepository.findByMoonUserIdContainingOrMoonQuestionContainingOrMoonAnswerContainingOrMoonTitleContaining(keyword,keyword,keyword,keyword,PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "moonPkId")));
+
+//        목록에 보여질 항목
+        Page<MoonDTO> moonDTOS = moonEntities.map
+                (moon -> new MoonDTO(moon.getMoonUserId(),moon.getMoonRole(),moon.getMoonType(),moon.getMoonStatus(),moon.getMoonTitle(),moon.getMoonQuestionDate(),moon.getMoonPkId()));
+
+        return moonDTOS;
+    }
+
+//    문의글 상태 구분
+    public Page<MoonDTO> moonStatus(String status, Pageable pageable){
+
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 7; // 한 페이지당 글 7개
+
+//        문의상태 분리 페이징
+        Page<MoonEntity> moonEntities =
+                moonRepository.findByMoonStatusContaining(status,PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "moonPkId")));
+
+//        목록에 보여질 항목
+        Page<MoonDTO> moonDTOS = moonEntities.map
+                (moon -> new MoonDTO(moon.getMoonUserId(),moon.getMoonRole(),moon.getMoonType(),moon.getMoonStatus(),moon.getMoonTitle(),moon.getMoonQuestionDate(),moon.getMoonPkId()));
+
         return moonDTOS;
     }
 }

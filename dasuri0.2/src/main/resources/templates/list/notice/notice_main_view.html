@@ -14,8 +14,8 @@
 </header>
 
 <div class="center_loc">
-    <a href="index"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
-    <a href="notice_main"> 공지사항 &nbsp; </a>
+    <a th:href="@{/index}"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
+    <a th:href="@{/notice_main}"> 공지사항 &nbsp; </a>
 </div>
 
 <div class="center_title">
@@ -23,7 +23,7 @@
     <h4>다수리 사이트의 주요 공지를 확인하세요.</h4>
 
     <!--  	  검색창 영역 -->
-    <form action="notice_search" id="notice_search">
+    <form th:action="@{/notice_search}" id="notice_search" method="get">
         <div class="faq_search">
             <input type="text" class="faq_searchTerm" name="notice_keyword" placeholder="제목 또는 내용으로 검색하세요.">
             <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>

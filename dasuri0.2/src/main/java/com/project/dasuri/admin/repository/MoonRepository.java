@@ -1,6 +1,8 @@
 package com.project.dasuri.admin.repository;
 
 import com.project.dasuri.admin.entity.MoonEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -11,5 +13,6 @@ public interface MoonRepository extends JpaRepository<MoonEntity, Long> {
 
     List<MoonEntity> findByMoonUserId(String id);
 
-    List<MoonEntity> findByMoonUserIdContainingOrMoonQuestionContainingOrMoonAnswerContainingOrMoonTitleContaining(String keyword1,String keyword2,String keyword3,String keyword4);
+    Page<MoonEntity> findByMoonUserIdContainingOrMoonQuestionContainingOrMoonAnswerContainingOrMoonTitleContaining(String keyword1, String keyword2, String keyword3, String keyword4, Pageable pageable);
+    Page<MoonEntity> findByMoonStatusContaining(String status, Pageable pageable);
 }

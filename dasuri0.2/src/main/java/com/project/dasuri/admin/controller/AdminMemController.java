@@ -72,5 +72,13 @@ public class AdminMemController {
         return "/adminad/admin_suspendMem_ok";
     }
 
+    //  관리자 페이지 > 회원관리 (회원리스트 > 회원보기 > 정지 해제)
+    @RequestMapping("/admin_resumeUser")
+    public String admin_resumeUser(@RequestParam("userId") String userId, Model model) {
+        LocalDateTime day = null;
+        k_userService.suspendUser(userId,day); // 정지일을 null로 변경 (정지 해제)
+        return "/adminad/admin_resumeMem_ok";
+    }
+
 
 }

@@ -76,13 +76,43 @@ public class AdminMoonController {
 
     //  관리자페이지 > 고객센터 (문의글 검색)
     @RequestMapping("/admin_moon_search")
-    public String admin_moon_search(@RequestParam String moon_keyword, Model model) {
+    public String admin_moon_search(@RequestParam String moon_keyword, @PageableDefault(page = 1) Pageable pageable, Model model) {
 
-//        검색결과
-        List<MoonDTO> moonDTOSearch = adminMoonService.moonSearch(moon_keyword);
+//        검색결과 페이징
+        Page<MoonDTO> moonDTOSearch = adminMoonService.moonSearch(moon_keyword, pageable);
+
+        // 현재 페이지에서 앞 뒤 갯수
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < moonDTOSearch.getTotalPages()) ? startPage + blockLimit - 1 : moonDTOSearch.getTotalPages();
+
         model.addAttribute("moonsSearch",moonDTOSearch);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
         model.addAttribute("keyword",moon_keyword); //검색한 키워드
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_moon_search";
+    }
+
+    //  관리자페이지 > 고객센터 > 상태 필터 (페이징)
+    @GetMapping("/admin_moon_status/{status}")
+    public String admin_moon_status(@PathVariable String status, @PageableDefault(page = 1) Pageable pageable, Model model) {
+
+//        상태에 따른 필터링 페이징
+        Page<MoonDTO> moonStatus = adminMoonService.moonStatus(status, pageable);
+
+        // 현재 페이지에서 앞 뒤 갯수
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < moonStatus.getTotalPages()) ? startPage + blockLimit - 1 : moonStatus.getTotalPages();
+
+        model.addAttribute("moonsStatus",moonStatus);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("moonStatus", status); //현재 상태 1 2
+
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        return "/adminad/admin_moon_status";
     }
 }

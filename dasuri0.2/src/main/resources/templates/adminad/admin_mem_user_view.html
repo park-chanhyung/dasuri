@@ -35,7 +35,7 @@
                 <td th:text="${user.userAddress}"></td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="2" th:if="${user.suspensionExpiry == null}">
                     <form th:action="@{/admin_suspendUser}" onsubmit="return confirm('회원을 정지 처리하시겠습니까?');">
                         <input type="hidden" th:value="${user.userId}" name="userId">
                         <label for="duration">회원 정지:</label>
@@ -47,6 +47,12 @@
                         <input type="submit" value="정지">
                     </form>
                     <p>정지 처리는 신중히 결정하세요.</p>
+                </td>
+                <td colspan="2" th:if="${user.suspensionExpiry != null}">
+                    <form th:action="@{/admin_resumeUser}" onsubmit="return confirm('정지 해제하시겠습니까?');">
+                        <input type="hidden" th:value="${user.userId}" name="userId">
+                        <input type="submit" value="정지해제">
+                    </form>
                 </td>
             </tr>
         </table>

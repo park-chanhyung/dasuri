@@ -45,7 +45,7 @@
 							<th>작성일</th>
 							<th>상태</th>
 						</tr>
-						<tr th:each="moon: ${moonsSearch}" th:attr="onclick='submitLook('+${moon.moonPkId}+')'" class="gomoonq">
+						<tr th:each="moon: ${moonsSearch}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moonsSearch.number} + 1) + ')'">
 							<td th:text="${moon.moonUserId}" th:utext="${#strings.replace(moon.moonUserId, keyword, '<span>' + keyword + '</span>')}"></td>
 							<td th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></td>
 							<td th:utext="${moon.moonType=='1' ? '문의' : '신고'}" th:class="${moon.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>
@@ -56,18 +56,26 @@
 					</table>
 				</form>
 
+				<!--페이징 영역-->
 				<div class="mem_paging_wrap">
 					<table class="mem_paging">
 						<tr>
-							<td> << </td>
-							<td> 1 </td>
-							<td> 2 </td>
-							<td> 3 </td>
-							<td> 4 </td>
-							<td> >> </td>
+							<td> <a th:href="@{/admin_moon_search(page=1, moon_keyword=${keyword})}"> << </a> </td>
+							<td> <a th:href="${moonsSearch.first} ? '#' : @{/admin_moon_search(page=${moonsSearch.number}, moon_keyword=${keyword})}"> < </a> </td>
+							<td>
+								<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+									<span class="current" th:if="${page == moonsSearch.number + 1}" th:text="${page}"></span>
+									<span th:unless="${page == moonsSearch.number + 1}">
+										<a th:href="@{/admin_moon_search(page=${page}, moon_keyword=${keyword})}" th:text="${page}"></a>
+									</span>
+								</span>
+							</td>
+							<td> <a th:href="${moonsSearch.last} ? '#' : @{/admin_moon_search(page=${moonsSearch.number + 2}, moon_keyword=${keyword})}"> > </a> </td>
+							<td> <a th:href="@{/admin_moon_search(page=${moonsSearch.totalPages}, moon_keyword=${keyword})}"> >> </a> </td>
 						</tr>
 					</table>
 				</div>
+				<!-- 페이징 영역 끝 -->
 
 			</div>
 		</div>
@@ -83,9 +91,9 @@
 </body>
 </html>
 <script type="text/javascript">
-	function submitLook(moonPkId) {
-		document.getElementById("moonPkId").value = moonPkId;
-		document.getElementById("moonView").submit();
+	<!--	문의글 보기 -->
+	function moonView(noticeId, currentPage) {
+		window.location.href = '/admin_moon_view/' + noticeId + '?page=' + currentPage;
 	}
 
 	// 문의 검색
