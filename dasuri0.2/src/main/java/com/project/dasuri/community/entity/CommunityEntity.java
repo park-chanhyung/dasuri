@@ -20,6 +20,7 @@ import java.util.List;
 public class CommunityEntity extends TimeEntity {
     @Id // pk 컬럼 지정. 필수
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment
+    @Column(name = "id")
     private Long id;
 
     @Column(length = 20, nullable = false) // 크기 20, not null
@@ -40,6 +41,8 @@ public class CommunityEntity extends TimeEntity {
     @Column
     private String userId;
 
+    @Column
+    private String adminDeleted;
 
     @Column
     private boolean deleted = Boolean.FALSE;
@@ -64,6 +67,7 @@ public class CommunityEntity extends TimeEntity {
         communityEntity.setRole(communityDto.getRole()); //role추가
         communityEntity.setCommuHits(0); //조회수 0으로 시작
         communityEntity.setFileAttached(0); //파일없음
+        communityEntity.setAdminDeleted(communityDto.getAdminDeleted());
 
         return communityEntity;
     }
@@ -93,15 +97,6 @@ public class CommunityEntity extends TimeEntity {
         return communityEntity;
     }
 
-//
-//    @Column
-//    private int fileAttached; // 1 or 0
-//
-//    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<BoardFileEntity> boardFileEntityList = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
-//    private List<CommentEntity> commentEntityList = new ArrayList<>();
 
 
 }

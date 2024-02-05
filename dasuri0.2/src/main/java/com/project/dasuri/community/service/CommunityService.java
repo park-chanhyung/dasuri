@@ -124,16 +124,21 @@ public class CommunityService {
     }
 
     //검색
-    public List<CommunityDto> searchNo(String keyword){
-        List<CommunityEntity> communityEntities = communityRepository.findBycommuTitleContainingOrUserIdContainingOrderByIdDesc(keyword,keyword);
-        List<CommunityDto> communityDtos = new ArrayList<>();
-        int x = communityEntities.size();
-        for(CommunityEntity communityEntity : communityEntities){
-            CommunityDto communityDto = CommunityDto.toCommunityDto(communityEntity);
-            communityDto.setCommunity_no(x); //검색한후 게시판 번호매김
-            communityDtos.add(communityDto);
-            x--;
-        }
+    public Page<CommunityDto> searchNo(Pageable pageable, String keyword){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 5; // 한 페이지당 글 5개
+
+//        공지 고유번호 기준으로 내림차순 (최신순)
+        Page<CommunityEntity> communityEntities =
+                communityRepository.findBycommuTitleContainingOrUserIdContaining(
+                keyword, keyword, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+
+//        commutity (엔티티객체)
+        Page<CommunityDto> communityDtos = communityEntities.map(community ->new CommunityDto(community.getId(),
+                community.getCommuWriter(),community.getCommuTitle(),community.getCommuHits(),
+                community.getCreatedTime(), community.getUserId(), community.getRole())); //userID, Role 추가
+
         return communityDtos;
     }
+
 }

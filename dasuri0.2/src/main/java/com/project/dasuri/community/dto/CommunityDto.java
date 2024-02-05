@@ -22,12 +22,14 @@ public class CommunityDto {
     private String commuWriter;
     private String commuTitle;
     private String commuContents;
-    private int community_no; //커뮤니티게시판에서 검색 게시판 번호
-
     private int commuHits;
     private LocalDateTime commuCreatedTime;
     private LocalDateTime comumUpdatedTime;
     private String role;
+
+    private String adminDeleted;//admin이 게시글 삭제
+
+
 
     private List<MultipartFile> communityFile;  //community_post --> Controller 파일 담는 용도
     private List<String> originalFileName; //원본 파일이름

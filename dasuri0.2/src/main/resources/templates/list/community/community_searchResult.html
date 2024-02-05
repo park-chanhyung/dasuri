@@ -18,10 +18,11 @@
     <h3>커뮤니티 게시판</h3>
 </div>
 
+
 <div class="center_title">
     <h4 th:text="'( '+${keyword}+' ) '" class="red"></h4>
     <h4>으로 검색한 결과입니다.&nbsp;&nbsp;&nbsp; </h4>
-    <h4 class="red"><a href="community_list.html"> 전체보기 </a></h4>
+    <h4 class="red"><a href="/board/Community_list"> 전체보기 </a></h4>
 
 <!--  	  검색창 영역 -->
 <form th:action="@{/board/search}" id="notice_search">
@@ -45,24 +46,59 @@
                 <th>제목</th>
                 <th>수정일자</th>
                 <th>조회수</th>
-            <tr th:each="Results: ${result}">
-                <td th:text="${Results.id}"></td>
+            <tr th:each="Results: ${searchc}">
+                <td th:text="${Results.id}" style="color:#6192FA;font-weight: bold"></td>
 <!--                <td th:text="${Results.userID}"></td>-->
-                <td style="color:#6192FA;font-weight: bold"></td>
-                <!--                        <td th:text="${important.noticeTitle}" th:attr="onclick='submitForm(' + ${important.notice_id} + ')'" ></td>-->
-                <!--                        검색한 키워드를 노랗게 표시 -->
                 <td>
-                            <span th:href="@{|/board/Community_list/${Results.id}|}" th:text="${Results.commuTitle}"></span>
+                    <span class="yellow"
+                          th:utext="${#strings.replace(Results.commuTitle, keyword, '<span>' + keyword + '</span>')}"
+                          th:onclick="'noticeView(\'' + ${Results.id} + '\', ' + (${searchc.number} + 1) + ')'"></span>
                 </td>
+<!--                <td>-->
+<!--                            <span th:href="@{|/board/Community_list/${Results.id}|}" th:text="${Results.commuTitle}"></span>-->
+<!--                </td>-->
 
                 <td th:text="*{#temporals.format(Results.commuCreatedTime, 'yyyy-MM-dd')}"></td>
                 <td th:text="${Results.commuHits}"></td>
             </tr>
         </table>
-        <!--   <input type="hidden" id="selectedNoticeId" name="id" value="">-->
+
     </div>
 </div>
 
+    <!-- 첫번째 페이지로 이동 -->
+    <!-- /board/paging?page=1 -->
+    <div class="page_wrap">
+        <div class="page_nation">
+
+            <a id="page1" class="arrow pprev" th:href="@{/board/search(page=1, community_keyword=${keyword})}"></a>
+            <!-- 이전 링크 활성화 비활성화 -->
+            <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
+            <a id="page1" class="arrow prev"
+               th:href="${searchc.first} ? '#' : @{/board/search(page=${searchc.number}, community_keyword=${keyword})}"></a>
+
+            <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+                    for(int page=startPage; page<=endPage; page++)-->
+            <span class="page" th:each="page: ${#numbers.sequence(startpage ?: 1, endPage ?: 1)}">
+<!-- 현재페이지는 링크 없이 숫자만 -->
+                <!-- <span th:if="${page == communityList.number + 1}" th:text="${page}"></span>-->
+ <span th:if="${page == searchc.number + 1}">
+  <span th:text="${page}"></span>
+ </span>
+                <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+    <span  th:unless="${page == searchc.number + 1}">
+        <a  th:href="@{/board/search(page=${page}, community_keyword=${keyword})}" th:text="${page}"></a>
+    </span>
+
+</span>
+
+            <!-- 다음 링크 활성화 비활성화
+                사용자: 2페이지, getNumber: 1, 3페이지-->
+            <a id="page1" class="arrow next" th:href="${searchc.last} ? '#' : @{/board/search(page=${searchc.number + 2},community_keyword=${keyword})}"></a>
+            <!-- 마지막 페이지로 이동 -->
+            <a id="page1" class="arrow nnext" th:href="@{/board/search(page=${searchc.totalPages},community_keyword=${keyword})}"></a>
+        </div>
+    </div>
 </body>
 
 <!--푸터-->
@@ -81,12 +117,9 @@
         document.getElementById('/board/search').submit();
     }
 
-    function submitForm(id) {
-        // 클릭된 값 저장
-        document.getElementById('selectedNoticeId').value = noticeId;
-
-        // 폼 제출 (공지 게시물 보기)
-        document.getElementById('noticeView').submit();
+    <!--    게시물 보기 (페이지 번호 가지고감)-->
+    function noticeView(id, currentPage) {
+        window.location.href = '/board/Community_list/' + id + '?page=' + currentPage;
     }
 </script>
 

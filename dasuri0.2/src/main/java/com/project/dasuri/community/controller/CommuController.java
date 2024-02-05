@@ -58,11 +58,18 @@ public class CommuController {
 
     //커뮤니티 게시판 검색
     @GetMapping("/search")
-    public String searchCommunity(@RequestParam String community_keyword, Model model){
+    public String searchCommunity(@RequestParam String community_keyword, @PageableDefault(page = 1) Pageable pageable, Model model){
+//        일반공지 페이징 (고유번호 내림차순)
+        Page<CommunityDto> communitySearchList = communityService.searchNo(pageable,community_keyword); //글번호, 제목, 수정일자
 
-        List<CommunityDto> searchResult = communityService.searchNo(community_keyword);
-        model.addAttribute("keyword",community_keyword); //검색한 키워드
-        model.addAttribute("result" ,searchResult); //검색결과
+        int blockLimit  = 5;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) -1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < communitySearchList.getTotalPages()) ? startPage + blockLimit - 1 : communitySearchList.getTotalPages();
+
+        model.addAttribute("searchc",communitySearchList); //검색페이지(페이징)
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+        model.addAttribute("keyword",community_keyword);
 
         return "/list/community/community_searchResult";
     }
