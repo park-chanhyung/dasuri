@@ -1,5 +1,7 @@
 package com.project.dasuri.member.service;
 
+import com.project.dasuri.member.config.AccountDisabledException;
+import com.project.dasuri.member.config.CustomAuthenticationFailureHandler;
 import com.project.dasuri.member.dto.CustomUserDetails;
 import com.project.dasuri.member.entity.ProEntity;
 import com.project.dasuri.member.entity.UserDetailEntity;
@@ -9,6 +11,7 @@ import com.project.dasuri.member.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -37,9 +40,14 @@ public class CustomUserDetailsService implements UserDetailsService {
             userDetailEntity = proRepository.findByProId(username);
         }
         if (userDetailEntity == null) {
-            throw new UsernameNotFoundException("User not found with username: " + username);
+            throw new UsernameNotFoundException(username+" 사용자를 찾을 수 없습니다.");
         }
 
-        return new CustomUserDetails(userDetailEntity);
+        CustomUserDetails customUserDetails = new CustomUserDetails(userDetailEntity);
+
+        if (!customUserDetails.isEnabled()) {
+            throw new DisabledException("사용자 계정이 정지되었습니다. 만료 일자: "+userDetailEntity.getSuspensionExpiry().toString());
+        }
+        return customUserDetails;
     }
 }

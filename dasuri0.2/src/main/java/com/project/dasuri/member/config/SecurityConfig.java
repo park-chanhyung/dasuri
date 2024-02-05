@@ -10,11 +10,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig{
+
+    private final AuthenticationFailureHandler customAuthenticationFailureHandler;
+
+
+    public SecurityConfig(AuthenticationFailureHandler customAuthenticationFailureHandler) {
+        this.customAuthenticationFailureHandler = customAuthenticationFailureHandler;
+    }
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) ->
@@ -41,7 +49,9 @@ public class SecurityConfig{
         //admin 접근 거부만 뜸 로그인폼설정을 안했기 때문
         http
                 .formLogin((auth) -> auth.loginPage("/login")
+                        .failureHandler(customAuthenticationFailureHandler)
                         .defaultSuccessUrl("/index") //login Success 매핑
+
                         //널포인트 오류로 강제로 파라미터명 설정. 강제로 안하면 로그인 안됨.
                         .usernameParameter("userId")
                         .passwordParameter("userPwd")

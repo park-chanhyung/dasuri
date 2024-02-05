@@ -5,6 +5,17 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
     <!--    <script src="/js/sign_up.js"></script>-->
     <title>로그인</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const message = urlParams.get('message');
+            if (error && message) {
+                alert(decodeURIComponent(message));
+                window.location.href = '/login'; // 로그인 페이지로 리디렉션
+            }
+        });
+    </script>
 </head>
 <body>
 
