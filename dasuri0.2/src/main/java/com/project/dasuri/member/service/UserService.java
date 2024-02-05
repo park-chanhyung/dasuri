@@ -111,4 +111,16 @@ public class UserService {
             throw new DataNotFoundException("UserEntity not found");
         }
     }
+
+    public void deleteUser(String username) {
+        // 사용자 찾기
+        UserEntity user = userRepository.findByUserId(username);
+        ProEntity pro = proRepository.findByProId(username);
+        if (user != null) {
+            // 사용자 삭제
+            userRepository.delete(user);
+        }else if(pro != null){
+            proRepository.delete(pro);
+        }
+    }
 }

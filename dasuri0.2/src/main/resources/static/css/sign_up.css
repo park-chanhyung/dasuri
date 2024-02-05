@@ -42,6 +42,15 @@ a{color:inherit;text-decoration:none}
 .login-form .group .check{
     display:none;
 }
+.login-form .group .check2{
+    display:inline-block;
+    margin-right:10px ;
+}
+/* 체크박스가 선택되었을 때 라벨의 글자색 변경 */
+input[type="checkbox"].check2:checked + label {
+    color: #ffffff; /* 흰색으로 변경 */
+}
+
 .login-html .tab,
 .login-form .group .label,
 .login-form .group .button{

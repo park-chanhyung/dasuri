@@ -31,3 +31,12 @@ function loadContent(page) {
         clickedButton.classList.add('active');
     }
 }
+
+
+//탈퇴 여부 스크립트
+function confirmDelete() {
+    if (confirm('정말 탈퇴하시겠습니까?')) {
+        // 사용자가 '예'를 선택한 경우, 서버에 탈퇴 요청을 보냅니다.
+        window.location.href = '/delete-account';
+    }
+}

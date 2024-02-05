@@ -8,11 +8,13 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,21 +30,20 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/delete-account")
+    public String deleteAccount(Principal principal) {
+        String username = principal.getName();
+        userService.deleteUser(username);
+        SecurityContextHolder.clearContext(); //로그아웃시킴
+        return "redirect:index"; // 메인 페이지로 리디렉션
+    }
+
     @GetMapping("/user_signup")
     public String user_signupP(UserDTO userDTO) {
 
         return "/login/user_signup";
     }
 
-//        @PostMapping("/user_signup")
-//    public String user_signup( @ModelAttribute UserDTO userDTO)
-//    {
-//        System.out.println("MemberController.sign_up");
-//        System.out.println("userDTO = " + userDTO);
-//        userService.user_signup(userDTO);
-//
-//        return "redirect:login";
-//    }
     @PostMapping("/user_signup")
     public String user_signup(@Valid @ModelAttribute UserDTO userDTO, BindingResult br, Model model)
 //    public String user_signup(@Valid UserDTO userDTO, BindingResult br , Model model)
@@ -91,20 +92,6 @@ public class UserController {
         response.put("duplicate", isDuplicate);
         return ResponseEntity.ok(response);
     }
-
-//    @PostMapping("/find_user_id")
-//    public ResponseEntity<?> findUserId(@RequestParam String name, @RequestParam String birth) {
-//        List<String> userIds = userService.findUserIdsByUserNameAndBirth(name, birth); // 사용자 ID 검색 로직
-//        List<String> maskedIds = userIds.stream()
-//                .map(id -> id.substring(0, id.length() - 3) + "***")
-//                .collect(Collectors.toList());
-//
-//        if (!maskedIds.isEmpty()) {
-//            return ResponseEntity.ok(Map.of("success", true, "maskedIds", maskedIds));
-//        } else {
-//            return ResponseEntity.ok(Map.of("success", false));
-//        }
-//    }
 
     @PostMapping("/findUserIds")
     public ResponseEntity<?> findUserIds(@RequestBody FinduserDTO finduserDTO) {
