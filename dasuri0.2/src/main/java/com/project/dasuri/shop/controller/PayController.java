@@ -1,7 +1,9 @@
-package com.project.dasuri.shop.pay;
+package com.project.dasuri.shop.controller;
 
 import com.project.dasuri.member.service.UserService;
-import com.project.dasuri.shop.ShopService;
+import com.project.dasuri.shop.form.PayForm;
+import com.project.dasuri.shop.service.PayService;
+import com.project.dasuri.shop.service.ShopService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,7 @@ public class PayController {
     public String payForm(Model model, Principal principal,
                           @RequestParam("price") String price,
                           @RequestParam("itemname") String itemname
-                          ,PayForm payForm
+                          , PayForm payForm
 
     ) {
         String username = principal.getName();

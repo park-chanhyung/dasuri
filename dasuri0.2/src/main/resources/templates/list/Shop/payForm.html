@@ -16,9 +16,7 @@
 
 <h2>Pay Form</h2>
 <form th:action="@{/shop/payForm}" th:object="${payForm}" method="post" id="payment-form">
-    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-        <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-    </div>
+    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
     <input type="hidden" id="userId" name="userId" th:value="${username}"><br>
     <label for="payusername">구매자</label><br>
         <input type="text" id="payusername" name="payusername"><br>

@@ -1,4 +1,4 @@
-package com.project.dasuri.shop.pay;
+package com.project.dasuri.shop.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

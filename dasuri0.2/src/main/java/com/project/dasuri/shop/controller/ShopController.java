@@ -1,5 +1,10 @@
-package com.project.dasuri.shop;
+package com.project.dasuri.shop.controller;
 
+import com.project.dasuri.shop.entity.ShopEntity;
+import com.project.dasuri.shop.form.ReviewForm;
+import com.project.dasuri.shop.form.ShopForm;
+import com.project.dasuri.shop.service.ReviewService;
+import com.project.dasuri.shop.service.ShopService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,11 +22,22 @@ import java.util.List;
 @RequestMapping("/shop")
 public class ShopController {
     private final ShopService shopService;
+    private final ReviewService reviewService;
+
     @GetMapping("")
-    public String shop(Model model, @RequestParam(value = "page",defaultValue = "0")int page){
+    public String shop(Model model, @RequestParam(value = "page",defaultValue = "0")int page) {
         Page<ShopEntity> paging = shopService.itemlist(page);
-        model.addAttribute("paging",paging);
-        System.out.println("페이징#@$@$#@$#@$#"+paging);
+
+        for (ShopEntity shopEntity : paging.getContent()) {
+            Double avgStar = reviewService.starAvg(shopEntity);
+            if (avgStar != null) {
+                shopEntity.setAvgStar(avgStar);
+            } else {
+                shopEntity.setAvgStar(0.0); // 평점이 없을 경우 0으로 처리하거나 다른 방법으로 처리할 수 있습니다.
+            }
+        }
+
+        model.addAttribute("paging", paging);
         return "list/Shop/shop";
     }
     @GetMapping("/create")
@@ -41,12 +57,15 @@ public class ShopController {
 
         return "redirect:/shop";
     }
-    @GetMapping(value = "/detail/{id}")
-    public String detail(@PathVariable("id") Long id,Model model){
-        ShopEntity item = this.shopService.getItem(id);
-        model.addAttribute("item",item);
-     return "list/Shop/itemDetail";
 
+    @GetMapping(value = "/detail/{id}")
+    public String detail(@PathVariable("id") Long id, Model model, ReviewForm reviewForm){
+        ShopEntity shopEntity = this.shopService.getItem(id); // 변수 이름을 shopEntity로 변경
+        // 리뷰 평균 별점을 계산하여 모델에 추가
+        Double avgRating = this.reviewService.calculateAverageRating(shopEntity);
+        model.addAttribute("avgRating", avgRating);
+        model.addAttribute("item", shopEntity);
+        return "list/Shop/itemDetail";
     }
     @GetMapping("/modify/{id}")
     public String itemModify(ShopForm shopForm, @PathVariable("id") Long id) {

@@ -1,4 +1,4 @@
-package com.project.dasuri.shop.pay;
+package com.project.dasuri.shop.form;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;

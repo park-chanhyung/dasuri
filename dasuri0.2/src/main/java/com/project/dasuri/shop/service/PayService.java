@@ -1,8 +1,11 @@
-package com.project.dasuri.shop.pay;
+package com.project.dasuri.shop.service;
 
 
 import com.project.dasuri.member.repository.UserRepository;
-import com.project.dasuri.shop.ShopRepository;
+import com.project.dasuri.shop.entity.PayEntity;
+import com.project.dasuri.shop.form.PayForm;
+import com.project.dasuri.shop.repository.PayRepository;
+import com.project.dasuri.shop.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

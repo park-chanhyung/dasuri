@@ -1,5 +1,6 @@
-package com.project.dasuri.shop;
+package com.project.dasuri.shop.entity;
 
+import com.project.dasuri.member.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,6 +23,8 @@ public class ShopEntity {
 
     @Column
     private String itemname;
+
+
     private LocalDateTime regtime;
 
     @Column
@@ -48,6 +52,14 @@ public class ShopEntity {
 //    @OneToMany(mappedBy = "shopEntity",cascade = CascadeType.REFRESH)
 //    private List<PayEntity> payEntityList;
 
+    @OneToMany(mappedBy = "shopEntity", cascade = CascadeType.REMOVE)
+    private List<ReviewEntity> reviewList;
 
+    @ManyToOne
+    private UserEntity author;
+
+    // 평균 별점 필드 추가
+    @Column
+    private Double avgStar;
 
 }

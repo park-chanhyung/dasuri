@@ -4,12 +4,30 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script th:inline="javascript" src="/js/payform.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/star.css}">
     <style>
 
     .img-fluid{
         height: 400px;
         width: 400px;
+    }
+
+    /* 커스텀 스타일 */
+    .review-form {
+        margin-top: 20px;
+    }
+    /* textarea를 중앙 정렬 */
+    textarea#review {
+        margin: 0 auto;
+    }
+    .review-author{
+        padding-bottom: 10px;
+        font-weight: bold;
+    }
+    .img-star{
+        width: 15px;
+        height: 15px;
+        margin: 0;
     }
 </style>
 </head>
@@ -27,29 +45,90 @@
             <h2 th:text="${item.itemname}"></h2>
             <p>브랜드: <span th:text="${item.seller}"></span></p>
             <p>가격: <span th:text="${item.price}"></span></p>
+            <p>평점: <span th:each="star : ${#numbers.sequence(1, avgRating)}">
+            <img class="img-star" th:src="@{/img/shop/statpoint.png}" alt="star"/>
+                </span>
+                <span th:text="'(' + ${avgRating} + ')'"></span>
+            </p>
+        </span>
+            <span th:if="${avgRating} == null">평가된 리뷰가 없습니다.</span>
             <p>요약: <span th:text="${item.shortinfo}"></span></p>
-            <p>제품설명: <span th:text="${item.iteminfo}"></span></p>
+            <p>제품설명: <span th:text="${item.iteminfo}"> </span></p>
             <p>배송 정보: <span th:text="${item.deliveryinfo}"></span></p>
             <div class="my-3">
                 <a th:href="@{|/shop/modify/${item.id}|}" class="btn btn-sm btn-outline-secondary">수정</a>
                 <a href="javascript:void(0);"   th:data-uri="@{|/shop/delete/${item.id}|}"
                    class="delete btn btn-sm btn-outline-secondary">삭제</a>
 
-
-<!--                <h1 th:text="${item.itemname}"></h1>-->
-                <button id="payForm" th:data-price="${item.price}" th:data-itemname="${item.itemname}">팝업열기</button>
-<!--                <button id="payForm" th:data-itemname="${item.itemname}">팝업열기</button>-->
-
-<!--                <button id="pay-button"-->
-<!--                        th:data-price="${item.price}"-->
-<!--                        th:data-seller="${item.seller}"-->
-<!--                        th:data-itemname="${item.itemname}">-->
-<!--                    결제하기-->
-<!--                </button>-->
+                <button id="payForm" th:data-price="${item.price}" th:data-itemname="${item.itemname}">결제하기</button>
 
             </div>
         </div>
     </div>
+<!-- 답변의 갯수 표시 -->
+<h5 class="border-bottom my-3 py-2"
+    th:text="|${#lists.size(item.reviewList)}개의 리뷰가 있습니다!!|"></h5>
+<!-- 답변 반복 시작 -->
+<div class="card my-3" th:each="review : ${item.reviewList}">
+    <div class="card-body">
+<!--        <div th:text="${item.}"></div>-->
+        <span class="review-author" th:if="${review.author != null}" th:text="${review.author.userId}"></span>
+<!--        <span th:text="${review.star}"></span>-->
+        <span th:each="star : ${#numbers.sequence(1, review.star)}">
+            <img class="img-star" th:src="@{/img/shop/statpoint.png}" alt="star"/>
+        </span>
+
+        <div class="card-text" style="white-space: pre-line;" th:text="${review.comment}"></div>
+        <div class="d-flex justify-content-end">
+            <div class="badge bg-light text-dark p-2 text-start">
+                <div th:text="${#temporals.format(review.createTime, 'yyyy-MM-dd HH:mm')}"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 답변 반복 끝  -->
+<!-- 답변 작성 -->
+<form th:action="@{|/review/create/${item.id}|}" th:object="${reviewForm}" method="post" class="my-3"  name="myform" id="myform" >
+
+
+<!--    별점시작-->
+        <fieldset sec:authorize="isAnonymous()" disabled>
+            <span class="text-bold">별점을 선택해주세요</span>
+            <input type="radio" name="reviewStar" value="5" id="rate1"><label
+                for="rate1">★</label>
+            <input type="radio" name="reviewStar" value="4" id="rate2"><label
+                for="rate2">★</label>
+            <input type="radio" name="reviewStar" value="3" id="rate3"><label
+                for="rate3">★</label>
+            <input type="radio" name="reviewStar" value="2" id="rate4"><label
+                for="rate4">★</label>
+            <input type="radio" name="reviewStar" value="1" id="rate5"><label
+                for="rate5">★</label>
+        </fieldset>
+    <fieldset  sec:authorize="isAuthenticated()">
+        <span class="text-bold">별점을 선택해주세요</span>
+        <input type="radio" name="reviewStar" value="5" id="rate1"><label
+            for="rate1">★</label>
+        <input type="radio" name="reviewStar" value="4" id="rate2"><label
+            for="rate2">★</label>
+        <input type="radio" name="reviewStar" value="3" id="rate3"><label
+            for="rate3">★</label>
+        <input type="radio" name="reviewStar" value="2" id="rate4"><label
+            for="rate4">★</label>
+        <input type="radio" name="reviewStar" value="1" id="rate5"><label
+            for="rate5">★</label>
+    </fieldset>
+
+    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+        <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+    </div>
+    <!--    <input type="hidden" id="userId" name="userId" th:value="${userName}"><br>-->
+    <textarea sec:authorize="isAnonymous()" disabled th:field="*{comment}" class="form-control" rows="5"></textarea>
+    <textarea sec:authorize="isAuthenticated()" th:field="*{comment}" class="form-control" rows="5"></textarea>
+<!--    별점 끝-->
+    <input type="submit" value="리뷰작성" class="btn btn-primary my-2">
+</form>
+
 </div>
 <!--푸터-->
 <footer>
@@ -66,5 +145,9 @@
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript" src="/js/payform.js"></script>
 </body>
 </html>

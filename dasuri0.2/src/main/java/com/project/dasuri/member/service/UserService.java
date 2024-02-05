@@ -5,6 +5,7 @@ import com.project.dasuri.member.entity.ProEntity;
 import com.project.dasuri.member.entity.UserEntity;
 import com.project.dasuri.member.repository.ProRepository;
 import com.project.dasuri.member.repository.UserRepository;
+import com.project.dasuri.shop.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -81,6 +82,15 @@ public class UserService {
             return userId.substring(0, length - 3) + "***";
         } else {
             return userId.substring(0, length - 2) + "**";
+        }
+    }
+
+    public UserEntity getUser(String userId) {
+        UserEntity userEntity = this.userRepository.findByUserId(userId);
+        if (userEntity != null) {
+            return userEntity;
+        } else {
+            throw new DataNotFoundException("UserEntity not found");
         }
     }
 }

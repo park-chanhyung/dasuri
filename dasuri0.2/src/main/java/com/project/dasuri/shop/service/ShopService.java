@@ -1,5 +1,8 @@
-package com.project.dasuri.shop;
+package com.project.dasuri.shop.service;
 
+import com.project.dasuri.shop.DataNotFoundException;
+import com.project.dasuri.shop.entity.ShopEntity;
+import com.project.dasuri.shop.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -104,8 +107,4 @@ public class ShopService {
         return this.shopRepository.findAll();
     }
 
-
-//    public List<ShopEntity> findByPriceAndItemName(String price, String itemName) {
-//        return shopRepository.findByPriceAndItemName(price, itemName);
-//    }
 }

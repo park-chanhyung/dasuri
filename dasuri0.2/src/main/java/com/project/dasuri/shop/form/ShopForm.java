@@ -1,6 +1,7 @@
-package com.project.dasuri.shop;
+package com.project.dasuri.shop.form;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class ShopForm {
     private String seller;
 
     @NotEmpty( message = "최소가격은 1000원입니다.")
+    @Pattern(regexp="^[0-9]+$", message="숫자만 입력해주세요.")
     private String price;
 
     @NotEmpty(message = "배송정보는 필수항목입니다.")

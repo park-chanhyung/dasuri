@@ -5,45 +5,55 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
     <style>
+
         .shop-body{
             width: 60%;
             max-height: 1300px;
-
+            text-decoration: none;
             margin: auto;
         }
+        a {
+             text-decoration: none; /* 링크의 밑줄 제거 */
+             color: inherit; /* 링크의 기본 색상 유지 */
+         }
         .card {
             width: 250px;
-            height: 400px;
+            height: auto;
             border: 1px solid #ccc;
             border-radius: 8px;
-            padding: 5px;
-            margin: 5px;
+            padding: 10px;
+            margin: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             text-align: left;
+            transition: box-shadow 0.3s ease;
         }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
         .card img {
-            margin: auto;
-            padding: 12px;
             width: 100%;
-            max-height: 180px;
-            min-height: 180px;
-            height: 70%;
-            border-radius: 18px;
+            height: auto;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
+
         .card-title {
-            text-align: left;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             margin-bottom: 5px;
         }
+
         .card-text {
-            text-align: left;
             font-size: 14px;
             color: #666;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
-        .card-body{
-            text-align: left;
+
+        .list-group-item {
+            border: none;
+            padding: 5px 0;
         }
         .shop_search {
             width: 40%;
@@ -86,10 +96,6 @@
             width: 60%;
             margin-top: 5px;
         }
-        .null-search{
-            color: red;
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -108,7 +114,7 @@
 </form>
 <div class="shop-body">
     <div class="row">
-        <div class="col-md-3" th:each="item,loop :${paging}">
+        <div class="col-md-3" th:each="item, loop : ${paging}">
             <div class="card mb-4">
                 <a th:href="@{|/shop/detail/${item.id}|}">
                     <img th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="card-img-top">
@@ -117,15 +123,32 @@
                         <p class="card-text" th:text="${item.shortinfo}"></p>
                     </div>
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">가격 : <span th:text="${item.price}"></span></li>
-                        <li class="list-group-item">등록일 : <span th:text="${#temporals.format(item.regtime,'yyyy-MM-dd')}"></span></li>
+                        <li class="list-group-item">
+                            <span>가격: </span>
+                            <span th:text="${item.price}"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>평점: </span>
+                            <span th:if="${item.avgStar != null}">
+                              <span th:each="star : ${#numbers.sequence(1, item.avgStar)}">
+                               <img style="width: 20px; height: 20px;" class="img-star" th:src="@{/img/shop/statpoint.png}" alt="star"/>
+                             </span>
+                            <span th:text="'(' + ${item.avgStar} + ')'" class="span-text"></span>
+                             </span>
+                            <span th:unless="${item.avgStar != null}">
+                                 평점이 없습니다.
+                             </span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>등록일: </span>
+                            <span th:text="${#temporals.format(item.regtime, 'yyyy-MM-dd')}"></span>
+                        </li>
                     </ul>
                 </a>
             </div>
         </div>
     </div>
 </div>
-
 <!-- 페이징처리 시작 -->
 <div th:if="${!paging.isEmpty()}">
     <ul class="pagination justify-content-center">
