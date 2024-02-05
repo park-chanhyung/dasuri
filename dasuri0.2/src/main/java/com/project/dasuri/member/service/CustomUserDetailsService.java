@@ -41,14 +41,5 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         return new CustomUserDetails(userDetailEntity);
-
-//        UserEntity userData = userRepository.findByUserId(username);
-//        ProEntity proData =  proRepository.findByUserId(username);
-//
-//        if (userData != null) {
-//            System.out.println("@#@#@# userDATA 정보가 있습니다. ============================");
-//            return new CustomUserDetails(userData);
-//        }
-
     }
 }

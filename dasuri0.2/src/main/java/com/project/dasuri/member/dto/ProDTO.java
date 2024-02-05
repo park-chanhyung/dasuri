@@ -45,6 +45,7 @@ public class ProDTO {
 
     private LocalDateTime signupDate;
     private LocalDateTime lastModifiedDate;
+    private LocalDateTime suspensionExpiry;
 
     public static ProDTO toProDTO(ProEntity proEntity){
         ProDTO proDTO = new ProDTO();
@@ -57,6 +58,7 @@ public class ProDTO {
         proDTO.setBirth(proEntity.getBirth());
         proDTO.setSignupDate(proEntity.getSignupDate());
         proDTO.setLastModifiedDate(proEntity.getLastModifiedDate());
+        proDTO.setSuspensionExpiry(proEntity.getSuspensionExpiry());
         return proDTO;
     }
 }

@@ -51,6 +51,9 @@ public class UserDTO {
 
     private LocalDateTime signupDate;
     private LocalDateTime lastModifiedDate;
+    private LocalDateTime suspensionExpiry;
+
+
     public static UserDTO toUserDTO(UserEntity userEntity){
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(userEntity.getUserId());
@@ -68,6 +71,7 @@ public class UserDTO {
 
         userDTO.setSignupDate(userEntity.getSignupDate());
         userDTO.setLastModifiedDate(userEntity.getLastModifiedDate());
+        userDTO.setSuspensionExpiry(userEntity.getSuspensionExpiry());
 
         return userDTO;
     }
