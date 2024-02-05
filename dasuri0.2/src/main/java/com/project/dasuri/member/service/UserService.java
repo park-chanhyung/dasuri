@@ -7,8 +7,11 @@ import com.project.dasuri.member.repository.ProRepository;
 import com.project.dasuri.member.repository.UserRepository;
 import com.project.dasuri.shop.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,6 +23,21 @@ public class UserService {
     //repository 호출
     private final UserRepository userRepository;
     private final ProRepository proRepository;
+
+    //정지 기간 부여 메소드
+    @Transactional
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public void suspendUser(String userId, LocalDateTime suspensionExpiry) {
+        UserEntity user = userRepository.findByUserId(userId);
+        ProEntity pro = proRepository.findByProId(userId);
+        if (user != null) {
+            user.setSuspensionExpiry(suspensionExpiry);
+            userRepository.save(user);
+        }else if(pro != null){
+            pro.setSuspensionExpiry(suspensionExpiry);
+            proRepository.save(pro);
+        }
+    }
 
     public void user_signup(UserDTO userDTO){
 //        System.out.println("UserService.sign_up");

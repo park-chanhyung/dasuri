@@ -5,6 +5,7 @@ import com.project.dasuri.member.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -21,15 +22,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
 //        Collection<GrantedAuthority> collection = new ArrayList<>();
-//
 //        collection.add(new GrantedAuthority() {
 //            @Override
 //            public String getAuthority() {
 //                System.out.println("@# CustomUserDetails-> Collectn / getAuthority getRole정보 =======>"+userEntity.getRole());
 //                return userEntity.getRole();
-//
 //            }
 //        });
 //        return collection;
@@ -48,23 +46,30 @@ public class CustomUserDetails implements UserDetails {
         return userDetailEntity.getUserId();
     }
 
+    //계정 만료여부
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    //계정 잠김 여부
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    //계정 유효기간
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    //계정 정지
     @Override
     public boolean isEnabled() {
-        return true;
+        // 현재 시간이 정지 만료 시간보다 이후인 경우에만 계정을 활성화합니다.
+        return userDetailEntity.getSuspensionExpiry() == null ||
+                LocalDateTime.now().isAfter(userDetailEntity.getSuspensionExpiry());
+//        return true;
     }
 }

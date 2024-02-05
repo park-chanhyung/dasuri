@@ -52,6 +52,9 @@ public class UserEntity implements UserDetailEntity{
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
+    private LocalDateTime suspensionExpiry; // 계정 정지 만료 시간
+
+
 //    @Embedded
 //    private UserAddress userAddr;
 
@@ -71,7 +74,11 @@ public class UserEntity implements UserDetailEntity{
         userEntity.setUserAddress(userDTO.getUserAddress());
         userEntity.setUserDetailaddress(userDTO.getUserDetailaddress());
         userEntity.setUserExtraaddress(userDTO.getUserExtraaddress());
-        userEntity.setRole("ROLE_USER");
+        if(userDTO.getUserId().equals("admin")){
+            userEntity.setRole("ROLE_ADMIN");
+        }else{
+            userEntity.setRole("ROLE_USER");
+        }
         userEntity.setBirth(userDTO.getBirth());
 
         return userEntity;

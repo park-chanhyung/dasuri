@@ -43,6 +43,9 @@ public class ProEntity implements UserDetailEntity{
     @LastModifiedDate
     private LocalDateTime lastModifiedDate;
 
+    private LocalDateTime suspensionExpiry; //계정 정지 만료기간
+
+
     // UserDetailEntity 인터페이스 구현
     @Override
     public String getRole() {
@@ -59,6 +62,11 @@ public class ProEntity implements UserDetailEntity{
         return proId;
     }
 
+    @Override
+    public LocalDateTime getSuspensionExpiry() {
+        return suspensionExpiry;
+    }
+
     public static ProEntity toProEntity(ProDTO proDTO){
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         ProEntity proEntity = new ProEntity();
@@ -69,7 +77,11 @@ public class ProEntity implements UserDetailEntity{
         proEntity.setProPwd(bCryptPasswordEncoder.encode(proDTO.getProPwd()));
         proEntity.setProPhone(proDTO.getProPhone());
         proEntity.setProLegions(proDTO.getProLegions());
-        proEntity.setRole("ROLE_PRO");
+        if(proDTO.getProId().equals("admin")){
+            proEntity.setRole("ROLE_ADMIN");
+        }else{
+            proEntity.setRole("ROLE_PRO");
+        }
         proEntity.setBirth(proDTO.getBirth());
         return proEntity;
     }
