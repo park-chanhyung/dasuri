@@ -27,6 +27,9 @@ public class NoticeDTO {
     private String filename; //첨부파일명(uuid)
     private String filePath;//첨부파일경로
 
+
+
+
     public NoticeDTO(Long notice_id, String noticeTitle, String notice_updateDate) {
         this.notice_id = notice_id;
         this.noticeTitle = noticeTitle;

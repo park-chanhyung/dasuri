@@ -11,8 +11,8 @@
     <div class="moon_answer_container">
         <h1> 답변 작성 </h1>
 
-        <form th:action="@{admin_moon_answer_ok}" method="post" onsubmit="return confirm('답변을 등록하시겠습니까?');">
-            <input type="hidden" name="moonPkId" th:value="${moon.moonPkId}">
+<!--        <form th:action="@{admin_moon_answer_ok}" method="post" onsubmit="return confirm('답변을 등록하시겠습니까?');">-->
+        <form th:action="@{/admin_moon_answer_ok/{moonPkId}(moonPkId=${moon.moonPkId})}" method="post" onsubmit="return confirm('답변을 등록하시겠습니까?');">
             <textarea name="moonAnswer" cols="80" rows="10" placeholder="답변을 작성하세요."></textarea>
             <div class="input">
                 <input type="submit" value="완료">

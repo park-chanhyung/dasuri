@@ -19,9 +19,7 @@
 			<div class="half_content">
 			<!--		1 공지사항 -->
 				<div class="admin_half_area">
-
 					<h1 class="blue">공지사항</h1>
-
 					<!--  	  검색창 영역 -->
 					<form th:action="@{admin_notice_search}" id="notice_search">
 						<div class="search">
@@ -40,38 +38,36 @@
 							<tr>
 								<th style="width: 5%">구분</th>
 								<th style="width: 30%">제목</th>
-								<th style="width: 30%">내용</th>
-								<th style="width: 5%"></th>
 							</tr>
-<!--							<form action="admin_notice_view" id="go_search" method="get">-->
-							<form th:action="@{/admin_notice_view}" id="go_search" method="post">
-								<input type="hidden" id="notice_Id" name="id" value=""/>
-								<tr th:each="important: ${importants}">
-									<th th:text="중요" style="color:#6192FA;font-weight: bold"></th>
-									<td th:text="${important.noticeTitle}" th:attr="onclick='submitLook('+${important.notice_id}+')'"></td>
-									<td th:text="${important.noticeContent}" th:attr="onclick='submitLook('+${important.notice_id}+')'"></td>
-								</tr>
-
-								<tr th:each="normal: ${normals}">
-									<th th:text="${normal.notice_no}"></th>
-									<td th:text="${normal.noticeTitle}" th:attr="onclick='submitLook('+${normal.notice_id}+')'" ></td>
-									<td th:text="${normal.noticeContent}" th:attr="onclick='submitLook('+${normal.notice_id}+')'"></td>
-								</tr>
-							</form>
+							<tr th:each="important: ${importants}" th:onclick="'noticeView(\'' + ${important.notice_id} + '\', ' + (${normals.number} + 1) + ')'">
+								<th th:text="중요" style="color:#6192FA;font-weight: bold"></th>
+								<td th:text="${important.noticeTitle}"></td>
+							</tr>
+							<tr th:each="normal: ${normals}" th:onclick="'noticeView(\'' + ${normal.notice_id} + '\', ' + (${normals.number} + 1) + ')'">
+								<th th:text="${normal.notice_id}"></th>
+								<td th:text="${normal.noticeTitle}"></td>
+							</tr>
 						</table>
 <!--						페이징 영역-->
 						<div class="mem_paging_wrap">
 							<table class="mem_paging">
 								<tr>
-									<td> << </td>
-									<td> 1 </td>
-									<td> 2 </td>
-									<td> 3 </td>
-									<td> 4 </td>
-									<td> >> </td>
+									<td> <a th:href="@{/admin_notice(page=1)}"> << </a> </td>
+									<td> <a th:href="${normals.first} ? '#' : @{/admin_notice(page=${normals.number})}"> < </a> </td>
+									<td>
+										<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+											<span class="current" th:if="${page == normals.number + 1}" th:text="${page}"></span>
+											<span th:unless="${page == normals.number + 1}">
+												<a th:href="@{/admin_notice(page=${page})}" th:text="${page}"></a>
+											</span>
+                						</span>
+									</td>
+									<td> <a th:href="${normals.last} ? '#' : @{/admin_notice(page=${normals.number + 2})}"> > </a> </td>
+									<td> <a th:href="@{/admin_notice(page=${normals.totalPages})}"> >> </a> </td>
 								</tr>
 							</table>
 						</div>
+						<!-- 페이징 영역 끝 -->
 					</div>
 				</div>
 
@@ -98,32 +94,34 @@
 								<th style="width: 5%">번호</th>
 								<th style="width: 5%">태그</th>
 								<th style="width: 30%">질문</th>
-								<th style="width: 30%">답변</th>
-								<th style="width: 5%"></th>
 							</tr>
-							<form th:action="@{admin_faq_view}" id="faq_look" method="post">
-								<input type="hidden" name="id" id="faq_id" value=""/>
-								<tr th:each="faq: ${faqList}">
-									<th th:text="${faq.faq_no}"></th>
-									<th th:text="${faq.faqTag}"></th>
-									<td th:text="${faq.faqQuestion}" th:attr="onclick='submitFaqLook('+${faq.faqId}+')'"></td>
-									<td th:text="${faq.faqAnswer}" th:attr="onclick='submitFaqLook('+${faq.faqId}+')'"></td>
-								</tr>
-							</form>
+							<tr th:each="faq: ${faqList}" th:onclick="'faqView(\'' + ${faq.faqId} + '\', ' + (${faqList.number} + 1) + ')'">
+								<th th:text="${faq.faqId}"></th>
+								<th th:text="${faq.faqTag}"></th>
+								<td th:text="${faq.faqQuestion}"></td>
+							</tr>
 						</table>
-<!--						페이징영역-->
+
+						<!--						페이징 영역-->
 						<div class="mem_paging_wrap">
 							<table class="mem_paging">
 								<tr>
-									<td> << </td>
-									<td> 1 </td>
-									<td> 2 </td>
-									<td> 3 </td>
-									<td> 4 </td>
-									<td> >> </td>
+									<td> <a th:href="@{/admin_notice(page=1)}"> << </a> </td>
+									<td> <a th:href="${faqList.first} ? '#' : @{/admin_notice(page=${faqList.number})}"> < </a> </td>
+									<td>
+										<span th:each="page: ${#numbers.sequence(startPage_faq, endPage_faq)}">
+											<span class="current" th:if="${page == faqList.number + 1}" th:text="${page}"></span>
+											<span th:unless="${page == faqList.number + 1}">
+												<a th:href="@{/admin_notice(page=${page})}" th:text="${page}"></a>
+											</span>
+                						</span>
+									</td>
+									<td> <a th:href="${faqList.last} ? '#' : @{/admin_notice(page=${faqList.number + 2})}"> > </a> </td>
+									<td> <a th:href="@{/admin_notice(page=${faqList.totalPages})}"> >> </a> </td>
 								</tr>
 							</table>
 						</div>
+
 					</div>
 				</div>
 			</div>
@@ -137,19 +135,20 @@
 </body>
 </html>
 <script>
-	function submitLook(noticeId) {
-		document.getElementById('notice_Id').value = noticeId;
-		// 폼 제출 (공지보기)
-		document.getElementById('go_search').submit();
-		// window.location.href = '/admin_notice_view/' + noticeId;
+<!--	공지 보기 -->
+	function noticeView(noticeId, currentPage) {
+		window.location.href = '/admin_notice_view/' + noticeId + '?page=' + currentPage;
+	}
+	function faqView(faqId, currentPage) {
+		window.location.href = '/admin_faq_view/' + faqId + '?page=' + currentPage;
 	}
 	function submitFaqLook(faqId) {
 		document.getElementById('faq_id').value = faqId;
 		// 폼 제출 (faq보기)
 		document.getElementById('faq_look').submit();
 	}
-	function submitSearch() {
-		// 폼 제출 (공지 검색)
+	function submitSearch(noticeId, keyword) {
+		// 공지 검색
 		document.getElementById('notice_search').submit();
 	}
 	function submitSearch2() {

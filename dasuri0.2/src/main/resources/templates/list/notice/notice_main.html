@@ -44,24 +44,20 @@
                     </tr>
                     <tr th:each="important: ${importants}">
                         <td th:text="${important.notice_type}" style="color:#6192FA;font-weight: bold"></td>
-<!--                        <td th:text="${important.noticeTitle}" th:attr="onclick='submitForm(' + ${important.notice_id} + ')'" ></td>-->
                         <td th:onclick="'noticeView(\'' + ${important.notice_id} + '\', ' + (${normals.number} + 1) + ')'" th:text="${important.noticeTitle}"></td>
                         <td th:text="${important.notice_updateDate}"></td>
                     </tr>
                     <tr th:each="normal: ${normals}">
                         <td th:text="${normal.notice_id}"></td>
-<!--                        <td>-->
-<!--                            <a th:href="@{|/notice_main_view/${normal.notice_id}?page=${normals.number + 1}|}" th:text="${normal.noticeTitle}"></a>-->
-<!--                        </td>-->
                         <td th:onclick="'noticeView(\'' + ${normal.notice_id} + '\', ' + (${normals.number} + 1) + ')'" th:text="${normal.noticeTitle}"></td>
                         <td th:text="${normal.notice_updateDate}"></td>
                     </tr>
                 </table>
 
-<!--            페이징 영역 -->
+<!--        페이징 영역 -->
             <div class="pageArea">
                 <!-- 첫번째 페이지로 이동 -->
-                <a th:href="@{/notice_main(page=1)}"> << </a>
+                <a th:href="@{/admin_notice(page=1)}"> << </a>
                 <!-- 이전 링크 활성화 비활성화 -->
                 <a th:href="${normals.first} ? '#' : @{/notice_main(page=${normals.number})}"> < </a>
 
@@ -83,6 +79,7 @@
                 <!-- 마지막 페이지로 이동 -->
                 <a th:href="@{/notice_main(page=${normals.totalPages})}"> >> </a>
             </div>
+<!--        페이징 영역 끝 -->
 
         </div>
     </div>

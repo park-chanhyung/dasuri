@@ -10,15 +10,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -34,21 +32,35 @@ public class NoticeController {
     private final FaqService faqService;
     private final Admin_MoonService adminMoonService;
 
-    //  관리자페이지 > 공지관리 (공지&FAQ 리스트)
     @RequestMapping("/admin_notice")
-    public String admin_notice(Model model) {
+    public String admin_notice(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        // 일반공지 페이징 (고유번호 내림차순)
+        Page<NoticeDTO> normalDTOs = noticeService.admin_paging(pageable); // 글번호, 제목, 수정일자
 
+        // faq 페이징 (고유번호 내림차순)
+        Page<FaqDTO> faqDTOS = faqService.admin_paging(pageable);
 
-        List<FaqDTO> faqDTOS = faqService.findAll(); //faq리스트
-        List<NoticeDTO> importantDTOs = noticeService.findByImportantNotNull(); //중요공지리스트
-        List<NoticeDTO> normalDTOs = noticeService.findByImportantNull(); //일반공지리스트
+        // 현재 페이지에서 앞 뒤 갯수
+        int blockLimit = 5;
 
-        model.addAttribute("importants",importantDTOs);
-        model.addAttribute("normals",normalDTOs);
-        model.addAttribute("faqList",faqDTOS);
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < normalDTOs.getTotalPages()) ? startPage + blockLimit - 1 : normalDTOs.getTotalPages();
 
-        model.addAttribute("moons",adminMoonService.findAll());
+        int startPage_faq = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage_faq = ((startPage_faq + blockLimit - 1) < faqDTOS.getTotalPages()) ? startPage_faq + blockLimit - 1 : faqDTOS.getTotalPages();
 
+        model.addAttribute("normals", normalDTOs); // 일반공지(페이징)
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+        model.addAttribute("faqList", faqDTOS); // faq(페이징)
+        model.addAttribute("startPage_faq", startPage_faq);
+        model.addAttribute("endPage_faq", endPage_faq);
+
+        List<NoticeDTO> importantDTOs = noticeService.findByImportantNotNull();
+        model.addAttribute("importants", importantDTOs); // 중요공지
+
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_notice";
     }
 
@@ -56,7 +68,7 @@ public class NoticeController {
     //    관리자페이지 > 공지관리 > 공지올리기 (작성 폼)
     @RequestMapping("/admin_notice_write")
     public String admin_notice_write(Model model) {
-        model.addAttribute("moons",adminMoonService.findAll());
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "adminad/admin_notice_write";
     }
 
@@ -66,14 +78,13 @@ public class NoticeController {
     public String admin_notice_write_ok(@Valid NoticeDTO noticeDTO, @RequestParam("file") MultipartFile file, Model model) throws IOException {
         noticeDTO.setNoticeContent(noticeDTO.getNoticeContent().replace("\r\n","<br>"));
         noticeService.save(noticeDTO, file);
-        model.addAttribute("moons",adminMoonService.findAll());
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "redirect:/admin_notice";
     }
 
     //    관리자페이지 > 공지관리 > 공지보기 (내용보기 및 수정삭제)
-    @PostMapping("/admin_notice_view")
-//    @GetMapping("/admin_notice_view/{id}")
-    public String admin_notice_view(@RequestParam Long id,Model model) {
+    @GetMapping("/admin_notice_view/{id}")
+    public String admin_notice_view(@PathVariable Long id,Model model) {
         NoticeDTO noticeDTO = noticeService.findByNoticeId(id);
         if (noticeDTO.getImportant() == null) {
             noticeDTO.setNotice_type("일반");
@@ -81,7 +92,7 @@ public class NoticeController {
             noticeDTO.setNotice_type("중요");
         }
         model.addAttribute("notice",noticeDTO);
-        model.addAttribute("moons",adminMoonService.findAll());
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "adminad/admin_notice_look";
     }
 
@@ -90,7 +101,7 @@ public class NoticeController {
     @PostMapping("/admin_notice_update")
     public String admin_notice_update(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         model.addAttribute("notice",noticeDTO);
-        model.addAttribute("moons",adminMoonService.findAll());
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "adminad/admin_notice_update";
     }
 
@@ -100,7 +111,7 @@ public class NoticeController {
         noticeDTO.setNoticeContent(noticeDTO.getNoticeContent().replace("\r\n", "<br>"));
         noticeService.update(noticeDTO, file);
         model.addAttribute("notice", noticeDTO);
-        model.addAttribute("moons",adminMoonService.findAll());
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "adminad/admin_notice_look";
     }
 
@@ -111,23 +122,33 @@ public class NoticeController {
     public String admin_notice_delete(@ModelAttribute NoticeDTO noticeDTO, Model model) {
         noticeService.deleteByNoticeId(noticeDTO.getNotice_id());
         model.addAttribute("notice",noticeDTO);
-        model.addAttribute("moons",adminMoonService.findAll());
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "redirect:/admin_notice";
     }
 
     //    관리자페이지 > 공지관리 > 공지검색
     @RequestMapping("/admin_notice_search")
-    public String notice_search2(@RequestParam String notice_keyword, Model model) {
+    public String notice_search2(@RequestParam String notice_keyword, @PageableDefault(page = 1) Pageable pageable, Model model) {
+
+        //        일반공지 페이징 (고유번호 내림차순)
+        Page<NoticeDTO> normalDTOs = noticeService.admin_searchNo(pageable,notice_keyword); //글번호, 제목, 수정일자
+
+        int blockLimit  = 5;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) -1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < normalDTOs.getTotalPages()) ? startPage + blockLimit - 1 : normalDTOs.getTotalPages();
+
+        model.addAttribute("normals",normalDTOs); //일반공지리스트(페이징)
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
         List<NoticeDTO> importantDTOs = noticeService.searchIm(notice_keyword);
-        List<NoticeDTO> normalDTOs = noticeService.searchNo(notice_keyword);
-        List<FaqDTO> faqDTOS = faqService.findAll();
+        Page<FaqDTO> faqDTOS = faqService.admin_paging(pageable);
 
         model.addAttribute("importants",importantDTOs); //중요공지 검색결과
-        model.addAttribute("normals",normalDTOs); //일반공지 검색결과
         model.addAttribute("keyword",notice_keyword); //검색한 키워드
         model.addAttribute("faqList",faqDTOS); //같은 화면에 담을 faq리스트
 
-        model.addAttribute("moons",adminMoonService.findAll());
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
 
         return "/adminad/admin_notice_search";
     }

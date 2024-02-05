@@ -14,6 +14,7 @@
     <!--   헤더 -->
     <nav th:replace="~{/adminad/fragment/admin_header :: admin_header3}"></nav>
 
+
     <section class="content">
         <div class="admin_one_area">
 
@@ -68,7 +69,7 @@
                                 <input type="submit" value="삭제">
                             </form>
                         </th>
-                        <th> <button type="button" onclick="location='/admin_notice'">목록으로</button> </th>
+                        <th> <button type="button" onclick="goToNoticeMain()">목록으로</button> </th>
                     </tr>
                 </table>
 
@@ -83,3 +84,21 @@
 
 </body>
 </html>
+<script>
+    // 목록으로
+    function goToNoticeMain() {
+        // 현재 URL에서 쿼리 문자열을 가져오기
+        var queryString = window.location.search;
+
+        // URL에서 'page' 파라미터 값 가져오기
+        var pageParam = new URLSearchParams(queryString).get('page');
+
+        // 'page' 값이 있다면 목록으로 이동
+        if (pageParam !== null) {
+            window.location.href = '/admin_notice?page=' + pageParam;
+        } else {
+            // 'page' 값이 없다면 기본적으로 1페이지로 이동
+            window.location.href = '/admin_notice?page=1';
+        }
+    }
+</script>

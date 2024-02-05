@@ -36,8 +36,17 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <button type="button">탈퇴처리</button>
-                    <p>탈퇴 처리는 신중히 결정하세요.</p>
+                    <form th:action="@{/admin_suspendUser}" onsubmit="return confirm('회원을 정지 처리하시겠습니까?');">
+                        <input type="hidden" th:value="${user.userId}" name="userId">
+                        <label for="duration">회원 정지:</label>
+                        <select name="duration" id="duration">
+                            <option value="7">7일</option>
+                            <option value="30">30일</option>
+                            <option value="999999999">영구</option>
+                        </select>
+                        <input type="submit" value="정지">
+                    </form>
+                    <p>정지 처리는 신중히 결정하세요.</p>
                 </td>
             </tr>
         </table>

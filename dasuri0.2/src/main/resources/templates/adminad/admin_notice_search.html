@@ -40,38 +40,32 @@
 						<tr>
 							<th style="width: 5%">구분</th>
 							<th style="width: 30%">제목</th>
-							<th style="width: 30%">내용</th>
-							<th style="width: 5%"></th>
 						</tr>
-						<form th:action="@{admin_notice_view}" id="go_search" method="post">
-							<input type="hidden" id="id" name="id" value=""/>
-							<tr th:each="important: ${importants}">
-								<th th:text="중요" style="color:#6192FA;font-weight: bold"></th>
-								<td th:text="${important.noticeTitle}" th:attr="onclick='submitLook('+${important.notice_id}+')'"
-									th:utext="${#strings.replace(important.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
-								<td th:text="${important.noticeContent}" th:attr="onclick='submitLook('+${important.notice_id}+')'"
-									th:utext="${#strings.replace(important.noticeContent, keyword, '<span>' + keyword + '</span>')}"></td>
-							</tr>
-
-							<tr th:each="normal: ${normals}">
-								<th th:text="${normal.notice_no}"></th>
-								<td th:text="${normal.noticeTitle}" th:attr="onclick='submitLook('+${normal.notice_id}+')'"
-									th:utext="${#strings.replace(normal.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
-								<td th:text="${normal.noticeContent}" th:attr="onclick='submitLook('+${normal.notice_id}+')'"
-									th:utext="${#strings.replace(normal.noticeContent, keyword, '<span>' + keyword + '</span>')}"></td>
-							</tr>
-						</form>
+						<tr th:each="important: ${importants}" th:onclick="'noticeView(\'' + ${important.notice_id} + '\', ' + (${normals.number} + 1) + ')'">
+							<th th:text="중요" style="color:#6192FA;font-weight: bold"></th>
+							<td th:text="${important.noticeTitle}" th:utext="${#strings.replace(important.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
+						</tr>
+						<tr th:each="normal: ${normals}" th:onclick="'noticeView(\'' + ${normal.notice_id} + '\', ' + (${normals.number} + 1) + ')'">
+							<th th:text="${normal.notice_id}"></th>
+							<td th:text="${normal.noticeTitle}" th:utext="${#strings.replace(normal.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
+						</tr>
 					</table>
-					<!--						페이징 영역-->
+					<!-- 페이징 영역 -->
 					<div class="mem_paging_wrap">
 						<table class="mem_paging">
 							<tr>
-								<td> << </td>
-								<td> 1 </td>
-								<td> 2 </td>
-								<td> 3 </td>
-								<td> 4 </td>
-								<td> >> </td>
+								<td> <a th:href="@{/admin_notice_search(page=1, notice_keyword=${keyword})}"> << </a> </td>
+								<td> <a th:href="${normals.first} ? '#' : @{/admin_notice_search(page=${normals.number}, notice_keyword=${keyword})}"> < </a> </td>
+								<td>
+									<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+										<span class="current" th:if="${page == normals.number + 1}" th:text="${page}"></span>
+										<span th:unless="${page == normals.number + 1}">
+											<a th:href="@{/admin_notice_search(page=${page}, notice_keyword=${keyword})}" th:text="${page}"></a>
+										</span>
+									</span>
+								</td>
+								<td> <a th:href="${normals.last} ? '#' : @{/admin_notice_search(page=${normals.number + 2}, notice_keyword=${keyword})}"> > </a> </td>
+								<td> <a th:href="@{/admin_notice_search(page=${normals.totalPages}, notice_keyword=${keyword})}"> >> </a> </td>
 							</tr>
 						</table>
 					</div>
@@ -102,7 +96,6 @@
 							<th style="width: 5%">태그</th>
 							<th style="width: 30%">질문</th>
 							<th style="width: 30%">답변</th>
-							<th style="width: 5%"></th>
 						</tr>
 						<form th:action="@{admin_faq_view}" id="faq_look" method="post">
 							<input type="hidden" name="id" id="faq_id" value=""/>
@@ -114,19 +107,26 @@
 							</tr>
 						</form>
 					</table>
-					<!--						페이징영역-->
+					<!--						페이징 영역-->
 					<div class="mem_paging_wrap">
 						<table class="mem_paging">
 							<tr>
-								<td> << </td>
-								<td> 1 </td>
-								<td> 2 </td>
-								<td> 3 </td>
-								<td> 4 </td>
-								<td> >> </td>
+								<td> <a th:href="@{/admin_notice(page=1)}"> << </a> </td>
+								<td> <a th:href="${normals.first} ? '#' : @{/admin_notice(page=${normals.number})}"> < </a> </td>
+								<td>
+										<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+											<span class="current" th:if="${page == normals.number + 1}" th:text="${page}"></span>
+											<span th:unless="${page == normals.number + 1}">
+												<a th:href="@{/admin_notice(page=${page})}" th:text="${page}"></a>
+											</span>
+                						</span>
+								</td>
+								<td> <a th:href="${normals.last} ? '#' : @{/admin_notice(page=${normals.number + 2})}"> > </a> </td>
+								<td> <a th:href="@{/admin_notice(page=${normals.totalPages})}"> >> </a> </td>
 							</tr>
 						</table>
 					</div>
+					<!-- 페이징 영역 끝 -->
 				</div>
 			</div>
 		</div>
@@ -140,11 +140,11 @@
 </body>
 </html>
 <script>
-	function submitLook(noticeId) {
-		document.getElementById('id').value = noticeId;
-		// 폼 제출 (공지보기)
-		document.getElementById('go_search').submit();
+<!--	공지 보기 -->
+	function noticeView(noticeId, currentPage) {
+		window.location.href = '/admin_notice_view/' + noticeId + '?page=' + currentPage;
 	}
+
 	function submitFaqLook(faqId) {
 		document.getElementById('faq_id').value = faqId;
 		// 폼 제출 (faq보기)

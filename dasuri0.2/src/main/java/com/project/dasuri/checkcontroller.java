@@ -63,27 +63,14 @@ public class checkcontroller {
     
     //------------------------------- 공지사항 ------------------------------------------
 
-////    메인 > 공지사항
-//    @GetMapping("/notice_main")
-//    public String notice(Model model) {
-//        List<NoticeDTO> importantDTOs = noticeService.findByImportantNotNull(); //중요공지리스트
-//        List<NoticeDTO> normalDTOs = noticeService.findByImportantNull(); //일반공지리스트
-//        model.addAttribute("importants",importantDTOs);
-//        model.addAttribute("normals",normalDTOs);
-//
-//        return "/list/notice/notice_main";
-//    }
-
-//    메인 > 공지사항 (페이징)
+    //    메인 > 공지사항 (페이징)
     @GetMapping("/notice_main")
     public String notice(@PageableDefault(page = 1) Pageable pageable,  Model model) {
-//        pageable.getPageNumber();
-
 //        일반공지 페이징 (고유번호 내림차순)
         Page<NoticeDTO> normalDTOs = noticeService.paging(pageable); //글번호, 제목, 수정일자
 
 //        현재 페이지에서 앞 뒤 갯수 ex> 1 2 3 (4) 5 6 7
-        int blockLimit  = 3;
+        int blockLimit  = 5;
 
         int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) -1) * blockLimit + 1;
         int endPage = ((startPage + blockLimit - 1) < normalDTOs.getTotalPages()) ? startPage + blockLimit - 1 : normalDTOs.getTotalPages();
@@ -92,8 +79,8 @@ public class checkcontroller {
         model.addAttribute("startPage",startPage);
         model.addAttribute("endPage",endPage);
 
-        List<NoticeDTO> importantDTOs = noticeService.findByImportantNotNull(); //중요공지리스트
-        model.addAttribute("importants",importantDTOs);
+        List<NoticeDTO> importantDTOs = noticeService.findByImportantNotNull();
+        model.addAttribute("importants",importantDTOs); //중요공지리스트
 
         return "/list/notice/notice_main";
     }
@@ -113,13 +100,22 @@ public class checkcontroller {
     }
 
 //    메인 > 공지사항 > 공지 검색 (중요+일반)
-    @RequestMapping("/notice_search")
-    public String notice_search(@RequestParam String notice_keyword, Model model) {
+    @GetMapping("/notice_search")
+    public String notice_search(@RequestParam String notice_keyword, @PageableDefault(page = 1) Pageable pageable, Model model) {
+//        일반공지 페이징 (고유번호 내림차순)
+        Page<NoticeDTO> normalDTOs = noticeService.searchNo(pageable,notice_keyword); //글번호, 제목, 수정일자
+
+        int blockLimit  = 5;
+        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) -1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < normalDTOs.getTotalPages()) ? startPage + blockLimit - 1 : normalDTOs.getTotalPages();
+
+        model.addAttribute("normals",normalDTOs); //일반공지리스트(페이징)
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+
         List<NoticeDTO> importantDTOs = noticeService.searchIm(notice_keyword); //중요공지 검색
-        List<NoticeDTO> normalDTOs = noticeService.searchNo(notice_keyword); //일반공지 검색
 
         model.addAttribute("importants",importantDTOs);
-        model.addAttribute("normals",normalDTOs);
         model.addAttribute("keyword",notice_keyword);
 
         return "/list/notice/notice_search_result";
@@ -162,28 +158,56 @@ public class checkcontroller {
 
     //    메인 - 고객센터 - 자주찾는질문 (리스트)
     @RequestMapping("/center_faq")
-    public String center_faq(Model model) {
-        log.info("center_faq !!!!!!!!!!!!!!!!!!!!!!! ");
-        List<FaqDTO> faqDTOS = faqService.findAll();
+    public String center_faq(@PageableDefault(page = 1) Pageable pageable, Model model) {
+//        faq 리스트 (faqId 내림차순)
+        Page<FaqDTO> faqDTOS = faqService.admin_paging(pageable);
+
+        // 현재 페이지에서 앞 뒤 갯수
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < faqDTOS.getTotalPages()) ? startPage + blockLimit - 1 : faqDTOS.getTotalPages();
+
         model.addAttribute("faqs",faqDTOS);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
         return "list/service/center_faq";
     }
 
     //    메인 - 고객센터 - 자주찾는질문 (해시태그 필터링)
     @RequestMapping("/center_faq_tag")
-    public String center_faq_tag(@RequestParam String faqTag, Model model) {
-        List<FaqDTO> faqDTOS = faqService.findByFaqTag(faqTag);
+    public String center_faq_tag(@RequestParam String faqTag,@PageableDefault(page = 1) Pageable pageable, Model model) {
+        Page<FaqDTO> faqDTOS = faqService.findByFaqTag(pageable, faqTag);
+
+        // 현재 페이지에서 앞 뒤 갯수
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < faqDTOS.getTotalPages()) ? startPage + blockLimit - 1 : faqDTOS.getTotalPages();
+
         model.addAttribute("faqs",faqDTOS);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("faqTag", faqTag);
+
         return "/list/service/center_faq_tag";
     }
 
     //    메인 - 고객센터 - 자주찾는질문 (검색)
     @RequestMapping("/center_faq_search")
-    public String center_faq_search(@RequestParam String faq_keyword, Model model) {
-        List<FaqDTO> faqDTOS = faqService.searchFaq(faq_keyword); //FAQ 검색
+    public String center_faq_search(@RequestParam String faq_keyword, @PageableDefault(page = 1) Pageable pageable, Model model) {
+        // faq 페이징 (고유번호 내림차순)
+        Page<FaqDTO> faqDTOS = faqService.searchFaq(faq_keyword, pageable); //faq 검색결과
+
+        // 현재 페이지에서 앞 뒤 갯수
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < faqDTOS.getTotalPages()) ? startPage + blockLimit - 1 : faqDTOS.getTotalPages();
+
 
         model.addAttribute("faqs",faqDTOS);
-        model.addAttribute("keyword",faq_keyword);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("faq_keyword",faq_keyword);
 
         return "/list/service/center_faq_search";
     }

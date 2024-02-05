@@ -33,18 +33,21 @@
     <!--		검색창 영역 끝 -->
 
     <!--    해시태그(중복값 제거) -->
-    <div class="hashTag_area">
-        <ul th:if="${faqs.size() > 0}" id="hashTagList">
-            <th:block th:with="uniqueTags=${#sets.toSet(faqs.![faqTag])}">
-                <li th:each="tag : ${uniqueTags}">
-                    <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'" ></div>
-                </li>
-                <li>
-                    <div class="hashTag" onclick="location='center_faq'">전체보기</div>
-                </li>
-            </th:block>
-        </ul>
-    </div>
+    <form th:action="@{/center_faq_tag}" id="hashForm">
+        <div class="hashTag_area">
+            <ul th:if="${faqs.content.size() > 0}" id="hashTagList">
+                <th:block th:with="uniqueTags=${#sets.toSet(faqs.content.![faqTag])}">
+                    <li th:each="tag : ${uniqueTags}">
+                        <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'"></div>
+                    </li>
+                    <li>
+                        <div class="hashTag" onclick="location='center_faq'">전체보기</div>
+                    </li>
+                </th:block>
+            </ul>
+        </div>
+        <input type="hidden" name="faqTag" id="tag"/>
+    </form>
 
     <!--faq 리스트 -->
     <div class="faq_area">
@@ -59,6 +62,28 @@
                     <td colspan="3" th:text="${faq.faqAnswer}"></td>
                 </tr>
             </table>
+            <!-- 페이징 영역 -->
+            <div class="pageArea">
+                <!-- 첫번째 페이지로 이동 -->
+                <a th:href="@{/center_faq_tag(page=1, faqTag=${faqTag})}"> << </a>
+                <!-- 이전 링크 활성화 비활성화 -->
+                <a th:href="${faqs.first} ? '#' : @{/center_faq_tag(page=${faqs.number}, faqTag=${faqTag})}"> < </a>
+
+                <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
+                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                    <!-- 현재페이지는 링크 없이 숫자만 -->
+                    <span th:if="${page == faqs.number + 1}" th:text="${page}"></span>
+                    <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+                    <span th:unless="${page == faqs.number + 1}">
+                        <a th:href="@{/center_faq_tag(page=${page}, faqTag=${faqTag})}" th:text="${page}"></a>
+                    </span>
+                </span>
+                <!-- 다음 링크 활성화 비활성화 -->
+                <a th:href="${faqs.last} ? '#' : @{/center_faq_tag(page=${faqs.number + 2}, faqTag=${faqTag})}"> > </a>
+                <!-- 마지막 페이지로 이동 -->
+                <a th:href="@{/center_faq_tag(page=${faqs.totalPages}, faqTag=${faqTag})}"> >> </a>
+            </div>
+<!--            페이징 영역 끝 -->
         </div>
     </div>
 

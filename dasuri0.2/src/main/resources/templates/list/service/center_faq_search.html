@@ -21,7 +21,7 @@
 
     <div class="center_title">
         <h1>자주 찾는 질문</h1>
-        <h4 th:text="'( '+${keyword}+' ) '" class="red"></h4>
+        <h4 th:text="'( '+${faq_keyword}+' ) '" class="red"></h4>
         <h4>으로 검색한 결과입니다.&nbsp;&nbsp;&nbsp; </h4>
         <h4 class="red"><a href="center_faq"> 전체보기 </a></h4>
 
@@ -34,21 +34,18 @@
         </form>
         <!--		검색창 영역 끝 -->
 
-    <!--    해시태그(중복값 제거) -->
-        <form id="hashForm" th:action="@{center_faq_tag}">
+        <!--    해시태그(중복값 제거) -->
+        <form th:action="@{/center_faq_tag}" id="hashForm">
             <div class="hashTag_area">
-                <ul th:if="${faqs.size() > 0}" id="hashTagList">
-                    <th:block th:with="uniqueTags=${#sets.toSet(faqs.![faqTag])}">
+                <ul th:if="${faqs.content.size() > 0}" id="hashTagList">
+                    <th:block th:with="uniqueTags=${#sets.toSet(faqs.content.![faqTag])}">
                         <li th:each="tag : ${uniqueTags}">
-                            <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'" ></div>
-                        </li>
-                        <li>
-                            <div class="hashTag" onclick="location='center_faq'">전체보기</div>
+                            <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'"></div>
                         </li>
                     </th:block>
                 </ul>
             </div>
-            <input type="hidden" name="faqTag" id="tag">
+            <input type="hidden" name="faqTag" id="tag"/>
         </form>
 
     <!--faq 리스트 -->
@@ -57,19 +54,41 @@
             <table class="faq_table" th:each="faq: ${faqs}">
                 <tr>
                     <td>
-                        <span class="yellow" th:utext="${#strings.replace(faq.faqTag, keyword, '<span>' + keyword + '</span>')}"></span>
+                        <span class="yellow" th:utext="${#strings.replace(faq.faqTag, faq_keyword, '<span>' + faq_keyword + '</span>')}"></span>
                     </td>
                     <td class="ck">
-                        <span class="yellow" th:utext="${#strings.replace(faq.faqQuestion, keyword, '<span>' + keyword + '</span>')}"></span>
+                        <span class="yellow" th:utext="${#strings.replace(faq.faqQuestion, faq_keyword, '<span>' + faq_keyword + '</span>')}"></span>
                     </td>
                     <td class="ck">▼</td>
                 </tr>
                 <tr class="hide" style="height: 200px">
                     <td colspan="3">
-                        <span class="yellow" th:utext="${#strings.replace(faq.faqAnswer, keyword, '<span>' + keyword + '</span>')}"></span>
+                        <span class="yellow" th:utext="${#strings.replace(faq.faqAnswer, faq_keyword, '<span>' + faq_keyword + '</span>')}"></span>
                     </td>
                 </tr>
             </table>
+            <!-- 페이징 영역 -->
+            <div class="pageArea">
+                <!-- 첫번째 페이지로 이동 -->
+                <a th:href="@{/center_faq_search(page=1, faq_keyword=${faq_keyword})}"> << </a>
+                <!-- 이전 링크 활성화 비활성화 -->
+                <a th:href="${faqs.first} ? '#' : @{/center_faq_search(page=${faqs.number}, faq_keyword=${faq_keyword})}"> < </a>
+
+                <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
+                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                    <!-- 현재페이지는 링크 없이 숫자만 -->
+                    <span th:if="${page == faqs.number + 1}" th:text="${page}"></span>
+                    <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+                    <span th:unless="${page == faqs.number + 1}">
+                        <a th:href="@{/center_faq_search(page=${page}, faq_keyword=${faq_keyword})}" th:text="${page}"></a>
+                    </span>
+                </span>
+                <!-- 다음 링크 활성화 비활성화 -->
+                <a th:href="${faqs.last} ? '#' : @{/center_faq_search(page=${faqs.number + 2}, faq_keyword=${faq_keyword})}"> > </a>
+                <!-- 마지막 페이지로 이동 -->
+                <a th:href="@{/center_faq_search(page=${faqs.totalPages}, faq_keyword=${faq_keyword})}"> >> </a>
+            </div>
+            <!--            페이징 영역 끝 -->
         </div>
     </div>
 

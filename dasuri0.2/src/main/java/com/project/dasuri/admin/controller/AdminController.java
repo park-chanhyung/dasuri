@@ -8,8 +8,10 @@ import com.project.dasuri.admin.service.Admin_ProService;
 import com.project.dasuri.admin.service.Admin_UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -24,7 +26,7 @@ public class AdminController {
     private final Admin_LocService adminLocService;
 
 //    관리자 페이지 (메인)
-    @RequestMapping("/admin")
+    @GetMapping("/admin")
     public String admin_home(Model model) {
 
 //        -------- 전체 회원 수 카운트 ---------
@@ -50,11 +52,7 @@ public class AdminController {
             model.addAttribute("userLocName"+i, locCounts.get(i).getLoc());
             model.addAttribute("userLocAmount"+i, locCounts.get(i).getAmount());
         }
-
-
-//        푸터용
-        List<MoonDTO> moonDTOS = adminMoonService.findAll();
-        model.addAttribute("moons",moonDTOS);
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_home";
     }
 

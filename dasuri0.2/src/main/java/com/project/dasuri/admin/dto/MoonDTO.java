@@ -32,8 +32,17 @@ public class MoonDTO {
     private LocalDateTime moonQuestionDate; //문의한 시간
     private LocalDateTime moonAnswerDate; //답변한 시간
 
+    public MoonDTO(String moonUserId, String moonRole, String moonType, String moonStatus, String moonTitle, LocalDateTime moonQuestionDate, Long moonPkId) {
+        this.moonUserId = moonUserId;
+        this.moonRole = moonRole;
+        this.moonType = moonType;
+        this.moonStatus = moonStatus;
+        this.moonTitle = moonTitle;
+        this.moonQuestionDate = moonQuestionDate;
+        this.moonPkId = moonPkId;
+    }
 
-//    조회한 엔티티 객체를 DTO로 변환
+    //    조회한 엔티티 객체를 DTO로 변환
     public static MoonDTO toMoonDTO(MoonEntity moonEntity){
         MoonDTO moonDTO = new MoonDTO();
 

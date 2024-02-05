@@ -14,9 +14,9 @@
     </header>
 
     <div class="center_loc">
-        <a href="index"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
-        <a href="center_main"> 고객센터 &nbsp; > &nbsp; </a>
-        <a href="center_faq"> 자주 찾는 질문</a>
+        <a th:href="@{/index}"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
+        <a th:href="@{/center_main}"> 고객센터 &nbsp; > &nbsp; </a>
+        <a th:href="@{/center_faq}"> 자주 찾는 질문</a>
     </div>
 
     <div class="center_title">
@@ -24,7 +24,7 @@
         <h4>다수리 사이트에 관한 궁금하신 사항을 확인하세요.</h4>
 
         <!--  	  검색창 영역 -->
-        <form th:action="@{center_faq_search}" id="faq_search">
+        <form th:action="@{/center_faq_search}" id="faq_search">
             <div class="faq_search">
                 <input type="text" class="faq_searchTerm" name="faq_keyword" placeholder="태그or질문or답변">
                 <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
@@ -33,17 +33,17 @@
         <!--		검색창 영역 끝 -->
 
     <!--    해시태그(중복값 제거) -->
-        <form id="hashForm" th:action="@{center_faq_tag}">
+        <form th:action="@{/center_faq_tag}" id="hashForm">
             <div class="hashTag_area">
-                <ul th:if="${faqs.size() > 0}" id="hashTagList">
-                    <th:block th:with="uniqueTags=${#sets.toSet(faqs.![faqTag])}">
+                <ul th:if="${faqs.content.size() > 0}" id="hashTagList">
+                    <th:block th:with="uniqueTags=${#sets.toSet(faqs.content.![faqTag])}">
                         <li th:each="tag : ${uniqueTags}">
-                            <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'" ></div>
+                            <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'"></div>
                         </li>
                     </th:block>
                 </ul>
             </div>
-            <input type="hidden" name="faqTag" id="tag">
+            <input type="hidden" name="faqTag" id="tag"/>
         </form>
 
     <!--faq 리스트 -->
@@ -59,6 +59,32 @@
                     <td colspan="3" th:text="${faq.faqAnswer}"></td>
                 </tr>
             </table>
+            <!--        페이징 영역 -->
+            <div class="pageArea">
+                <!-- 첫번째 페이지로 이동 -->
+                <a th:href="@{/center_faq(page=1)}"> << </a>
+                <!-- 이전 링크 활성화 비활성화 -->
+                <a th:href="${faqs.first} ? '#' : @{/center_faq(page=${faqs.number})}"> < </a>
+
+                <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+                        for(int page=startPage; page<=endPage; page++)-->
+                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+
+            <!-- 현재페이지는 링크 없이 숫자만 -->
+                <span th:if="${page == faqs.number + 1}" th:text="${page}"></span>
+                    <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+                <span th:unless="${page == faqs.number + 1}">
+                    <a th:href="@{/center_faq(page=${page})}" th:text="${page}"></a>
+                </span>
+            </span>
+
+                <!-- 다음 링크 활성화 비활성화
+                    사용자: 2페이지, getNumber: 1, 3페이지-->
+                <a th:href="${faqs.last} ? '#' : @{/center_faq(page=${faqs.number + 2})}"> > </a>
+                <!-- 마지막 페이지로 이동 -->
+                <a th:href="@{/center_faq(page=${faqs.totalPages})}"> >> </a>
+            </div>
+            <!--        페이징 영역 끝 -->
         </div>
     </div>
 

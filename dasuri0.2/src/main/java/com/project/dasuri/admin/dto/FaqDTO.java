@@ -19,6 +19,13 @@ public class FaqDTO {
     private int faq_no; //나열할때 번호
     private String faqTag; //faq 해시태그
 
+    public FaqDTO(Long faqId, String faqQuestion, String faqTag, String faqAnswer) {
+        this.faqId = faqId;
+        this.faqQuestion = faqQuestion;
+        this.faqTag = faqTag;
+        this.faqAnswer = faqAnswer;
+    }
+
     //    DB를 오가는 엔티티 객체를 DTO 객체로 변환
     public static FaqDTO toFaqDto(FaqEntity faqEntity){
         FaqDTO faqDTO = new FaqDTO();

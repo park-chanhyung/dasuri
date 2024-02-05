@@ -37,35 +37,52 @@
 <!--    공지 리스트 영역 -->
     <div class="notice_area">
         <div class="notice_table_area">
-            <form id="noticeView" th:action="@{notice_main_view}" method="post">
-                <table class="notice_table">
-                    <tr>
-                        <th>구분</th>
-                        <th>제목</th>
-                        <th>수정일자</th>
-                    </tr>
-                    <tr th:each="important: ${importants}">
-                        <td th:text="${important.notice_type}" style="color:#6192FA;font-weight: bold"></td>
-<!--                        <td th:text="${important.noticeTitle}" th:attr="onclick='submitForm(' + ${important.notice_id} + ')'" ></td>-->
-<!--                        검색한 키워드를 노랗게 표시 -->
-                        <td>
-                            <span class="yellow" th:utext="${#strings.replace(important.noticeTitle, keyword, '<span>' + keyword + '</span>')}"
-                                  th:attr="onclick='submitForm(\'' + ${important.notice_id} + '\')'"></span>
-                        </td>
-                        <td th:text="${important.notice_updateDate}"></td>
-                    </tr>
-                    <tr th:each="normal: ${normals}">
-                        <td th:text="${normal.notice_no}"></td>
-<!--                        검색한 키워드를 노랗게 표시 -->
-                        <td>
-                            <span class="yellow" th:utext="${#strings.replace(normal.noticeTitle, keyword, '<span>' + keyword + '</span>')}"
-                                  th:attr="onclick='submitForm(\'' + ${normal.notice_id} + '\')'"></span>
-                        </td>
-                        <td th:text="${normal.notice_updateDate}"></td>
-                    </tr>
-                </table>
-                <input type="hidden" id="selectedNoticeId" name="id" value="">
-            </form>
+            <table class="notice_table">
+                <tr>
+                    <th>구분</th>
+                    <th>제목</th>
+                    <th>수정일자</th>
+                </tr>
+                <tr th:each="important: ${importants}">
+                    <td th:text="${important.notice_type}" style="color:#6192FA;font-weight: bold"></td>
+                    <td>
+                        <span class="yellow" th:utext="${#strings.replace(important.noticeTitle, keyword, '<span>' + keyword + '</span>')}"
+                              th:onclick="'noticeView(\'' + ${important.notice_id} + '\', ' + (${normals.number} + 1) + ')'"></span>
+                    </td>
+                    <td th:text="${important.notice_updateDate}"></td>
+                </tr>
+                <tr th:each="normal: ${normals}">
+                    <td th:text="${normal.notice_id}"></td>
+                    <td>
+                        <span class="yellow" th:utext="${#strings.replace(normal.noticeTitle, keyword, '<span>' + keyword + '</span>')}"
+                              th:onclick="'noticeView(\'' + ${normal.notice_id} + '\', ' + (${normals.number} + 1) + ')'"></span>
+                    </td>
+                    <td th:text="${normal.notice_updateDate}"></td>
+                </tr>
+            </table>
+
+            <!-- 페이징 영역 -->
+            <div class="pageArea">
+                <!-- 첫번째 페이지로 이동 -->
+                <a th:href="@{/notice_search(page=1, notice_keyword=${keyword})}"> << </a>
+                <!-- 이전 링크 활성화 비활성화 -->
+                <a th:href="${normals.first} ? '#' : @{/notice_search(page=${normals.number}, notice_keyword=${keyword})}"> < </a>
+
+                <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
+                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                    <!-- 현재페이지는 링크 없이 숫자만 -->
+                    <span th:if="${page == normals.number + 1}" th:text="${page}"></span>
+                                <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+                    <span th:unless="${page == normals.number + 1}">
+                        <a th:href="@{/notice_search(page=${page}, notice_keyword=${keyword})}" th:text="${page}"></a>
+                    </span>
+                </span>
+                <!-- 다음 링크 활성화 비활성화 -->
+                <a th:href="${normals.last} ? '#' : @{/notice_search(page=${normals.number + 2}, notice_keyword=${keyword})}"> > </a>
+                <!-- 마지막 페이지로 이동 -->
+                <a th:href="@{/notice_search(page=${normals.totalPages}, notice_keyword=${keyword})}"> >> </a>
+            </div>
+
         </div>
     </div>
     <footer>
@@ -74,12 +91,9 @@
 
 </body>
 <script>
-    function submitForm(noticeId) {
-        // 클릭된 값 저장
-        document.getElementById('selectedNoticeId').value = noticeId;
-
-        // 폼 제출 (공지 게시물 보기)
-        document.getElementById('noticeView').submit();
+    <!--    게시물 보기 (페이지 번호 가지고감)-->
+    function noticeView(noticeId, currentPage) {
+        window.location.href = '/notice_main_view/' + noticeId + '?page=' + currentPage;
     }
     function submitSearch() {
         // 폼 제출 (검색)

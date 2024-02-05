@@ -31,28 +31,24 @@
             <div class="card-container">
             <h4>신규 문의글</h4>
               <div class="card">
-				  <form th:action="@{admin_moon_view}" method="post" id="moonView">
-					  <input type="hidden" id="moonPkId" name="moonPkId" value="">
-					  <table class="footer_moon">
-						  <tr>
-							  <th colspan="3">
-								  <a href="/admin_moon" class="moon_total">전체보기</a>
-							  </th>
-						  </tr>
-						  <tr th:each="moon: ${moons}" th:attr="onclick='submitFooter('+${moon.moonPkId}+')'" class="yy">
-							  <td th:text="${moon.moonUserId}"></td>
-							  <td th:utext="${moon.moonType == '1' ? '문의' : '신고'}"></td>
-							  <td th:text="${moon.moonTitle}"></td>
-						  </tr>
-					  </table>
-		  		</form>
+				  <table class="footer_moon">
+					  <tr>
+						  <th colspan="3">
+							  <a href="/admin_moon" class="moon_total">전체보기</a>
+						  </th>
+					  </tr>
+					  <tr th:each="moon: ${moons}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moons.number} + 1) + ')'" class="yy">
+						  <td th:text="${moon.moonUserId}"></td>
+						  <td th:utext="${moon.moonType == '1' ? '문의' : '신고'}"></td>
+						  <td th:text="${moon.moonTitle}"></td>
+					  </tr>
+				  </table>
               </div>
             </div>
           </div>
 			<script>
-				function submitFooter(moonPkId) {
-					document.getElementById("moonPkId").value = moonPkId;
-					document.getElementById("moonView").submit();
+				function moonView(moonPkId, currentPage) {
+					window.location.href = '/admin_moon_view/' + moonPkId + '?page=' + currentPage;
 				}
 			</script>
         </div>

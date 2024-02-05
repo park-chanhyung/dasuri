@@ -1,12 +1,18 @@
 package com.project.dasuri.admin.service;
 
 import com.project.dasuri.admin.dto.FaqDTO;
+import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.entity.FaqEntity;
+import com.project.dasuri.admin.entity.NoticeEntity;
 import com.project.dasuri.admin.repository.FaqRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,31 +30,28 @@ public class FaqService {
         faqRepository.save(faqEntity);
     }
 
-//    faq 리스트 불러오기
-    public List<FaqDTO> findAll(){
-        List<FaqEntity> faqEntities = faqRepository.findAll(Sort.by(Sort.Direction.DESC,"faqId"));
-        List<FaqDTO> faqDTOS = new ArrayList<>();
-        int x = faqEntities.size();
-        for (FaqEntity faqEntity : faqEntities) {
-            FaqDTO faqDTO = FaqDTO.toFaqDto(faqEntity);
-            faqDTO.setFaq_no(x);
-            faqDTOS.add(faqDTO);
-            x--;
-        }
+    //    관리자리스트 faq 리스트 불러오기 (페이징)
+    public Page<FaqDTO> admin_paging(Pageable pageable){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 5; // 한 페이지당 글 5개
+
+        Page<FaqEntity> faqEntities =
+                faqRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "faqId")));
+        Page<FaqDTO> faqDTOS = faqEntities.map(faq -> new FaqDTO(faq.getFaqId(),faq.getFaqQuestion(),faq.getFaqTag(),faq.getFaqAnswer()));
+
         return faqDTOS;
     }
 
-//    faq 리스트 불러오기 (해시태그 필터링)
-    public List<FaqDTO> findByFaqTag(String faqTag){
-        List<FaqEntity> faqEntities = faqRepository.findByFaqTag(faqTag);
-        List<FaqDTO> faqDTOS = new ArrayList<>();
-        int x = faqEntities.size();
-        for (FaqEntity faqEntity : faqEntities) {
-            FaqDTO faqDTO = FaqDTO.toFaqDto(faqEntity);
-            faqDTO.setFaq_no(x);
-            faqDTOS.add(faqDTO);
-            x--;
-        }
+//    faq 리스트 불러오기 (해시태그 필터링 - 페이징)
+    public Page<FaqDTO> findByFaqTag(Pageable pageable, String faqTag){
+
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 5; // 한 페이지당 글 5개
+
+        Page<FaqEntity> faqEntities =
+                faqRepository.findByFaqTag(faqTag, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "faqId")));
+        Page<FaqDTO> faqDTOS = faqEntities.map(faq -> new FaqDTO(faq.getFaqId(),faq.getFaqQuestion(),faq.getFaqTag(),faq.getFaqAnswer()));
+
         return faqDTOS;
     }
 
@@ -73,25 +76,13 @@ public class FaqService {
         faqRepository.deleteByFaqId(id);
     }
 
-//    faq 검색하기
-    public List<FaqDTO> searchFaq(String keyword){
-        List<FaqEntity> faqEntities = faqRepository.findByFaqQuestionContainingOrFaqAnswerContainingOrFaqTagContaining(keyword,keyword,keyword);
-//        OrderByNoticeIdDesc
-        List<FaqDTO> faqDTOS = new ArrayList<>();
-        int x = faqEntities.size();
-        for (FaqEntity faqEntity : faqEntities) {
-            FaqDTO faqDTO = FaqDTO.toFaqDto(faqEntity);
-            faqDTO.setFaq_no(x); //FAQ 리스트에 번호매김
-            faqDTOS.add(faqDTO);
-            x--;
-        }
+//    faq 검색 (페이징)
+    public Page<FaqDTO> searchFaq(String keyword, Pageable pageable){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 5; // 한 페이지당 글 5개
+
+        Page<FaqEntity> faqEntities = faqRepository.findByFaqQuestionContainingOrFaqAnswerContainingOrFaqTagContaining(keyword,keyword,keyword,PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "faqId")));
+        Page<FaqDTO> faqDTOS = faqEntities.map(faq -> new FaqDTO(faq.getFaqId(),faq.getFaqQuestion(),faq.getFaqTag(),faq.getFaqAnswer()));
         return faqDTOS;
     }
-
-
-
-
-
-
-
 }

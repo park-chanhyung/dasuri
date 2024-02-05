@@ -7,6 +7,7 @@ import com.project.dasuri.community.dto.CommunityDto;
 import com.project.dasuri.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,9 +31,7 @@ public class AdminCommController {
         List<CommunityDto> communityDtos = adminCommService.findAll();
         model.addAttribute("communityList",communityDtos);
 
-        //        푸터용
-        List<MoonDTO> moonDTOS = adminMoonService.findAll();
-        model.addAttribute("moons",moonDTOS);
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
 
         return "/adminad/admin_community";
     }
@@ -57,10 +56,7 @@ public class AdminCommController {
         model.addAttribute("communityList",communityDtos); //게시물 검색결과
         model.addAttribute("keyword",comm_keyword); //키워드
 
-        //        푸터용
-        List<MoonDTO> moonDTOS = adminMoonService.findAll();
-        model.addAttribute("moons",moonDTOS);
-
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_comm_search";
     }
 

@@ -11,12 +11,12 @@
 <!--      헤더 1 -->
       <nav th:fragment="admin_header1" class="main-menu">
         <h1>
-          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
+          <img class="dasuri" src="/img/admin/logo_cricle.png" th:onclick="|location='index'|" width="50%">
           <br>ADMIN
         </h1>
         <ul>
-          <li class="nav-item active" onclick="location='admin'">
-            <a href="#">
+          <li class="nav-item active" th:onclick="|location='admin'|">
+            <a th:href="@{/admin}">
               <i class="fa fa-house nav-icon"><img src="/img/admin/admin_home_bl.png" width="50%"></i>
               <span class="nav-text">관리자 홈</span>
             </a>
@@ -25,7 +25,7 @@
           <li class="nav-item" onclick="location='admin_mem'">
             <b></b>
             <b></b>
-            <a href="#" onclick="chch()">
+            <a th:href="@{/admin_mem}" onclick="chch()">
               <i class="fa fa-user nav-icon"><img src="/img/admin/user_wh.png" width="50%"></i>
               <span class="nav-text">회원 관리</span>
             </a>
@@ -115,12 +115,13 @@
 <!--      헤더 3 -->
       <nav th:fragment="admin_header3" class="main-menu">
         <h1>
-          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
+          <img class="dasuri" src="/img/admin/logo_cricle.png" th:onclick="|window.location.href='/index'|"
+               width="50%">
           <br>ADMIN
         </h1>
         <ul>
           <li class="nav-item"  onclick="location='admin'">
-            <a href="#">
+            <a th:href="@{/admin}">
               <i class="fa fa-house nav-icon"><img src="/img/admin/admin_home_wh.png" width="50%"></i>
               <span class="nav-text">관리자 홈</span>
             </a>
@@ -129,7 +130,7 @@
           <li class="nav-item" onclick="location='admin_mem'">
             <b></b>
             <b></b>
-            <a href="#" onclick="chch()">
+            <a th:href="@{/admin_mem}" onclick="chch()">
               <i class="fa fa-user nav-icon"><img src="/img/admin/user_wh.png" width="50%"></i>
               <span class="nav-text">회원 관리</span>
             </a>
@@ -138,7 +139,7 @@
           <li class="nav-item active" onclick="location='admin_notice'">
             <b></b>
             <b></b>
-            <a href="#">
+            <a th:href="@{/admin_notice}">
               <i class="fa fa-calendar-check nav-icon"><img src="/img/admin/notice_bl.png" width="50%"></i>
               <span class="nav-text"> 공지/FAQ </span>
             </a>
@@ -147,7 +148,7 @@
           <li class="nav-item" onclick="location='admin_moon'">
             <b></b>
             <b></b>
-            <a href="#">
+            <a th:href="@{/admin_moon}">
               <i class="fa fa-person-running nav-icon"><img src="/img/admin/moon_wh.png" width="50%"></i>
               <span class="nav-text"> 고객센터 </span>
             </a>
@@ -156,7 +157,7 @@
           <li class="nav-item" onclick="location='admin_community'">
             <b></b>
             <b></b>
-            <a href="#">
+            <a th:href="@{/admin_community}">
               <i class="fa fa-sliders nav-icon"><img src="/img/admin/comm_wh.png" width="50%"></i>
               <span class="nav-text"> 커뮤니티 </span>
             </a>
@@ -167,12 +168,12 @@
 <!--      헤더 4 -->
       <nav th:fragment="admin_header4" class="main-menu">
         <h1>
-          <img class="dasuri" src="/img/admin/logo_cricle.png" onclick="location='index'" width="50%">
+          <img class="dasuri" src="/img/admin/logo_cricle.png" th:onclick="|window.location.href='/index'|" width="50%">
           <br>ADMIN
         </h1>
         <ul>
           <li class="nav-item" onclick="location='admin'">
-            <a href="#">
+            <a th:href="@{/admin}">
               <i class="fa fa-house nav-icon"><img src="/img/admin/admin_home_wh.png" width="50%"></i>
               <span class="nav-text">관리자 홈</span>
             </a>
@@ -181,7 +182,7 @@
           <li class="nav-item" onclick="location='admin_mem'">
             <b></b>
             <b></b>
-            <a href="#" onclick="chch()">
+            <a th:href="@{/admin_mem}" onclick="chch()">
               <i class="fa fa-user nav-icon"><img src="/img/admin/user_wh.png" width="50%"></i>
               <span class="nav-text">회원 관리</span>
             </a>
@@ -190,7 +191,7 @@
           <li class="nav-item" onclick="location='admin_notice'">
             <b></b>
             <b></b>
-            <a href="#">
+            <a th:href="@{/admin_notice}">
               <i class="fa fa-calendar-check nav-icon"><img src="/img/admin/notice_wh.png" width="50%"></i>
               <span class="nav-text"> 공지/FAQ </span>
             </a>
@@ -199,7 +200,7 @@
           <li class="nav-item active" onclick="location='admin_moon'">
             <b></b>
             <b></b>
-            <a href="#">
+            <a th:href="@{/admin_moon}">
               <i class="fa fa-person-running nav-icon"><img src="/img/admin/moon_bl.png" width="50%"></i>
               <span class="nav-text"> 고객센터 </span>
             </a>
@@ -208,7 +209,7 @@
           <li class="nav-item" onclick="location='admin_community'">
             <b></b>
             <b></b>
-            <a href="#">
+            <a th:href="@{/admin_community}">
               <i class="fa fa-sliders nav-icon"><img src="/img/admin/comm_wh.png" width="50%"></i>
               <span class="nav-text"> 커뮤니티 </span>
             </a>
@@ -269,7 +270,6 @@
       </nav>
 
 <script>
-
 function chch(){
 const navItems = document.querySelectorAll(".nav-item");
 navItems.forEach((navItem, i) => {
@@ -281,16 +281,7 @@ navItems.forEach((navItem, i) => {
   });
 });
 };
-
 </script>
 
-  </body>
-    </html>
-
-    
-    
-    
-    
-    
-    
-    
+</body>
+</html>

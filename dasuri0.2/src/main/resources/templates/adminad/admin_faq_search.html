@@ -62,15 +62,22 @@
 					<div class="mem_paging_wrap">
 						<table class="mem_paging">
 							<tr>
-								<td> << </td>
-								<td> 1 </td>
-								<td> 2 </td>
-								<td> 3 </td>
-								<td> 4 </td>
-								<td> >> </td>
+								<td> <a th:href="@{/admin_notice(page=1)}"> << </a> </td>
+								<td> <a th:href="${normals.first} ? '#' : @{/admin_notice(page=${normals.number})}"> < </a> </td>
+								<td>
+										<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+											<span class="current" th:if="${page == normals.number + 1}" th:text="${page}"></span>
+											<span th:unless="${page == normals.number + 1}">
+												<a th:href="@{/admin_notice(page=${page})}" th:text="${page}"></a>
+											</span>
+                						</span>
+								</td>
+								<td> <a th:href="${normals.last} ? '#' : @{/admin_notice(page=${normals.number + 2})}"> > </a> </td>
+								<td> <a th:href="@{/admin_notice(page=${normals.totalPages})}"> >> </a> </td>
 							</tr>
 						</table>
 					</div>
+					<!-- 페이징 영역 끝 -->
 				</div>
 			</div>
 
@@ -97,35 +104,33 @@
 							<th style="width: 5%">번호</th>
 							<th style="width: 5%">태그</th>
 							<th style="width: 30%">질문</th>
-							<th style="width: 30%">답변</th>
-							<th style="width: 5%"></th>
 						</tr>
-						<form th:action="@{admin_faq_view}" id="faq_look" method="post">
-							<input type="hidden" name="id" id="faq_id" value=""/>
-							<tr th:each="faq: ${faqList}">
-								<th th:text="${faq.faq_no}"></th>
-								<th th:text="${faq.faqTag}"
-									th:utext="${#strings.replace(faq.faqTag, keyword, '<span>' + keyword + '</span>')}"></th>
-								<td th:text="${faq.faqQuestion}" th:attr="onclick='submitFaqLook('+${faq.faqId}+')'"
-									th:utext="${#strings.replace(faq.faqQuestion, keyword, '<span>' + keyword + '</span>')}"></td>
-								<td th:text="${faq.faqAnswer}" th:attr="onclick='submitFaqLook('+${faq.faqId}+')'"
-									th:utext="${#strings.replace(faq.faqAnswer, keyword, '<span>' + keyword + '</span>')}"></td>
-							</tr>
-						</form>
+						<tr th:each="faq: ${faqList}" th:onclick="'faqView(\'' + ${faq.faqId} + '\', ' + (${faqList.number} + 1) + ')'">
+							<th th:text="${faq.faqId}"></th>
+							<th th:text="${faq.faqTag}" th:utext="${#strings.replace(faq.faqTag, keyword, '<span>' + keyword + '</span>')}"></th>
+							<td th:text="${faq.faqQuestion}" th:utext="${#strings.replace(faq.faqQuestion, keyword, '<span>' + keyword + '</span>')}"></td>
+						</tr>
 					</table>
-					<!--						페이징영역-->
+					<!-- 페이징 영역 -->
 					<div class="mem_paging_wrap">
 						<table class="mem_paging">
 							<tr>
-								<td> << </td>
-								<td> 1 </td>
-								<td> 2 </td>
-								<td> 3 </td>
-								<td> 4 </td>
-								<td> >> </td>
+								<td> <a th:href="@{/admin_faq_search(page=1, faq_keyword=${keyword})}"> << </a> </td>
+								<td> <a th:href="${faqList.first} ? '#' : @{/admin_faq_search(page=${faqList.number}, faq_keyword=${keyword})}"> < </a> </td>
+								<td>
+									<span th:each="page: ${#numbers.sequence(startPage_faq, endPage_faq)}">
+										<span class="current" th:if="${page == faqList.number + 1}" th:text="${page}"></span>
+										<span th:unless="${page == faqList.number + 1}">
+											<a th:href="@{/admin_faq_search(page=${page}, faq_keyword=${keyword})}" th:text="${page}"></a>
+										</span>
+									</span>
+								</td>
+								<td> <a th:href="${faqList.last} ? '#' : @{/admin_faq_search(page=${faqList.number + 2}, faq_keyword=${keyword})}"> > </a> </td>
+								<td> <a th:href="@{/admin_faq_search(page=${faqList.totalPages}, faq_keyword=${keyword})}"> >> </a> </td>
 							</tr>
 						</table>
 					</div>
+					<!-- 페이징 영역 끝 -->
 				</div>
 			</div>
 		</div>
@@ -139,16 +144,6 @@
 </body>
 </html>
 <script>
-	function submitLook(noticeId) {
-		document.getElementById('id').value = noticeId;
-		// 폼 제출 (공지보기)
-		document.getElementById('go_search').submit();
-	}
-	function submitFaqLook(faqId) {
-		document.getElementById('faq_id').value = faqId;
-		// 폼 제출 (faq보기)
-		document.getElementById('faq_look').submit();
-	}
 	function submitSearch() {
 		// 폼 제출 (공지 검색)
 		document.getElementById('notice_search').submit();
@@ -156,5 +151,9 @@
 	function submitSearch2() {
 		// 폼 제출 (FAQ 검색)
 		document.getElementById('faq_search').submit();
+	}
+	// faq보기
+	function faqView(faqId, currentPage) {
+		window.location.href = '/admin_faq_view/' + faqId + '?page=' + currentPage;
 	}
 </script>

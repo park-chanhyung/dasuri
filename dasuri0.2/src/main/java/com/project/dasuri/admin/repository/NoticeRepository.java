@@ -30,4 +30,6 @@ List<NoticeEntity> findByImportantIsNotNullAndNoticeTitleContainingOrImportantIs
 //    일반공지 검색
 List<NoticeEntity> findByImportantIsNullAndNoticeTitleContainingOrImportantIsNullAndNoticeContentContainingOrderByNoticeIdDesc(String titleKeyword, String contentKeyword);
 
+// 일반공지 검색 (페이징)
+    Page<NoticeEntity> findByImportantIsNullAndNoticeTitleContainingOrImportantIsNullAndNoticeContentContaining(String k1, String k2, Pageable pageable);
 }
