@@ -49,19 +49,6 @@
             <li><a href="/center_main">고객센터</a></li>
         </ul>
         <div id="utility">
-<!--                    <span class="material-symbols-outlined">-->
-<!--                        <a href="/admin">관리자</a>-->
-<!--                    </span>-->
-<!--            <span class="material-symbols-outlined">-->
-<!--                        <a href="/userprofile">내정보</a>-->
-<!--                    </span>-->
-
-<!--            <span class="material-symbols-outlined">-->
-<!--                        <a href="/login">로그인</a>-->
-<!--                    </span>-->
-<!--            <span class="material-symbols-outlined">-->
-<!--                        <a href="/sign_up">회원가입</a>-->
-<!--                    </span>-->
                 <!-- 관리자 링크: ROLE_ADMIN 권한이 있을 때만 표시 -->
         <span class="material-symbols-outlined" sec:authorize="hasRole('ADMIN')">
             <a href="/admin">관리자</a>

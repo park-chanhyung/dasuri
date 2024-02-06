@@ -374,6 +374,7 @@ footer {
     position: relative;
     width: 100%;
     padding: 0 var(--pg-margin);
+    margin-top: auto;
 }
 
 
@@ -574,44 +575,45 @@ section h2 {
     grid-gap: 16px;
 }
 
+/*푸터 스타일*/
 footer {
     background: var(--text-01);
     padding: 0px 80px 0px;
-    margin-top: 80px;
+    margin-top: 12px;
     display: flex;
 
 }
 
-
-
+footer h2 {
+    color: var(--light-01);
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 13px; /* h2와 ul 사이 간격 조정 */
+}
 footer ul {
     display: flex;
     flex-direction: column;
-    grid-gap: 24px;
+    gap: 10px; /* 기존 grid-gap을 gap으로 변경*/
     box-shadow: none;
     flex: 1;
     color: var(--light-01);
     font-size: 18px;
-    font-weight: 300;
-    margin-bottom: 30px;
-
+    font-weight: 250;
+    list-style-type: none; /* li에 대한 모양*/
+    padding: 20px; /* 추가된 속성: 기본 패딩 제거 */
 }
-
 
 footer ul li a {
     color: var(--light-01);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 11px;
 }
-
 
 footer ul li {
     color: var(--light-01);
-   font-size: 14px;
+    font-size: 11px;
     padding: 0;
-
 }
-
 
 
 @media only screen and (max-width: 600px) {
@@ -697,6 +699,7 @@ footer ul li {
     footer {
         flex-direction: column;
         text-align: center;
+        margin-top: auto;
     }
 
 
@@ -778,6 +781,7 @@ footer ul li {
     footer {
         flex-direction: column;
         text-align: center;
+        margin-top: auto;
     }
 }
 
@@ -842,6 +846,7 @@ footer ul li {
 
         flex-direction: row;
         text-align: left;
+        margin-top: auto;
 
     }
 }
@@ -905,6 +910,7 @@ footer ul li {
 
         flex-direction: row;
         text-align: left;
+        margin-top: auto;
 
     }
 

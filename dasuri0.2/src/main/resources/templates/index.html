@@ -1,8 +1,8 @@
-
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,13 +17,12 @@
 </header>
 <section class="hero">
     <h1>다수리 사용법이 궁금하다면? <br> <br> 가이드를 확인해주세요!</h1>
-    <h1 th:text="${id +'님 안녕하세요!'}"></h1>
+    <h1 sec:authorize="isAuthenticated()" th:text="${id +'님 안녕하세요!'}"></h1>
 
     <div class="btn-group">
         <button class="btn-filled-dark"><span class="material-symbols-outlined">
                	가이드 바로가기
             </span></button>
-
     </div>
 
 </section>
@@ -42,7 +41,7 @@
                     <li><a href="#">컴퓨터 조립 </a></li>
                     <li><a href="#">TV</a></li>
 
-                    <button class="btn-outline-light park"  type="submit">채팅 상담하기<span class="material-symbols-outlined">
+                    <button sec:authorize="isAuthenticated()" class="btn-outline-light park"  type="submit">채팅 상담하기<span class="material-symbols-outlined">
                     </span></button>
 
                 </ul>
@@ -55,7 +54,7 @@
                     <li><a href="#">컴퓨터 수리</a></li>
                     <li><a href="#">컴퓨터 조립</a></li>
                     <li><a href="#">인터넷 설치</a></li>
-                    <button class="btn-outline-dark kim">채팅 상담하기<span class="material-symbols-outlined">
+                    <button sec:authorize="isAuthenticated()" class="btn-outline-dark kim">채팅 상담하기<span class="material-symbols-outlined">
 
                     </span></button>
                 </ul>
@@ -69,7 +68,7 @@
                     <li><a href="#">에어컨 설치</a></li>
                     <li><a href="#">보일러</a></li>
                     <li><a href="#">폐가전 수거</a></li>
-                    <button class="btn-outline-dark cho">채팅 상담하기<span class="material-symbols-outlined">
+                    <button sec:authorize="isAuthenticated()" class="btn-outline-dark cho">채팅 상담하기<span class="material-symbols-outlined">
                     </span></button>
                 </ul>
 
@@ -82,7 +81,7 @@
                     <li><a href="#">창호,샤시</a></li>
                     <li><a href="#">방충망</a></li>
                     <li><a href="#">인테리어 도배</a></li>
-                    <button class="btn-outline-light kg">채팅 상담하기<span class="material-symbols-outlined">
+                    <button sec:authorize="isAuthenticated()" class="btn-outline-light kg">채팅 상담하기<span class="material-symbols-outlined">
                     </span></button>
                 </ul>
             </li>
