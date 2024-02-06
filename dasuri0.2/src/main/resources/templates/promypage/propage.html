@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ProMyPage</title>
+</head>
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+<!--엿이나 무라~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<form th:action="@{/propage_img_ok}" method="post" onsubmit="return confirm('등록하시겠습니까?');" enctype="multipart/form-data">
+    <p>* 파일은 이미지만 첨부 가능합니다.</p>
+    <input type="file" id="file" name="file" accept="image/*">
+        <img th:src="@{'/pro_files/' + promodify.filename}" alt="프로필 이미지">
+
+        <ul>
+<!--        <li><td th:text="${promodify.proName}"></td></li>-->
+<!--        <li><td th:text="${promodify.proLegions}"></td></li>-->
+<!--        <li>업채명: <td th:text="${promodify.proNickname}"></td></li>-->
+        <li><input type="text" id="proName" name="proName" th:value="${promodify.proName}"></li>
+        <li><input type="text" id="proLegions" name="proLegions" th:value="${promodify.proLegions}"></li>
+        <li><input type="text" id="proNickname" name="proNickname" th:value="${promodify.proNickname}"></li>
+
+    </ul>
+    <input type="submit" value="프로필 수정">
+</form>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+</body>
+</html>

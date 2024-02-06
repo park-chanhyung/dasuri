@@ -20,4 +20,8 @@ public class ProService {
         proRepository.save(proEntity);
 
     }
+
+    public ProEntity findByProId(String proId) {
+        return proRepository.findByProId(proId);
+    }
 }

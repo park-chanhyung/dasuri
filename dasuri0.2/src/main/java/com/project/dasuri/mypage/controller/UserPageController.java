@@ -3,6 +3,7 @@ package com.project.dasuri.mypage.controller;
 import com.project.dasuri.admin.dto.MoonDTO;
 import com.project.dasuri.admin.service.Admin_MoonService;
 import com.project.dasuri.member.dto.UserDTO;
+import com.project.dasuri.member.service.UserService;
 import com.project.dasuri.mypage.service.UserMyPageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -18,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserPageController {
 
-    private final UserMyPageService userMyPageService;
+    private final UserService userService;
     private final Admin_MoonService adminMoonService;
 
 //
@@ -32,8 +33,8 @@ public class UserPageController {
 
 //    public String usermypage() {
 
-        UserDTO userDTO = userMyPageService.findById(userId);
-        model.addAttribute("usermodify", userDTO);
+        UserDTO userdto = UserDTO.toUserDTO(userService.findByUserId(userId));
+        model.addAttribute("usermodify", userdto);
         return "usermypage/userpage";
     }
 

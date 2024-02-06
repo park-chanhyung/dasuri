@@ -56,11 +56,11 @@
 
         <!-- 내정보 링크: 로그인한 사용자이고, ROLE_USER 또는 ROLE_PRO 권한이 있을 때 표시 -->
         <span class="material-symbols-outlined" sec:authorize="hasRole('USER')">
-            <a href="/userprofile">내정보</a>
+            <a th:href="@{/myprofile}">내정보</a>
         </span>
         <!-- 내정보 링크: 로그인한 사용자이고, ROLE_USER 또는 ROLE_PRO 권한이 있을 때 표시 -->
         <span class="material-symbols-outlined" sec:authorize="hasRole('PRO')">
-            <a href="/userprofile">기사정보</a>
+            <a th:href="@{/myprofile}">기사정보</a>
         </span>
 
         <!-- 로그인 링크: 비로그인 상태일 때만 표시 -->

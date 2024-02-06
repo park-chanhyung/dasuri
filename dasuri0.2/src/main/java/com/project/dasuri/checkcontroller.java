@@ -153,19 +153,19 @@ public class checkcontroller {
         return "/list/pro/proinfo";
     }
 
-    @GetMapping("/userprofile")
-//    public String userprofile(@RequestParam("userId")String userId, Model model){
-    public String userprofile(Model model){
-
-        // Spring Security를 통해 로그인한 사용자의 정보를 가져옴
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // 사용자 아이디 추출
-        String userId = authentication.getName();
-        UserDTO userDTO = userMyPageService.findById(userId);
-        model.addAttribute("userpf", userDTO);
-        return "usermypage/userprofile";
-    }
+//    @GetMapping("/userprofile")
+////    public String userprofile(@RequestParam("userId")String userId, Model model){
+//    public String userprofile(Model model){
+//
+//        // Spring Security를 통해 로그인한 사용자의 정보를 가져옴
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        // 사용자 아이디 추출
+//        String userId = authentication.getName();
+//        UserDTO userDTO = userMyPageService.findById(userId);
+//        model.addAttribute("userpf", userDTO);
+//        return "usermypage/userprofile";
+//    }
 
     //------------------------------- 고객센터 ------------------------------------------
     
