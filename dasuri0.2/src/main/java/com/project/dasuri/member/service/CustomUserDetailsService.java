@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,7 +47,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         CustomUserDetails customUserDetails = new CustomUserDetails(userDetailEntity);
 
         if (!customUserDetails.isEnabled()) {
-            throw new DisabledException("사용자 계정이 정지되었습니다. 만료 일자: "+userDetailEntity.getSuspensionExpiry().toString());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a");
+            String formattedDate = userDetailEntity.getSuspensionExpiry().format(formatter);
+            throw new DisabledException("만료 일자: " + formattedDate);
+
+//            throw new DisabledException("만료 일자: "+userDetailEntity.getSuspensionExpiry().toString());
         }
         return customUserDetails;
     }
