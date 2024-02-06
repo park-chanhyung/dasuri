@@ -24,14 +24,14 @@ public class Admin_CommService {
     private final CommunityRepository communityRepository;
     private final AdminCommRepository adminCommRepository;
 
-    //    관리자페이지 -> 커뮤니티 리스트 (페이징)
+    //    관리자페이지 -> 블라인드된 게시물 리스트 (페이징)
     public Page<CommunityDto> admin_paging(Pageable pageable){
         int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
         int pageLimit = 7; // 한 페이지당 글 7개
 
-//        게시물 고유번호 기준으로 내림차순 (최신순)
+//        '블라인드된' 게시물 고유번호 기준으로 내림차순 (최신순)
         Page<CommunityEntity> communityEntities =
-                communityRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+                adminCommRepository.findByAdminDeletedNotNull(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
 
         // 페이징에 가져갈 항목
         Page<CommunityDto> communityDtos = communityEntities.map

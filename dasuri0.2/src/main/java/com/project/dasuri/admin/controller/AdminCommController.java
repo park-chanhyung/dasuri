@@ -6,6 +6,7 @@ import com.project.dasuri.admin.service.Admin_MoonService;
 import com.project.dasuri.admin.service.Admin_ReportService;
 import com.project.dasuri.community.dto.CommunityDto;
 import com.project.dasuri.community.service.CommunityService;
+import com.project.dasuri.member.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -28,11 +30,11 @@ public class AdminCommController {
     private final Admin_MoonService adminMoonService;
     private final Admin_ReportService adminReportService;
 
-    //  관리자페이지 > 커뮤니티 (페이징)
+    //  관리자페이지 > 커뮤니티 (블라인드처리된 게시물 리스트) (페이징)
     @RequestMapping("/admin_community")
     public String admin_community(@PageableDefault(page = 1) Pageable pageable, Model model) {
 
-        // 문의글 페이징 (고유번호 내림차순)
+        // 블라인드된 게시물 페이징 (고유번호 내림차순)
         // admindeleted,번호,role,아이디,닉네임,제목, 조회수
         Page<CommunityDto> communityDtos = adminCommService.admin_paging(pageable);
 
@@ -80,9 +82,27 @@ public class AdminCommController {
     public String admin_comm_blind(@PathVariable Long id) throws IOException {
         CommunityDto communityDto = communityService.findById(id);
         communityDto.setAdminDeleted("y"); //관리자블라인드 y 처리
-        communityService.save(communityDto); //다시 저장
+        communityService.update(communityDto); //다시 저장
 
         return "redirect:/board/Community_list"; //커뮤니티로 돌아감
     }
 
+//    블라인드 게시물 조회 (블라인드된 게시물 조회 - 팝업창)
+    @PostMapping("/admin_comm_blind_view")
+    public String admin_comm_blind_view(@RequestParam Long id, Model model) throws IOException {
+        CommunityDto communityDto = communityService.findById(id);
+        model.addAttribute("comm",communityDto);
+
+        return "/adminad/admin_comm_blind_view";
+    }
+
+//    블라인드 게시물 조회 (블라인드 해제)
+    @RequestMapping("/admin_comm_unBlind")
+    public String admin_comm_unBlind(@RequestParam("id") Long id, Model model) throws IOException {
+        CommunityDto communityDto = communityService.findById(id);
+        communityDto.setAdminDeleted(null); //관리자블라인드 null 처리
+        communityService.update(communityDto); //다시 저장
+
+        return "/adminad/admin_comm_unBlind_ok";
+    }
 }
