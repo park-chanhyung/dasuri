@@ -65,10 +65,10 @@ public class ChatController {
         model.addAttribute("mysqlChatList", mysqlChatList);
         model.addAttribute("chatMessages", chatMessages);
         model.addAttribute("roomNum", roomNum);
-        return "chat";
+        return "chat/chat";
     }
 
-    @GetMapping("/chatHistory")
+    @GetMapping("/chat/chatHistory")
     public String chatHistory(Model model,Principal principal){
         String userId = principal.getName();
         UserEntity userEntity = userService.findByUserId(userId);
@@ -77,7 +77,7 @@ public class ChatController {
         List<Integer> roomNumList = mysqlChatService.findRoomNumBySiteUserId(userEntity.getNum());
         model.addAttribute("roomNumList", roomNumList);
         model.addAttribute("user",userEntity);
-        return "chatHistory";
+        return "chat/chatHistory";
     }
 
     @PostMapping("/chatHistory/delete")

@@ -52,4 +52,8 @@ public class PayService {
     public void savePay(PayEntity payEntity) {
         payRepository.save(payEntity);
     }
+
+    public List<PayEntity> findByUserIdPayCheck(String userId){
+        return payRepository.findByUserIdPayCheck(userId);
+    }
 }

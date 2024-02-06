@@ -1,6 +1,7 @@
 package com.project.dasuri.shop.controller;
 
 import com.project.dasuri.member.service.UserService;
+import com.project.dasuri.shop.entity.PayEntity;
 import com.project.dasuri.shop.entity.ShopEntity;
 import com.project.dasuri.shop.form.PayForm;
 import com.project.dasuri.shop.service.PayService;
@@ -14,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -56,16 +58,14 @@ public class PayController {
         System.out.println("payForm!@#!@"+payForm);
         return "redirect:/shop";  // 성공적으로 저장 후에 리다이렉트할 페이지를 지정하세요.
     }
+    @GetMapping("/payments")
+    public String findpayments(Principal principal,Model model){
+        String userId =principal.getName();
+        List<PayEntity> payCheck = payService.findByUserIdPayCheck(userId);
+        model.addAttribute("payCheck",payCheck);
+        System.out.println("페이체크#!@#!#!@"+payCheck);
+        return "list/Shop/payments";
+    }
+
 }
-////    @PostMapping("/create")
-////    public String questionCreate(@Valid QuestionForm questionForm,
-////                                 BindingResult bindingResult,
-////                                 Principal principal){
-////        if(bindingResult.hasErrors()) {
-////            return "question_form";
-////        }
-////        SiteUser siteUser = this.userService.getUser(principal.getName());
-////        this.questionService.create(questionForm.getSubject(),questionForm.getContent(),siteUser);
-////        return "redirect:/question/list";
-////    }
-//}
+

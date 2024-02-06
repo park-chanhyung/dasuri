@@ -15,7 +15,7 @@ function loadContent(page) {
             contentDiv.innerHTML = '<div class="active">문의 내역 화면입니다.</div>';
             break;
         case 'Payments':
-            contentDiv.innerHTML = '<div class="active">결제 내역 화면입니다.</div>';
+            window.location.href = '/payments';
             break;
         case 'Withdraw':
             contentDiv.innerHTML = '<div class="active">회원 탈퇴 화면입니다.</div>';
@@ -29,14 +29,5 @@ function loadContent(page) {
     const clickedButton = document.getElementById(page.toLowerCase());
     if (clickedButton) {
         clickedButton.classList.add('active');
-    }
-}
-
-
-//탈퇴 여부 스크립트
-function confirmDelete() {
-    if (confirm('정말 탈퇴하시겠습니까?')) {
-        // 사용자가 '예'를 선택한 경우, 서버에 탈퇴 요청을 보냅니다.
-        window.location.href = '/delete-account';
     }
 }

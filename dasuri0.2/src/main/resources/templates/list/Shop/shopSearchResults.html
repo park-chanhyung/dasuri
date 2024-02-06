@@ -156,11 +156,13 @@
 </div>
 <!-- 페이징처리 끝 -->
 
-<div th:unless="${not #lists.isEmpty(searchResults)}">
+<!--<div th:unless="${not #lists.isEmpty(searchResults)}">-->
+<!--    <p class="null-search">검색 결과가 없습니다.</p>-->
+<!--</div>-->
+
+<div th:if="${searchResults.isEmpty()}">
     <p class="null-search">검색 결과가 없습니다.</p>
 </div>
-
-
 
 <footer>
     <div th:include="/list/layout/footer"></div>

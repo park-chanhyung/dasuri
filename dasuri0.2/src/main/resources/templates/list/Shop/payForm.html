@@ -7,10 +7,15 @@
     <title>Pay Form</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" th:href="@{/css/star.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/itemDetail.css}">
-
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script src="/js/payment.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/payform.js"></script>
     <style>
         .col-md-6{
             width: 70%;
@@ -26,10 +31,10 @@
 
 <div class="container py-5">
     <div class="row">
-        <!-- Left Column: Product Information -->
+<!--         Left Column: Product Information-->
                 <div class="col-md-6">
                     <div class="card">
-                        <img th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="card-img-top">
+                        <img style="max-width: 270px; max-height: 270px;" th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="card-img-top">
                         <div class="card-body">
                             <h2 th:text="${item.itemname}" class="card-title"></h2>
                             <p class="card-text">브랜드: <span th:text="${item.seller}"></span></p>
@@ -54,7 +59,7 @@
                     <h2 class="text-center mb-4">주문하기</h2>
                     <form th:action="@{/shop/payForm}" th:object="${payForm}" method="post" id="payment-form">
                         <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-                            <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+                            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
                         </div>
                         <input type="hidden" id="userId" name="userId" th:value="${username}">
                         <div class="form-group">
@@ -89,11 +94,13 @@
                             <label for="number">연락처</label>
                             <input type="text" class="form-control" id="number" name="number">
                         </div>
-                        <input type="hidden" id="paycheck" name="paycheck" value="5">
-                        <button id="pay-button" th:data-price="${price}" th:data-itemname="${itemname}"
-                                class="btn btn-primary btn-block">결제하기
-                        </button>
+                        <input type="hidden" id="paycheck" name="paycheck" value="0">
                     </form>
+                        <button id="pay-button" class="btn btn-primary btn-lg"
+                                th:data-price="${price}"
+                                th:data-itemname="${itemname}">
+                            결제하기
+                        </button>
                 </div>
             </div>
         </div>
@@ -104,11 +111,7 @@
     <div th:include="/list/layout/footer"></div>
 </footer>
 
-<!-- Bootstrap JS and Custom JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="script.js"></script>
+
 </body>
 
 </html>

@@ -47,33 +47,3 @@ function sample6_execDaumPostcode() {
     }).open();
 }
 
-window.onload = function() {
-    // const popupButton = document.querySelector("#payForm");
-    const popupButton = document.getElementById('payForm');
-    const options = 'width=500,height=500,scrollbars=yes,location=yes,resizable=yes';
-
-    if (popupButton) {
-        const price = popupButton.getAttribute("data-price");
-        const itemname = popupButton.getAttribute("data-itemname");
-        console.log(price);
-        console.log(itemname);
-        popupButton.addEventListener('click', () => {
-            console.log("Fetching payForm...");
-            fetch(`/shop/payForm?price=${price}&itemname=${itemname}`, { method: 'GET' })
-                .then((response) => {
-                    if(response.ok) {
-                        console.log("Response is okay, opening popup...");
-                        // 쿼리 파라미터를 추가하여 팝업을 엽니다.
-                        const popup = window.open(`/shop/payForm?price=${price}&itemname=${itemname}`, 'Popup', options);
-                    } else {
-                        throw new Error('응답오류');
-                    }
-                })
-                .catch((error) => {
-                    console.error('문제가 발생했습니다. : ', error);
-                });
-        });
-    } else {
-        console.error("'payForm' ID를 가진 요소를 찾을 수 없습니다.");
-    }
-};
