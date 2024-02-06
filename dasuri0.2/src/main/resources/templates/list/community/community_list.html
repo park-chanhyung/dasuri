@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<!--xmlns:th="http://www.thymeleaf.org"-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>커뮤니티 게시판</title>
@@ -26,7 +26,7 @@
 </form>
 <!--		검색창 영역 끝 -->
 
-<button class="button1" onclick="saveReq()">글작성</button>
+<button class="button1" onclick="saveReq()" sec:authorize="isAuthenticated()">글작성</button>
 
 
 <!--    커뮤니티 리스트 영역 -->
@@ -40,10 +40,10 @@
      <th>제목</th>
      <th>수정일자</th>
      <th>조회수</th>
-     <th>유형</th>
+<!--     <th>유형</th>-->
     <tr th:each="CommunityDto: ${communityList}">
      <td th:text="${CommunityDto.id}"></td>
-     <td th:text="${CommunityDto.getUserID()}"></td>
+     <td th:text="${CommunityDto.getUserNickname()}"></td>
      <td>
       <a th:href="@{|/board/Community_list/${CommunityDto.id}|}" th:text="${CommunityDto.commuTitle}"></a>
      </td>
@@ -52,7 +52,7 @@
      <!--  <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
      <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd')}"></td>
      <td th:text="${CommunityDto.commuHits}"></td>
-     <td th:text="${CommunityDto.getRole()}"></td>
+<!--     <td th:text="${CommunityDto.getRole()}"></td>-->
     </tr>
    </table>
 <!--   <input type="hidden" id="selectedNoticeId" name="id" value="">-->

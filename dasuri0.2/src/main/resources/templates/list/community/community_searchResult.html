@@ -48,7 +48,7 @@
                 <th>조회수</th>
             <tr th:each="Results: ${searchc}">
                 <td th:text="${Results.id}" style="color:#6192FA;font-weight: bold"></td>
-<!--                <td th:text="${Results.userID}"></td>-->
+                <td th:text="${Results.getUserNickname()}"></td>
                 <td>
                     <span class="yellow"
                           th:utext="${#strings.replace(Results.commuTitle, keyword, '<span>' + keyword + '</span>')}"

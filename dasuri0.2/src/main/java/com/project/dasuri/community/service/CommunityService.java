@@ -119,7 +119,7 @@ public class CommunityService {
 //        목록: id, wirter, title, hits, createTime
         Page<CommunityDto> communityDtos = communityEntities.map(community ->new CommunityDto(community.getId(),
                 community.getCommuWriter(),community.getCommuTitle(),community.getCommuHits(),
-                community.getCreatedTime(), community.getUserId(), community.getRole())); //userID, Role 추가
+                community.getCreatedTime(), community.getUserId(), community.getRole(), community.getUserNickname())); //userID, Role 추가
         return communityDtos;
     }
 
@@ -136,7 +136,7 @@ public class CommunityService {
 //        commutity (엔티티객체)
         Page<CommunityDto> communityDtos = communityEntities.map(community ->new CommunityDto(community.getId(),
                 community.getCommuWriter(),community.getCommuTitle(),community.getCommuHits(),
-                community.getCreatedTime(), community.getUserId(), community.getRole())); //userID, Role 추가
+                community.getCreatedTime(), community.getUserId(), community.getRole(), community.getUserNickname())); //userID, Role 추가
 
         return communityDtos;
     }

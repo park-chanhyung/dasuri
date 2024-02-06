@@ -42,6 +42,9 @@ public class CommunityEntity extends TimeEntity {
     private String userId;
 
     @Column
+    private String userNickname;
+
+    @Column
     private String adminDeleted;
 
     @Column
@@ -68,6 +71,7 @@ public class CommunityEntity extends TimeEntity {
         communityEntity.setCommuHits(0); //조회수 0으로 시작
         communityEntity.setFileAttached(0); //파일없음
         communityEntity.setAdminDeleted(communityDto.getAdminDeleted());
+        communityEntity.setUserNickname(communityDto.getUserNickname());//닉네임
 
         return communityEntity;
     }
@@ -81,6 +85,8 @@ public class CommunityEntity extends TimeEntity {
         communityEntity.setCommuHits(communityDto.getCommuHits());
         communityEntity.setUserId(communityDto.getUserID()); //새로추가
         communityEntity.setRole(communityDto.getRole()); //role추가
+        communityEntity.setUserNickname(communityDto.getUserNickname());//닉네임
+
         return communityEntity;
     }
 
@@ -93,6 +99,7 @@ public class CommunityEntity extends TimeEntity {
         communityEntity.setRole(communityDto.getRole()); //role추가
         communityEntity.setCommuHits(0); //조회수 0으로 시작
         communityEntity.setFileAttached(1); //파일있음
+        communityEntity.setUserNickname(communityDto.getUserNickname());//닉네임
 
         return communityEntity;
     }

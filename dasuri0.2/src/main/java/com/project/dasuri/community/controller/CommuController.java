@@ -1,9 +1,11 @@
 package com.project.dasuri.community.controller;
 
+import com.project.dasuri.admin.service.Admin_UserService;
 import com.project.dasuri.community.dto.CommentDto;
 import com.project.dasuri.community.dto.CommunityDto;
 import com.project.dasuri.community.service.CommentService;
 import com.project.dasuri.community.service.CommunityService;
+import com.project.dasuri.member.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,19 +30,10 @@ import java.util.List;
 public class CommuController {
     private final CommunityService communityService;
     private final CommentService commentService;
+    private final Admin_UserService adminUserService;
     //리스트 목록[페이징이랑 합침]
     @GetMapping("/Community_list")
     public String Communit_list(@PageableDefault(page = 1)Pageable pageable, Model model){
-//        DB에서 전체 게시글 데이터를 가져와서 community_list.html에 보여준다
-//        List<CommunityDto> communityDtoList = communityService.findAll();
-//        model.addAttribute("commuList", communityDtoList);
-
-        //    public String Communit_list(Model model){
-////        DB에서 전체 게시글 데이터를 가져와서 community_list.html에 보여준다
-//        List<CommunityDto> communityDtoList = communityService.findAll();
-//        model.addAttribute("commuList", communityDtoList);
-//        return "/list/community/community_list";
-//    }
 
         pageable.getPageNumber();
         Page<CommunityDto> communityList = communityService.paging(pageable);
@@ -77,11 +70,14 @@ public class CommuController {
     //글작성
     @GetMapping("/community_post")
     public String community_post(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication.getPrincipal() == null || authentication.getPrincipal().equals("anonymousUser")) {
+            // 사용자가 인증되지 않은 경우, 로그인 페이지로 redirect
+            return "redirect:/login";
+        }
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
-
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iter = authorities.iterator();
@@ -111,12 +107,17 @@ public class CommuController {
         GrantedAuthority auth = iter.next();
         String role = auth.getAuthority();
 
+        UserDTO userDTO = adminUserService.findByUserId(id);
+        String Nickname =userDTO.getUserNickname();
+
+
         //사용자 아이디와 역할 가져오기
         communityDto.setUserID(id);
         communityDto.setRole(role);
+        communityDto.setUserNickname(Nickname);
 
-        model.addAttribute("id", id);
-        model.addAttribute("role", role);
+//        model.addAttribute("id", id);
+//        model.addAttribute("role", role);
 
         communityService.save(communityDto);
         return "redirect:Community_list";
@@ -139,6 +140,7 @@ public class CommuController {
 //    ID값을 받아와서 업데이트
     @GetMapping("/Update/{post_id}")
     public String updateForm(@PathVariable long post_id, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CommunityDto communityDto = communityService.findById(post_id);
         model.addAttribute("communityUpdate", communityDto);
 
@@ -159,19 +161,13 @@ public class CommuController {
             communityService.delete(post_id);
             return "redirect:/board/Community_list";
     }
-//페이징 리스트랑 합치기전
-//    /board/paging?page=1
-//    @GetMapping("/paging")
-//    public String paging(@PageableDefault(page = 1)Pageable pageable, Model model){
-//        pageable.getPageNumber();
-//        Page<CommunityDto> communityList = communityService.paging(pageable);
-//        int blockLimit = 3;
-//        int startPage = (((int)(Math.ceil((double)pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1; // 1 4 7 10 ~~
-//        int endPage = ((startPage + blockLimit - 1) < communityList.getTotalPages()) ? startPage + blockLimit - 1 : communityList.getTotalPages();
-//
-//        model.addAttribute("communityList", communityList);
-//        model.addAttribute("startpage", startPage);
-//        model.addAttribute("endPage");
-//        return "paging";
+//    관리자삭제
+//    @GetMapping("/delete/{post_id}")
+//        public String admin_delete(@PathVariable Long post_id){
+//            communityService.delete(post_id);
+//            return "redirect:/board/Community_list";
 //    }
+
+
+
 }
