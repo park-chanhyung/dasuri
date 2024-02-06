@@ -1,5 +1,6 @@
 package com.project.dasuri.admin.controller;
 
+import com.project.dasuri.admin.dto.MoonDTO;
 import com.project.dasuri.admin.service.Admin_MoonService;
 import com.project.dasuri.admin.service.Admin_ProService;
 import com.project.dasuri.admin.service.Admin_UserService;
@@ -7,7 +8,10 @@ import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,20 +29,39 @@ public class AdminMemController {
     private final Admin_MoonService adminMoonService;
     private final UserService k_userService;
 
-    //  관리자 페이지 > 회원관리 (회원리스트 > 고객리스트 기본)
+    //  관리자 페이지 > 회원관리 (회원리스트 > 고객리스트 기본) - 페이징
     @RequestMapping("/admin_mem")
-    public String admin_mem(Model model) {
-        List<UserDTO> userDTOS = userService.findAll();
+    public String admin_mem(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        // 고객리스트 페이징 (고유번호 내림차순)
+        // 아이디,이름,닉네임,주소,유형,가입일,정지여부
+        Page<UserDTO> userDTOS = userService.admin_paging(pageable);
+
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < userDTOS.getTotalPages()) ? startPage + blockLimit - 1 : userDTOS.getTotalPages();
+
         model.addAttribute("users",userDTOS);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_mem_user";
     }
-    //  관리자 페이지 > 회원관리 (회원리스트 > 기사리스트)
+
+    //  관리자 페이지 > 회원관리 (회원리스트 > 기사리스트) - 페이징
     @RequestMapping("/admin_mem_pro")
-    public String admin_mem_pro(Model model) {
-        List<ProDTO> proDTOS = proService.findAll();
+    public String admin_mem_pro(@PageableDefault(page = 1) Pageable pageable, Model model) {
+        // 기사리스트 페이징 (고유번호 내림차순)
+        // 아이디,이름,업체명,활동지역,가입일,정지여부
+        Page<ProDTO> proDTOS = proService.admin_paging(pageable);
+
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < proDTOS.getTotalPages()) ? startPage + blockLimit - 1 : proDTOS.getTotalPages();
+
         model.addAttribute("pros",proDTOS);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_mem_pro";
@@ -80,5 +103,44 @@ public class AdminMemController {
         return "/adminad/admin_resumeMem_ok";
     }
 
+//    관리자 페이지 > 회원관리 (고객 검색)
+    @RequestMapping("/admin_user_search")
+    public String admin_user_search(@RequestParam String keyword, @PageableDefault(page = 1) Pageable pageable, Model model) {
+
+//        고객 검색결과
+        Page<UserDTO> userDTOS = userService.userSearch(keyword, pageable);
+
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < userDTOS.getTotalPages()) ? startPage + blockLimit - 1 : userDTOS.getTotalPages();
+
+        model.addAttribute("users",userDTOS);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("keyword", keyword);
+
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        return "/adminad/admin_mem_user_search";
+    }
+
+//    관리자 페이지 > 회원관리 (기사 검색)
+    @RequestMapping("/admin_pro_search")
+    public String admin_pro_search(@RequestParam String keyword, @PageableDefault(page = 1) Pageable pageable, Model model) {
+
+//        기사 검색결과
+        Page<ProDTO> proDTOS = proService.proSearch(keyword, pageable);
+
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < proDTOS.getTotalPages()) ? startPage + blockLimit - 1 : proDTOS.getTotalPages();
+
+        model.addAttribute("pros",proDTOS);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("keyword", keyword);
+
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        return "/adminad/admin_mem_pro_search";
+    }
 
 }

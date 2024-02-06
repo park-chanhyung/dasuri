@@ -117,10 +117,10 @@ public class ShopController {
 //        return "list/Shop/shopSearchResults"; // 검색 결과를 표시할 Thymeleaf 템플릿 이름
 //    }
     @GetMapping("/search")
-    public String searchItems(@RequestParam("keyword") String keyword, Model model) {
-        List<ShopEntity> searchResults = this.shopService.searchItem(keyword);
-         System.out.println("키워드" + keyword);
+    public String searchItems(@RequestParam("keyword") String keyword,@RequestParam(value = "page",defaultValue = "0")int page, Model model) {
+        Page<ShopEntity> searchResults = this.shopService.searchItem(keyword,page);
         model.addAttribute("searchResults", searchResults);
+        model.addAttribute("keyword", keyword);
 
         return "list/Shop/shopSearchResults"; // 검색 결과를 표시할 Thymeleaf 템플릿 이름
     }

@@ -1,10 +1,16 @@
 package com.project.dasuri.admin.service;
 
+import com.project.dasuri.admin.dto.MoonDTO;
+import com.project.dasuri.admin.entity.MoonEntity;
 import com.project.dasuri.admin.repository.AdminUserRepository;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -18,15 +24,21 @@ public class Admin_UserService {
 
     private final AdminUserRepository userRepository;
 
-    //    고객리스트
-    public List<UserDTO> findAll(){
-        List<UserEntity> userEntities = userRepository.findAll();
-        List<UserDTO> userDTOS = new ArrayList<>();
-        for (UserEntity userEntity : userEntities){
-            UserDTO userDTO = UserDTO.toUserDTO(userEntity);
-            userDTO.setRole("고객");
-            userDTOS.add(userDTO);
-        }
+    //    고객리스트 (페이징)
+    public Page<UserDTO> admin_paging(Pageable pageable){
+
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 0으로 시작)
+        int pageLimit = 7; // 한 페이지당 글 7개
+
+//        유저리스트 고유번호(num) 기준으로 내림차순
+        Page<UserEntity> userEntities =
+                userRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "num")));
+
+//        목록에 보여질 항목
+//        아이디,이름,닉네임,주소,유형,가입일,정지여부
+        Page<UserDTO> userDTOS = userEntities.map
+                (user -> new UserDTO(user.getUserId(), user.getUserName(), user.getUserNickname(), user.getUserAddress(), user.getRole(), user.getSignupDate(),user.getSuspensionExpiry()));
+
         return userDTOS;
     }
 
@@ -64,6 +76,23 @@ public class Admin_UserService {
         counts.add(userRepository.countBySignupDateBetween(day6.minusDays(1), day6)); // 6일 전
 
         return counts;
+    }
+
+    //    고객 검색
+    public Page<UserDTO> userSearch(String keyword, Pageable pageable){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 7; // 한 페이지당 글 7개
+
+//        검색결과 페이징 - 고객 고유번호(num) 기준으로 내림차순
+        Page<UserEntity> userEntities =
+                userRepository.findByUserIdContainingOrUserNameContainingOrUserNicknameContainingOrUserAddressContaining(keyword,keyword,keyword,keyword,PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "num")));
+
+//        목록에 보여질 항목
+//        아이디,이름,닉네임,주소,유형,가입일,정지여부
+        Page<UserDTO> userDTOS = userEntities.map
+                (user -> new UserDTO(user.getUserId(), user.getUserName(), user.getUserNickname(), user.getUserAddress(), user.getRole(), user.getSignupDate(),user.getSuspensionExpiry()));
+
+        return userDTOS;
     }
 
 }

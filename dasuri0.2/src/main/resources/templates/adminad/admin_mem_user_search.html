@@ -55,10 +55,10 @@
                         </tr>
                         <tr th:each="user: ${users}" class="result" th:data-userid="${user.userId}" onclick="submitLook(this)">
                             <td>고객</td>
-                            <td th:text="${user.userId}"></td>
-                            <td th:text="${user.userName}"></td>
-                            <td th:text="${user.userNickname}"></td>
-                            <td th:text="${user.userAddress}"></td>
+                            <td th:text="${user.userId}" th:utext="${#strings.replace(user.userId, keyword, '<span>' + keyword + '</span>')}"></td>
+                            <td th:text="${user.userName}" th:utext="${#strings.replace(user.userName, keyword, '<span>' + keyword + '</span>')}"></td>
+                            <td th:text="${user.userNickname}" th:utext="${#strings.replace(user.userNickname, keyword, '<span>' + keyword + '</span>')}"></td>
+                            <td th:text="${user.userAddress}" th:utext="${#strings.replace(user.userAddress, keyword, '<span>' + keyword + '</span>')}"></td>
                             <td th:text="${#temporals.format(user.signupDate, 'yy-MM-dd') ?: ''}"></td>
                             <td th:if="${user.suspensionExpiry != null}" th:text="${#temporals.format(user.suspensionExpiry, '~yy-MM-dd')}"></td>
                             <td th:if="${user.suspensionExpiry == null}">-</td>
@@ -69,18 +69,18 @@
                 <div class="mem_paging_wrap">
                     <table class="mem_paging">
                         <tr>
-                            <td> <a id="page1" class="arrow pprev" th:href="@{/admin_mem(page=1)}"><<</a></td>
-                            <td><a id="page1" class="arrow prev" th:href="${users.first} ? '#' : @{/admin_mem(page=${users.number})}"><</a></td>
+                            <td> <a id="page1" class="arrow pprev" th:href="@{/admin_user_search(page=1, keyword=${keyword})}"><<</a></td>
+                            <td><a id="page1" class="arrow prev" th:href="${users.first} ? '#' : @{/admin_user_search(page=${users.number}, keyword=${keyword})}"><</a></td>
                             <td>
 								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
 									<span class="current" th:if="${page == users.number + 1}" th:text="${page}"></span>
 									<span th:unless="${page == users.number + 1}">
-										<a th:href="@{/admin_mem(page=${page})}" th:text="${page}"></a>
+										<a th:href="@{/admin_user_search(page=${page}, keyword=${keyword})}" th:text="${page}"></a>
 									</span>
 								</span>
                             </td>
-                            <td> <a id="page1" th:href="${users.last} ? '#' : @{/admin_mem(page=${users.number + 2})}"> > </a> </td>
-                            <td> <a id="page1" th:href="@{/admin_mem(page=${users.totalPages})}"> >> </a> </td>
+                            <td> <a id="page1" th:href="${users.last} ? '#' : @{/admin_user_search(page=${users.number + 2}, keyword=${keyword})}"> > </a> </td>
+                            <td> <a id="page1" th:href="@{/admin_user_search(page=${users.totalPages}, keyword=${keyword})}"> >> </a> </td>
                         </tr>
                     </table>
                 </div>

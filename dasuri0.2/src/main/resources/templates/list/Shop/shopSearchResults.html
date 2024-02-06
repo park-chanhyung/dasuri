@@ -133,6 +133,29 @@
     </div>
 </div>
 
+<!-- (검색결과) 페이징처리 시작 -->
+<div th:if="${!searchResults.isEmpty()}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${!searchResults.hasPrevious} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{|?page=${searchResults.number - 1}&keyword=${keyword}|}">
+                <span>이전</span>
+            </a>
+        </li>
+        <li th:each="page: ${#numbers.sequence(0, searchResults.totalPages-1)}"
+            th:classappend="${page == searchResults.number} ? 'active'"
+            class="page-item">
+            <a th:text="${page}" class="page-link" th:href="@{|?page=${page}&keyword=${keyword}|}"></a>
+        </li>
+        <li class="page-item" th:classappend="${!searchResults.hasNext} ? 'disabled'">
+            <a class="page-link" th:href="@{|?page=${searchResults.number+1}&keyword=${keyword}|}">
+                <span>다음</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- 페이징처리 끝 -->
+
 <div th:unless="${not #lists.isEmpty(searchResults)}">
     <p class="null-search">검색 결과가 없습니다.</p>
 </div>

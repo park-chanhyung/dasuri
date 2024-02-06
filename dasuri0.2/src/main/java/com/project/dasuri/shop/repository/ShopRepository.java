@@ -11,7 +11,7 @@ public interface ShopRepository extends JpaRepository<ShopEntity,Long>{
 
     Page<ShopEntity> findAll(Pageable pageable);
 
-    List<ShopEntity> findByItemnameContaining(String keyword);
+    Page<ShopEntity> findByItemnameContaining(String keyword,Pageable page);
 
     ShopEntity findByItemname(String itemname);
 

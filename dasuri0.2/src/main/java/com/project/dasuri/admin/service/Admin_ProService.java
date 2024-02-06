@@ -2,8 +2,14 @@ package com.project.dasuri.admin.service;
 
 import com.project.dasuri.admin.repository.AdminProRepository;
 import com.project.dasuri.member.dto.ProDTO;
+import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.entity.ProEntity;
+import com.project.dasuri.member.entity.UserEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -16,13 +22,20 @@ import java.util.Optional;
 public class Admin_ProService {
     private final AdminProRepository proRepository;
 
-    //    기사리스트
-    public List<ProDTO> findAll(){
-        List<ProEntity> proEntities = proRepository.findAll();
-        List<ProDTO> proDTOS = new ArrayList<>();
-        for (ProEntity proEntity : proEntities){
-            proDTOS.add(ProDTO.toProDTO(proEntity));
-        }
+    //    기사리스트 - 페이징
+    public Page<ProDTO> admin_paging(Pageable pageable){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 0으로 시작)
+        int pageLimit = 7; // 한 페이지당 글 7개
+
+//        기사리스트 고유번호(num) 기준으로 내림차순
+        Page<ProEntity> proEntities =
+                proRepository.findAll(PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "num")));
+
+//        목록에 보여질 항목
+//        아이디,이름,업체명,활동지역,가입일,정지여부
+        Page<ProDTO> proDTOS = proEntities.map
+                (pro -> new ProDTO(pro.getProId(),pro.getProName(),pro.getProNickname(),pro.getProLegions(),pro.getSignupDate(),pro.getSuspensionExpiry()));
+
         return proDTOS;
     }
 
@@ -64,6 +77,23 @@ public class Admin_ProService {
         counts.add(proRepository.countBySignupDateBetween(day6, day6.plusDays(1)));
 
         return counts;
+    }
+
+    //    기사 검색
+    public Page<ProDTO> proSearch(String keyword, Pageable pageable){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 7; // 한 페이지당 글 7개
+
+//        검색결과 페이징 - 기사 고유번호(num) 기준으로 내림차순
+        Page<ProEntity> proEntities =
+                proRepository.findByProIdContainingOrProNameContainingOrProNicknameContainingOrProLegionsContaining(keyword,keyword,keyword,keyword,PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "num")));
+
+//        목록에 보여질 항목
+//        아이디,이름,닉네임,주소,유형,가입일,정지여부
+        Page<ProDTO> proDTOS = proEntities.map
+                (pro -> new ProDTO(pro.getProId(),pro.getProName(),pro.getProNickname(),pro.getProLegions(),pro.getSignupDate(),pro.getSuspensionExpiry()));
+
+        return proDTOS;
     }
 
 }

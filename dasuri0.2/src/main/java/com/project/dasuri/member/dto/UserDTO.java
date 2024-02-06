@@ -53,6 +53,15 @@ public class UserDTO {
     private LocalDateTime lastModifiedDate;
     private LocalDateTime suspensionExpiry;
 
+    public UserDTO(String userId, String userName, String userNickname, String userAddress, String role, LocalDateTime signupDate, LocalDateTime suspensionExpiry) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userNickname = userNickname;
+        this.userAddress = userAddress;
+        this.role = role;
+        this.signupDate = signupDate;
+        this.suspensionExpiry = suspensionExpiry;
+    }
 
     public static UserDTO toUserDTO(UserEntity userEntity){
         UserDTO userDTO = new UserDTO();

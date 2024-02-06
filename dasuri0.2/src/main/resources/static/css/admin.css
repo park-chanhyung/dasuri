@@ -1115,6 +1115,9 @@ main {
   overflow: scroll;
   border-collapse: collapse;
 }
+.mem_table span{
+  background: yellow;
+}
 .mem_table th,.mem_table td {
   padding: 5px;
   text-align: center;
@@ -1146,16 +1149,10 @@ main {
   margin: 0 auto;
 }
 .mem_paging tr td a, .mem_paging tr td span{
-  margin: 5px;
   text-decoration: none;
-  border: none;
 }
 .current{
-  background: #4148C1;
-  border-radius: 10px;
-  padding-left: 3px;
-  padding-right: 3px;
-  color: white;
+  color: blue;
   font-weight: 700;
 }
 

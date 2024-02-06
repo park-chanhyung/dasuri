@@ -1,6 +1,9 @@
 package com.project.dasuri.admin.repository;
 
 import com.project.dasuri.member.entity.ProEntity;
+import com.project.dasuri.member.entity.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -15,4 +18,8 @@ public interface AdminProRepository extends JpaRepository<ProEntity,Integer> {
 
 //    특정 지역에서 활동하는 기사 카운트
     long countByProLegionsContaining(String loc);
+
+    //    기사 검색 페이징 (아이디,이름,닉네임,주소)
+    Page<ProEntity> findByProIdContainingOrProNameContainingOrProNicknameContainingOrProLegionsContaining(String k1, String k2, String k3, String k4, Pageable pageable);
+
 }

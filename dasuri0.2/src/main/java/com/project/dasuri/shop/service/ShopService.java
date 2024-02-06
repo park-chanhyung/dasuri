@@ -98,9 +98,9 @@ public class ShopService {
 //        Pageable pageable= PageRequest.of(page,12);
 //        return shopRepository.findByItemnameContaining(pageable);
 //    }
-    public List<ShopEntity> searchItem(String keyword) {
-
-    return shopRepository.findByItemnameContaining(keyword);
+    public Page<ShopEntity> searchItem(String keyword, int page) {
+        Pageable pageable= PageRequest.of(page,12);
+        return this.shopRepository.findByItemnameContaining(keyword, pageable);
     }
 
     public List<ShopEntity> getlist() {

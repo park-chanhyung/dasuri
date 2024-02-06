@@ -47,6 +47,15 @@ public class ProDTO {
     private LocalDateTime lastModifiedDate;
     private LocalDateTime suspensionExpiry;
 
+    public ProDTO(String proId, String proName, String proNickname, String proLegions, LocalDateTime signupDate, LocalDateTime suspensionExpiry) {
+        this.proId = proId;
+        this.proName = proName;
+        this.proNickname = proNickname;
+        this.proLegions = proLegions;
+        this.signupDate = signupDate;
+        this.suspensionExpiry = suspensionExpiry;
+    }
+
     public static ProDTO toProDTO(ProEntity proEntity){
         ProDTO proDTO = new ProDTO();
         proDTO.setProId(proEntity.getProId());
