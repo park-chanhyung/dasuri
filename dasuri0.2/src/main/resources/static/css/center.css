@@ -1,5 +1,8 @@
 body{
-    min-height: 1000px;
+    /*min-height: 1000px;*/
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 .containers{
     width: 100%;
