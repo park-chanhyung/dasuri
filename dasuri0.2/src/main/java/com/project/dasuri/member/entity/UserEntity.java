@@ -58,10 +58,13 @@ public class UserEntity implements UserDetailEntity{
 
     @OneToMany(mappedBy = "userEntity",cascade = CascadeType.REMOVE)
     private List<MysqlChat> mysqlChatList;
-
-
-//    @Embedded
-//    private UserAddress userAddr;
+    //이미지 파일 컬럼
+    @Column
+    private String filename;
+    @Column
+    private String filePath;
+    @Column
+    private String profileImagePath;
 
     public static UserEntity toUserEntity(UserDTO userDTO){
 
@@ -85,6 +88,12 @@ public class UserEntity implements UserDetailEntity{
             userEntity.setRole("ROLE_USER");
         }
         userEntity.setBirth(userDTO.getBirth());
+
+        if (userDTO.getFilename() != null) {
+            userEntity.setFilename(userDTO.getFilename());
+            userEntity.setFilePath(userDTO.getFilePath());
+            userEntity.setProfileImagePath(userDTO.getProfileImagePath());
+        }
 
         return userEntity;
     }

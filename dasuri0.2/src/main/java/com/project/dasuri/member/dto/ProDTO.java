@@ -1,6 +1,7 @@
 package com.project.dasuri.member.dto;
 
 import com.project.dasuri.member.entity.ProEntity;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
@@ -47,6 +48,11 @@ public class ProDTO {
     private LocalDateTime lastModifiedDate;
     private LocalDateTime suspensionExpiry;
 
+    //이미지 파일
+    private String filename;
+    private String filePath;
+    private String profileImagePath;
+
     public ProDTO(String proId, String proName, String proNickname, String proLegions, LocalDateTime signupDate, LocalDateTime suspensionExpiry) {
         this.proId = proId;
         this.proName = proName;
@@ -65,9 +71,15 @@ public class ProDTO {
         proDTO.setProPhone(proEntity.getProPhone());
         proDTO.setProLegions(proEntity.getProLegions());
         proDTO.setBirth(proEntity.getBirth());
+
         proDTO.setSignupDate(proEntity.getSignupDate());
         proDTO.setLastModifiedDate(proEntity.getLastModifiedDate());
         proDTO.setSuspensionExpiry(proEntity.getSuspensionExpiry());
+        //파일
+        proDTO.setFilename(proEntity.getFilename());
+        proDTO.setFilePath(proEntity.getFilePath());
+        proDTO.setProfileImagePath(proEntity.getProfileImagePath());
+
         return proDTO;
     }
 }

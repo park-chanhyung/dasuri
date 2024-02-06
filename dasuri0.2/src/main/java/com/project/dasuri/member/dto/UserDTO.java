@@ -53,6 +53,12 @@ public class UserDTO {
     private LocalDateTime lastModifiedDate;
     private LocalDateTime suspensionExpiry;
 
+    //이미지 파일
+    private String filename;
+    private String filePath;
+    private String profileImagePath;
+
+
     public UserDTO(String userId, String userName, String userNickname, String userAddress, String role, LocalDateTime signupDate, LocalDateTime suspensionExpiry) {
         this.userId = userId;
         this.userName = userName;
@@ -81,6 +87,11 @@ public class UserDTO {
         userDTO.setSignupDate(userEntity.getSignupDate());
         userDTO.setLastModifiedDate(userEntity.getLastModifiedDate());
         userDTO.setSuspensionExpiry(userEntity.getSuspensionExpiry());
+
+        //파일
+        userDTO.setFilename(userEntity.getFilename());
+        userDTO.setFilePath(userEntity.getFilePath());
+        userDTO.setProfileImagePath(userEntity.getProfileImagePath());
 
         return userDTO;
     }

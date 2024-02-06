@@ -191,7 +191,6 @@ document.addEventListener("DOMContentLoaded", function() {
  * 휴대폰 인증 script (start)
  *
  */
-/*<![CDATA[*/
 function sendVerificationCode() {
     var userPhone = $('#userPhone').val();
     $.ajax({
@@ -200,13 +199,57 @@ function sendVerificationCode() {
         contentType: 'application/json',
         data: JSON.stringify({ phoneNumber: userPhone }),
         success: function(response) {
-            alert("인증번호가 발송되었습니다.");
+            // SweetAlert를 사용하여 성공 메시지를 표시합니다.
+            Swal.mixin({
+                toast: true,
+                position: 'center-center',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            }).fire({
+                icon: 'success',
+                title: '인증번호가 발송되었습니다.'
+            });
         },
         error: function(error) {
-            alert("인증번호 발송에 실패했습니다.");
+            // SweetAlert를 사용하여 에러 메시지를 표시합니다.
+            Swal.mixin({
+                toast: true,
+                position: 'center-center',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            }).fire({
+                icon: 'error',
+                title: '인증번호 발송에 실패했습니다.'
+            });
         }
     });
 }
+/*<![CDATA[*/
+// function sendVerificationCode() {
+//     var userPhone = $('#userPhone').val();
+//     $.ajax({
+//         url: '/sendVerificationCode', // 인증번호를 보내는 서버의 URL
+//         type: 'POST',
+//         contentType: 'application/json',
+//         data: JSON.stringify({ phoneNumber: userPhone }),
+//         success: function(response) {
+//             alert("인증번호가 발송되었습니다.");
+//         },
+//         error: function(error) {
+//             alert("인증번호 발송에 실패했습니다.");
+//         }
+//     });
+// }
 
 function verifyCode() {
     var userPhone = $('#userPhone').val();
