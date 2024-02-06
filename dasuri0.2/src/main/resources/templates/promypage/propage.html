@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/sign_up.css}">
     <script th:src="@{/js/jquery.js}"></script>
-    <script th:inline="javascript" src="/js/sign_up.js"></script>
+    <script th:inline="javascript" src="/js/profile_update.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <title>기사회원정보수정</title>
 </head>
@@ -15,7 +15,7 @@
 </header>
 <div class="login-wrap">
     <div class="login-html">
-        <input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">회원가입</label>
+        <input id="tab-2" type="radio" name="tab" class="sign-up" checked><label for="tab-2" class="tab">회원정보수정</label>
         <div class="login-form">
             <form th:action="@{/proupdate}" method="post" th:object="${proDTO}" onsubmit="return confirm('등록하시겠습니까?');" enctype="multipart/form-data">
 <!--                <p>* 파일은 이미지만 첨부 가능합니다.</p>-->
@@ -67,9 +67,9 @@
                     <div class="group">
                         <label for="userPwd" class="label">비밀번호</label>
                         <input id="userPwd" name="proPwd" type="password" class="input" data-type="password" th:field="*{proPwd}" placeholder="8~16자 영문 대/소문자+숫자+특수문자"/>
-                        <div th:if="${#fields.hasErrors('proPwd')}" class="group">
-                            <p id="error-Message" th:each="err : ${#fields.errors('proPwd')}" th:text="${err}"></p>
-                        </div>
+<!--                        <div th:if="${#fields.hasErrors('proPwd')}" class="group">-->
+<!--                            <p id="error-Message" th:each="err : ${#fields.errors('proPwd')}" th:text="${err}"></p>-->
+<!--                        </div>-->
                     </div>
                     <div class="group">
                         <label for="userPwdConfirm" class="label">비밀번호 확인</label>

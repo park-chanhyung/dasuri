@@ -5,6 +5,7 @@ import com.project.dasuri.member.entity.ProEntity;
 import com.project.dasuri.member.service.ProService;
 import com.project.dasuri.member.service.UserService;
 import com.project.dasuri.mypage.service.ProMyPageService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 
@@ -50,16 +52,26 @@ public class ProMyPageController {
         return "promypage/propage";
     }
     @PostMapping("/proupdate")
-    public String update(@Valid @ModelAttribute ProDTO proDTO, BindingResult br, Model model, MultipartFile file) throws IOException {
+    public String update(@Valid @ModelAttribute ProDTO proDTO, BindingResult br, Model model, MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException {
         System.out.println("컨트롤러 메소드 업데이트 -> 서비스로 가야함");
         System.out.println("proDTO = " + proDTO + ", br = " + br + ", model = " + model);
         if(br.hasErrors()){
             //회원정보 수정 실패시 기존 입력값 유지
+            System.out.println("혹시 회원정보 수정 실패해서 여기 들어오냐?");
             model.addAttribute("proDTO",proDTO);
             return "redirect:/propage";
-        }else{
-                proMyPageService.update(proDTO, file);
-            return "redirect:/proprofile";
+        }else {
+            boolean isPasswordChanged = proMyPageService.update(proDTO, file);
+            if (isPasswordChanged) {
+                // 비밀번호가 변경되었으면 현재 세션 무효화
+                SecurityContextHolder.getContext().setAuthentication(null);
+                request.getSession().invalidate();
+                redirectAttributes.addFlashAttribute("msg", "비밀번호가 변경되었습니다. 다시 로그인해 주세요.");
+                return "redirect:/login"; // 로그인 페이지로 리다이렉션
+            } else {
+                // 비밀번호 변경이 없으면 프로필 페이지로 리다이렉션
+                return "redirect:/proprofile_P";
+            }
         }
     }
 }

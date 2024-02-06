@@ -8,4 +8,5 @@ public interface UserDetailEntity {
     String getUserId();
 
     LocalDateTime getSuspensionExpiry();
+
 }

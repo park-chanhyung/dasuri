@@ -53,6 +53,8 @@ public class ProDTO {
     private String filePath;
     private String profileImagePath;
 
+    private int num;
+
     public ProDTO(String proId, String proName, String proNickname, String proLegions, LocalDateTime signupDate, LocalDateTime suspensionExpiry) {
         this.proId = proId;
         this.proName = proName;
@@ -64,6 +66,7 @@ public class ProDTO {
 
     public static ProDTO toProDTO(ProEntity proEntity){
         ProDTO proDTO = new ProDTO();
+        proDTO.setNum(proEntity.getNum());
         proDTO.setProId(proEntity.getProId());
         proDTO.setProName(proEntity.getProName());
         proDTO.setProNickname(proEntity.getProNickname());
@@ -82,4 +85,6 @@ public class ProDTO {
 
         return proDTO;
     }
+
+
 }

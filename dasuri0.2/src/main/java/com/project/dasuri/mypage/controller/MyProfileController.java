@@ -8,11 +8,14 @@ import com.project.dasuri.member.service.ProService;
 import com.project.dasuri.member.service.UserService;
 import com.project.dasuri.mypage.service.ProMyPageService;
 import com.project.dasuri.mypage.service.UserMyPageService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.security.Principal;
 
 @Controller
 public class MyProfileController {
@@ -40,7 +43,7 @@ public class MyProfileController {
     }
     @GetMapping("/userprofile")
 //    public String userprofile(@RequestParam("userId")String userId, Model model){
-    public String userprofile(Model model){
+    public String userprofile(Model model, Principal principal){
         System.out.println("유저 프로필 확인");
         // Spring Security를 통해 로그인한 사용자의 정보를 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -52,16 +55,23 @@ public class MyProfileController {
         return "usermypage/userprofile";
     }
 
+//    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/proprofile")
-    public String proprofile(Model model){
+    public String proprofile(Model model, Principal principal){
         System.out.println("기사 프로필 확인");
         // Spring Security를 통해 로그인한 사용자의 정보를 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         // 사용자 아이디 추출
-        String proId = authentication.getName();
+//        String proId = authentication.getName();
+        String proId = principal.getName();
         ProEntity pro = proService.findByProId(proId);
         model.addAttribute("propf", pro);
+        return "promypage/proprofile";
+    }
+
+    @GetMapping("/proprofile_P")
+    public String proprofile(){
         return "promypage/proprofile";
     }
 

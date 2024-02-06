@@ -21,7 +21,7 @@ public class ProEntity implements UserDetailEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int num;
 
-    @Column
+    @Column(unique = true)
     private String proId;
     @Column
     private String proName;

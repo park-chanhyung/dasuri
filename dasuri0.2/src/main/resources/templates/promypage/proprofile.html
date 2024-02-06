@@ -16,6 +16,7 @@
         <h2 id="nickname" th:text="${propf.proName}"></h2>
         <div id="buttons">
 <!--            <div class="button" id="editprofile" onclick="loadContent('EditProfile')"><a href="/promypage">기사 정보 수정</a></div>-->
+<!--            <form id="view_propage" th:action="@{/propage}" method="post">-->
             <form id="view_propage" th:action="@{/propage}" method="post">
                 <input type="hidden" id="proId" name="proId" value="" />
 

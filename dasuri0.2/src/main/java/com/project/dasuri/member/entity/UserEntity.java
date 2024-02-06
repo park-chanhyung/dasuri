@@ -25,15 +25,15 @@ public class UserEntity implements UserDetailEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int num;
-    @Column(unique = true)
+    @Column
     private String userId;
     @Column
     private String userName;
-    @Column(unique = true)
+    @Column
     private String userNickname;
     @Column
     private String userPwd;
-    @Column(unique = true)
+    @Column
     private String userPhone;
     @Column
     private String userPostcode;
