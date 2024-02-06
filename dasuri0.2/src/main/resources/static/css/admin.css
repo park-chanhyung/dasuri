@@ -217,22 +217,8 @@ main {
   border-radius: 15px;
 }
 
-/*공지 / faq 영역 (절반)*/
-.admin_half_area {
-  height: 400px;
-  background: #f6f7fb;
-  margin: 10px;
-  padding: 20px;
-  border-radius: 15px;
-}
-.admin_half_area h1 {
-  display: inline;
-  float: left;
-}
-
 .blue{
 	color:#4148C1;
-    /*text-align: center;*/
 }
 
 /* ACTIVITIES */
@@ -1162,52 +1148,11 @@ main {
   bottom: 20px;
 }
 
-.notice_container {
-  clear: both;
-  position: relative;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 3px;
-  border-radius: 10px;
-  margin: 0px;
-  padding: 0px;
-  align-items: center;
-  background: white;
-  height: 300px;
-}
-
-.notice_table{
-  margin: 10px;
-  width: 90%;
-  border-collapse: collapse;
-  text-align: center;
-}
-#notice_content{
-  display: block;
-  margin-bottom: 20px;
-}
-.notice_table tr td:hover {
-  color: #6192FA;
-  text-decoration: underline;
-  cursor: pointer;
-}
-.notice_table tr td span {
-  background: yellow;
-}
-.notice_table tr th span {
-  background: yellow;
-}
-
-.notice_table th,.mem_table td {
-  padding: 5px;
-  text-align: center;
-  border-bottom: 1px solid #6192FA;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
 .yellow span{
   background: yellow;
 }
 .mem_top{
-  width: 90%;
+  width: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
 }

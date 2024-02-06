@@ -41,12 +41,11 @@
           </div>
           <div class="image-container img-three">
             <div class="overlay">
-              <h3>지역별 회원수 top3</h3>
+              <h3>신규가입 수</h3>
               <div class="ch2">
                 <!--그래프-->
-                <canvas id="myChart_loc"></canvas>
+                <canvas id="myChart5"></canvas>
               </div>
-
             </div>
           </div>
         </div>
@@ -56,17 +55,21 @@
         <div class="activity-container">
           <div class="image-container img-three">
             <div class="overlay">
-              <h3>신규가입 수</h3>
-                <div class="ch2">
-                  <!--그래프-->
-                  <canvas id="myChart5"></canvas>
-                </div>
+              <h3>지역별 고객 수 top5</h3>
+              <div class="ch2">
+                <!--그래프-->
+                <canvas id="myChart_loc"></canvas>
+              </div>
             </div>
           </div>
 
           <div class="image-container img-three">
             <div class="overlay">
-              <h3>블랙리스트</h3>
+              <h3>지역별 기사 수 top5</h3>
+              <div class="ch2">
+                <!--그래프-->
+                <canvas id="myChart_loc_pro"></canvas>
+              </div>
             </div>
           </div>
         </div>
@@ -78,9 +81,7 @@
 
   </section>
 </main>
-
 <script th:inline="javascript">
-
   var userCount = /*[[${userCount}]]*/ 0; // 전체 고객 수 데이터를 chart.js 에 전달
   var proCount = /*[[${proCount}]]*/ 0; // 전체 기사 수 데이터를 chart.js 에 전달
 
@@ -93,16 +94,29 @@
   var day5 = /*[[${day5}]]*/ 0; //5일 전
   var day6 = /*[[${day6}]]*/ 0; //6일 전
 
-  // 지역별 회원 수를 전달
+  // 지역별 고객 수를 chart.js에 전달
   var userLocName0 = /*[[${userLocName0}]]*/ '';
   var userLocAmount0 = /*[[${userLocAmount0}]]*/ 0;
   var userLocName1 = /*[[${userLocName1}]]*/ '';
   var userLocAmount1 = /*[[${userLocAmount1}]]*/ 0;
   var userLocName2 = /*[[${userLocName2}]]*/ '';
   var userLocAmount2 = /*[[${userLocAmount2}]]*/ 0;
+  var userLocName3 = /*[[${userLocName3}]]*/ '';
+  var userLocAmount3 = /*[[${userLocAmount3}]]*/ 0;
+  var userLocName4 = /*[[${userLocName4}]]*/ '';
+  var userLocAmount4 = /*[[${userLocAmount4}]]*/ 0;
 
-
-
+  // 지역별 기사 수를 chart.js에 전달 (전체 제외)
+  var proLocName0 = /*[[${proLocName0}]]*/ '';
+  var proLocAmount0 = /*[[${proLocAmount0}]]*/ 0;
+  var proLocName1 = /*[[${proLocName1}]]*/ '';
+  var proLocAmount1 = /*[[${proLocAmount1}]]*/ 0;
+  var proLocName2 = /*[[${proLocName2}]]*/ '';
+  var proLocAmount2 = /*[[${proLocAmount2}]]*/ 0;
+  var proLocName3 = /*[[${proLocName3}]]*/ '';
+  var proLocAmount3 = /*[[${proLocAmount3}]]*/ 0;
+  var proLocName4 = /*[[${proLocName4}]]*/ '';
+  var proLocAmount4 = /*[[${proLocAmount4}]]*/ 0;
 </script>
 <script src="/js/admin_chart.js"></script>
 </body>

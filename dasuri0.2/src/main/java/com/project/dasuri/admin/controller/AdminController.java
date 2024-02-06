@@ -46,12 +46,19 @@ public class AdminController {
         }
 
 //        -------- 지역별 회원 수 top3 ---------
-        List<LocCount> locCounts = adminLocService.top3Users();
-
-        for (int i = 0; i < 3; i++) {
-            model.addAttribute("userLocName"+i, locCounts.get(i).getLoc());
-            model.addAttribute("userLocAmount"+i, locCounts.get(i).getAmount());
+//        고객
+        List<LocCount> locCounts_user = adminLocService.top5Users();
+        for (int i = 0; i < 5; i++) {
+            model.addAttribute("userLocName"+i, locCounts_user.get(i).getLoc());
+            model.addAttribute("userLocAmount"+i, locCounts_user.get(i).getAmount());
         }
+//        기사
+        List<LocCount> locCounts_pro = adminLocService.top5pros();
+        for (int i = 0; i < 5; i++) {
+            model.addAttribute("proLocName"+i, locCounts_pro.get(i).getLoc());
+            model.addAttribute("proLocAmount"+i, locCounts_pro.get(i).getAmount());
+        }
+
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_home";
     }

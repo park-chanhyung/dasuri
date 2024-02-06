@@ -4,8 +4,10 @@
 <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>공지 리스트</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/pagingBtn.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/notice.css}">
 </head>
 <body>
 
@@ -19,22 +21,24 @@
 			<div class="half_content">
 			<!--		1 공지사항 -->
 				<div class="admin_half_area">
-					<h1 class="blue">공지사항</h1>
+					<h2 class="noFaq_title">공지사항</h2>
 					<!--  	  검색창 영역 -->
-					<form th:action="@{admin_notice_search}" id="notice_search">
-						<div class="search">
-							<button type="button" onclick="location='admin_notice_write'">공지올리기</button>
-							<input type="text" class="searchTerm" name="notice_keyword" placeholder="제목or내용 검색">
-							<div class="searchButton" onclick="submitSearch()">
-								<img class="search_img" src="/img/admin/search.png">
+					<div class="noFaq_search">
+						<form th:action="@{admin_notice_search}" id="notice_search">
+							<div class="search">
+								<button type="button" onclick="location='admin_notice_write'">공지올리기</button>
+								<input type="text" class="searchTerm" name="notice_keyword" placeholder="제목or내용 검색">
+								<div class="searchButton" onclick="submitSearch()">
+									<img class="search_img" src="/img/admin/search.png">
+								</div>
 							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 					<!--		검색창 영역 끝 -->
 
 <!--					공지 리스트 -->
 					<div class="notice_container">
-						<table class="notice_table">
+						<table class="noticeFAQ_table">
 							<tr>
 								<th style="width: 5%">구분</th>
 								<th style="width: 30%">제목</th>
@@ -52,18 +56,18 @@
 						<div class="mem_paging_wrap">
 							<table class="mem_paging">
 								<tr>
-									<td> <a th:href="@{/admin_notice(page=1)}"> << </a> </td>
-									<td> <a th:href="${normals.first} ? '#' : @{/admin_notice(page=${normals.number})}"> < </a> </td>
+									<td> <a id="page1" class="arrow pprev" th:href="@{/admin_notice(page=1)}"> << </a> </td>
+									<td> <a id="page1" class="arrow prev" th:href="${normals.first} ? '#' : @{/admin_notice(page=${normals.number})}"> < </a> </td>
 									<td>
-										<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+										<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
 											<span class="current" th:if="${page == normals.number + 1}" th:text="${page}"></span>
 											<span th:unless="${page == normals.number + 1}">
 												<a th:href="@{/admin_notice(page=${page})}" th:text="${page}"></a>
 											</span>
                 						</span>
 									</td>
-									<td> <a th:href="${normals.last} ? '#' : @{/admin_notice(page=${normals.number + 2})}"> > </a> </td>
-									<td> <a th:href="@{/admin_notice(page=${normals.totalPages})}"> >> </a> </td>
+									<td> <a id="page1" th:href="${normals.last} ? '#' : @{/admin_notice(page=${normals.number + 2})}"> > </a> </td>
+									<td> <a id="page1" th:href="@{/admin_notice(page=${normals.totalPages})}"> >> </a> </td>
 								</tr>
 							</table>
 						</div>
@@ -73,23 +77,23 @@
 
 				<!--		2 자주 찾는 질문 -->
 				<div class="admin_half_area">
-
-					<h1 class="blue">자주 찾는 질문</h1>
-
+					<h2 class="noFaq_title">자주 찾는 질문</h2>
 					<!--  	  검색창 영역 -->
-					<form th:action="@{admin_faq_search}" id="faq_search">
-						<div class="search">
-							<button type="button" onclick="location='admin_faq_write'">FAQ 작성</button>
-							<input type="text" class="searchTerm" name="faq_keyword" placeholder="제목or내용or태그 검색">
-							<div class="searchButton" onclick="submitSearch2()">
-								<img class="search_img" src="/img/admin/search.png">
+					<div class="noFaq_search">
+						<form th:action="@{admin_faq_search}" id="faq_search">
+							<div class="search">
+								<button type="button" onclick="location='admin_faq_write'">FAQ 작성</button>
+								<input type="text" class="searchTerm" name="faq_keyword" placeholder="제목or내용or태그 검색">
+								<div class="searchButton" onclick="submitSearch2()">
+									<img class="search_img" src="/img/admin/search.png">
+								</div>
 							</div>
-						</div>
-					</form>
+						</form>
+					</div>
 					<!--		검색창 영역 끝 -->
 
 					<div class="notice_container">
-						<table class="notice_table">
+						<table class="noticeFAQ_table">
 							<tr>
 								<th style="width: 5%">번호</th>
 								<th style="width: 5%">태그</th>
@@ -106,18 +110,18 @@
 						<div class="mem_paging_wrap">
 							<table class="mem_paging">
 								<tr>
-									<td> <a th:href="@{/admin_notice(page=1)}"> << </a> </td>
-									<td> <a th:href="${faqList.first} ? '#' : @{/admin_notice(page=${faqList.number})}"> < </a> </td>
+									<td> <a id="page1" class="arrow pprev" th:href="@{/admin_notice(page=1)}"> << </a> </td>
+									<td> <a id="page1" class="arrow prev" th:href="${faqList.first} ? '#' : @{/admin_notice(page=${faqList.number})}"> < </a> </td>
 									<td>
-										<span th:each="page: ${#numbers.sequence(startPage_faq, endPage_faq)}">
+										<span class="page" th:each="page: ${#numbers.sequence(startPage_faq, endPage_faq)}">
 											<span class="current" th:if="${page == faqList.number + 1}" th:text="${page}"></span>
 											<span th:unless="${page == faqList.number + 1}">
 												<a th:href="@{/admin_notice(page=${page})}" th:text="${page}"></a>
 											</span>
                 						</span>
 									</td>
-									<td> <a th:href="${faqList.last} ? '#' : @{/admin_notice(page=${faqList.number + 2})}"> > </a> </td>
-									<td> <a th:href="@{/admin_notice(page=${faqList.totalPages})}"> >> </a> </td>
+									<td> <a id="page1" th:href="${faqList.last} ? '#' : @{/admin_notice(page=${faqList.number + 2})}"> > </a> </td>
+									<td> <a id="page1" th:href="@{/admin_notice(page=${faqList.totalPages})}"> >> </a> </td>
 								</tr>
 							</table>
 						</div>

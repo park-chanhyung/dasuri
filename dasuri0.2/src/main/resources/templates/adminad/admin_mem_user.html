@@ -19,18 +19,17 @@
     <section class="content">
         <div class="admin_one_area">
 
-            <h1 class="blue">회원 리스트 (고객)</h1>
 
             <div class="mem_top">
-
-                <div>
+                <div class="memBtn">
+                    <h1 class="blue">회원 리스트 (고객)</h1>
                     <button class="mem_type_btn_ck" type="button" onclick="location='admin_mem'">고객</button>
                     <button class="mem_type_btn" type="button" onclick="location='admin_mem_pro'">기사</button>
                 </div>
 
                 <!--  	  검색창 영역 -->
                 <form th:action="@{admin_user_search}" id="user_search">
-                    <div class="search">
+                    <div class="mem_search">
                         <input type="text" class="moonsearchTerm" name="keyword" placeholder="아이디or이름or닉네임or주소">
                         <div class="searchButton" onclick="submitSearch()">
                             <img class="search_img" src="/img/admin/search.png">
@@ -43,7 +42,7 @@
             <div class="mem_container">
                 <form th:action="@{admin_mem_user_view}" method="post" id="view">
                     <input type="hidden" name="userId" id="goId" value="">
-                    <table class="mem_table">
+                    <table class="admin_mem_table">
                         <tr>
                             <th>유형</th>
                             <th>아이디</th>

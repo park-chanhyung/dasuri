@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/pagingBtn.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/moon.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
@@ -61,18 +62,18 @@
 				<div class="mem_paging_wrap">
 					<table class="mem_paging">
 						<tr>
-							<td> <a th:href="@{/admin_moon(page=1)}"> << </a> </td>
-							<td> <a th:href="${moons.first} ? '#' : @{/admin_moon(page=${moons.number})}"> < </a> </td>
+							<td><a id="page1" class="arrow pprev" th:href="@{/admin_moon(page=1)}"><<</a></td>
+							<td><a id="page1" class="arrow prev" th:href="${moons.first} ? '#' : @{/admin_moon(page=${moons.number})}"><</a></td>
 							<td>
-								<span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
 									<span class="current" th:if="${page == moons.number + 1}" th:text="${page}"></span>
 									<span th:unless="${page == moons.number + 1}">
 										<a th:href="@{/admin_moon(page=${page})}" th:text="${page}"></a>
 									</span>
 								</span>
 							</td>
-							<td> <a th:href="${moons.last} ? '#' : @{/admin_moon(page=${moons.number + 2})}"> > </a> </td>
-							<td> <a th:href="@{/admin_moon(page=${moons.totalPages})}"> >> </a> </td>
+							<td> <a id="page1" th:href="${moons.last} ? '#' : @{/admin_moon(page=${moons.number + 2})}"> > </a> </td>
+							<td> <a id="page1" th:href="@{/admin_moon(page=${moons.totalPages})}"> >> </a> </td>
 						</tr>
 					</table>
 				</div>

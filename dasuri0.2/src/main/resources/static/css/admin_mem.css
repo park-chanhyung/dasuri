@@ -2,9 +2,51 @@
     background: #eeeeee;
     cursor: pointer;
 }
-.mem_table tr td:nth-child(1){
+.admin_mem_table{
+    width: 100%;
+    height: 90%;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    overflow: scroll;
+    border-collapse: collapse;
+}
+.admin_mem_table span{
+    background: yellow;
+}
+.admin_mem_table th,.admin_mem_table td{
+    padding: 5px;
+    text-align: center;
+    border-bottom: 1px solid #E2EBFF;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    height: 50px;
+}
+.admin_mem_table tr:nth-child(1){
+    background: #E2EBFF;
+}
+.admin_mem_table tr td:nth-child(1){
     color: #6192FA;
     font-weight: 700;
+    width: 60px;
+}
+.admin_mem_table tr td:nth-child(2){
+    font-weight: 700;
+    width: 120px;
+}
+.admin_mem_table tr td:nth-child(3){
+    width: 90px;
+}
+.admin_mem_table tr td:nth-child(6){
+    font-size: 0.8em;
+    color: gray;
+    width: 90px;
+    font-weight: bold;
+}
+.admin_mem_table tr td:nth-child(7){
+    font-size: 0.8em;
+    color: red;
+    width: 90px;
+    font-weight: bold;
 }
 .modal-container {
     width: 100%;
@@ -19,4 +61,21 @@
     background: white;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.memBtn{
+    width: 50%;
+    display: inline;
+    float: left;
+    margin-bottom: 20px;
+    margin-left: 20px;
+}
+.mem_search{
+    width: 250px;
+    height: 40px;
+    display: flex;
+    position: relative;
+    float: right;
+    margin-top: 70px;
+    margin-right: 20px;
+    overflow: clip;
 }
