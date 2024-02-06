@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" th:href="@{/css/pagingBtn.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin_pagingBtn.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/moon.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
@@ -48,7 +48,7 @@
 						<th>작성일</th>
 						<th>상태</th>
 					</tr>
-					<tr th:each="moon: ${moons}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moons.number} + 1) + ')'" class="moonTr">
+					<tr th:each="moon: ${moonss}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moonss.number} + 1) + ')'" class="moonTr">
 						<td th:text="${moon.moonUserId}"></td>
 						<td th:utext="${moon.moonRole == '1' ? '고객' : '기사'}"></td>
 						<td th:utext="${moon.moonType=='1' ? '문의' : '신고'}" th:class="${moon.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>
@@ -58,22 +58,22 @@
 					</tr>
 				</table>
 
-				<!-- 페이징 영역-->
+				<!--페이징 영역-->
 				<div class="mem_paging_wrap">
 					<table class="mem_paging">
 						<tr>
-							<td><a id="page1" class="arrow pprev" th:href="@{/admin_moon(page=1)}"><<</a></td>
-							<td><a id="page1" class="arrow prev" th:href="${moons.first} ? '#' : @{/admin_moon(page=${moons.number})}"><</a></td>
+							<td><a id="page1" class="arrow pprev" th:href="@{/admin_moon(page=1)}"><<</a> </td>
+							<td><a id="page1" class="arrow prev" th:href="${moonss.first} ? '#' : @{/admin_moon(page=${moonss.number})}"><</a></td>
 							<td>
 								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
-									<span class="current" th:if="${page == moons.number + 1}" th:text="${page}"></span>
-									<span th:unless="${page == moons.number + 1}">
+									<span class="current" th:if="${page == moonss.number + 1}" th:text="${page}"></span>
+									<span th:unless="${page == moonss.number + 1}">
 										<a th:href="@{/admin_moon(page=${page})}" th:text="${page}"></a>
 									</span>
 								</span>
 							</td>
-							<td> <a id="page1" th:href="${moons.last} ? '#' : @{/admin_moon(page=${moons.number + 2})}"> > </a> </td>
-							<td> <a id="page1" th:href="@{/admin_moon(page=${moons.totalPages})}"> >> </a> </td>
+							<td> <a id="page1" th:href="${moonss.last} ? '#' : @{/admin_moon(page=${moonss.number + 2})}"> > </a> </td>
+							<td> <a id="page1" th:href="@{/admin_moon(page=${moonss.totalPages})}"> >> </a> </td>
 						</tr>
 					</table>
 				</div>

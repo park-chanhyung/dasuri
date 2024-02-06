@@ -3,6 +3,7 @@ package com.project.dasuri.admin.controller;
 import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.service.Admin_MoonService;
+import com.project.dasuri.admin.service.Admin_ReportService;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import com.project.dasuri.community.dto.CommunityDto;
@@ -31,6 +32,7 @@ public class NoticeController {
     private final NoticeService noticeService;
     private final FaqService faqService;
     private final Admin_MoonService adminMoonService;
+    private final Admin_ReportService adminReportService;
 
     @RequestMapping("/admin_notice")
     public String admin_notice(@PageableDefault(page = 1) Pageable pageable, Model model) {
@@ -61,6 +63,7 @@ public class NoticeController {
         model.addAttribute("importants", importantDTOs); // 중요공지
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_notice";
     }
 
@@ -69,6 +72,7 @@ public class NoticeController {
     @RequestMapping("/admin_notice_write")
     public String admin_notice_write(Model model) {
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_notice_write";
     }
 
@@ -79,6 +83,7 @@ public class NoticeController {
         noticeDTO.setNoticeContent(noticeDTO.getNoticeContent().replace("\r\n","<br>"));
         noticeService.save(noticeDTO, file);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "redirect:/admin_notice";
     }
 
@@ -93,6 +98,7 @@ public class NoticeController {
         }
         model.addAttribute("notice",noticeDTO);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_notice_look";
     }
 
@@ -102,6 +108,7 @@ public class NoticeController {
     public String admin_notice_update(@PathVariable Long notice_id, Model model) {
         model.addAttribute("notice",noticeService.findByNoticeId(notice_id));
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_notice_update";
     }
 
@@ -112,6 +119,7 @@ public class NoticeController {
         noticeService.update(noticeDTO, file);
         model.addAttribute("notice", noticeDTO);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_notice_look";
     }
 
@@ -122,6 +130,7 @@ public class NoticeController {
     public String admin_notice_delete(@PathVariable Long notice_id, Model model) {
         noticeService.deleteByNoticeId(notice_id);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "redirect:/admin_notice";
     }
 
@@ -148,7 +157,7 @@ public class NoticeController {
         model.addAttribute("faqList",faqDTOS); //같은 화면에 담을 faq리스트
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
-
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_notice_search";
     }
 

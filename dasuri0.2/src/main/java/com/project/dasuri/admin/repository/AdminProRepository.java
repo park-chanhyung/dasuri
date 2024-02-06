@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 //  관리자 페이지에서 기사 테이블 조회 리포지터리
@@ -23,5 +24,7 @@ public interface AdminProRepository extends JpaRepository<ProEntity,Integer> {
 
     //    기사 검색 페이징 (아이디,이름,닉네임,주소)
     Page<ProEntity> findByProIdContainingOrProNameContainingOrProNicknameContainingOrProLegionsContaining(String k1, String k2, String k3, String k4, Pageable pageable);
+
+    List<ProEntity> findByProLegionsContaining(String loc);
 
 }

@@ -3,6 +3,7 @@ package com.project.dasuri.admin.controller;
 import com.project.dasuri.admin.dto.MoonDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.service.Admin_MoonService;
+import com.project.dasuri.admin.service.Admin_ReportService;
 import com.project.dasuri.admin.service.MoonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.List;
 public class AdminMoonController {
     private final Admin_MoonService adminMoonService;
     private final MoonService moonService;
+    private final Admin_ReportService adminReportService;
 
     //  관리자페이지 > 고객센터 (문의글 리스트)
     @RequestMapping("/admin_moon")
@@ -34,10 +36,12 @@ public class AdminMoonController {
         int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
         int endPage = ((startPage + blockLimit - 1) < moonDTOS.getTotalPages()) ? startPage + blockLimit - 1 : moonDTOS.getTotalPages();
 
-        model.addAttribute("moons",moonDTOS);
+        model.addAttribute("moonss",moonDTOS);
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
 
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
         return "/adminad/admin_moon";
     }
 
@@ -49,6 +53,7 @@ public class AdminMoonController {
         model.addAttribute("moon", moonDTO);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_moon_view";
     }
 
@@ -58,6 +63,7 @@ public class AdminMoonController {
         MoonDTO moonDTO = adminMoonService.findByMoonPkId(moonPkId);
         model.addAttribute("moon", moonDTO);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_moon_answer";
     }
 
@@ -69,9 +75,10 @@ public class AdminMoonController {
         moonDTO.setMoonAnswer(moonAnswer);
         moonService.answerSave(moonDTO);
         model.addAttribute("moon", moonDTO);
-    model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
-    // 답변 작성 완료 후 리다이렉션할 페이지로 이동
-    return "/adminad/admin_moon_answer_ok";
+
+        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
+        return "/adminad/admin_moon_answer_ok";
     }
 
     //  관리자페이지 > 고객센터 (문의글 검색)
@@ -92,6 +99,7 @@ public class AdminMoonController {
 
         model.addAttribute("keyword",moon_keyword); //검색한 키워드
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_moon_search";
     }
 
@@ -113,6 +121,7 @@ public class AdminMoonController {
         model.addAttribute("moonStatus", status); //현재 상태 1 2
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_moon_status";
     }
 

@@ -2,10 +2,7 @@ package com.project.dasuri.admin.controller;//package com.project.dasuri.control
 
 import com.project.dasuri.admin.dto.LocCount;
 import com.project.dasuri.admin.dto.MoonDTO;
-import com.project.dasuri.admin.service.Admin_LocService;
-import com.project.dasuri.admin.service.Admin_MoonService;
-import com.project.dasuri.admin.service.Admin_ProService;
-import com.project.dasuri.admin.service.Admin_UserService;
+import com.project.dasuri.admin.service.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +21,7 @@ public class AdminController {
     private final Admin_ProService proService;
     private final Admin_UserService userService;
     private final Admin_LocService adminLocService;
+    private final Admin_ReportService adminReportService;
 
 //    관리자 페이지 (메인)
     @GetMapping("/admin")
@@ -60,7 +58,7 @@ public class AdminController {
         }
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_home";
     }
-
 }

@@ -1,9 +1,7 @@
 package com.project.dasuri.admin.controller;
 
 import com.project.dasuri.admin.dto.MoonDTO;
-import com.project.dasuri.admin.service.Admin_MoonService;
-import com.project.dasuri.admin.service.Admin_ProService;
-import com.project.dasuri.admin.service.Admin_UserService;
+import com.project.dasuri.admin.service.*;
 import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.service.UserService;
@@ -27,7 +25,9 @@ public class AdminMemController {
     private final Admin_UserService userService;
     private final Admin_ProService proService;
     private final Admin_MoonService adminMoonService;
+    private final Admin_LocService adminLocService;
     private final UserService k_userService;
+    private final Admin_ReportService adminReportService;
 
     //  관리자 페이지 > 회원관리 (회원리스트 > 고객리스트 기본) - 페이징
     @RequestMapping("/admin_mem")
@@ -45,6 +45,7 @@ public class AdminMemController {
         model.addAttribute("endPage", endPage);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_mem_user";
     }
 
@@ -64,6 +65,7 @@ public class AdminMemController {
         model.addAttribute("endPage", endPage);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_mem_pro";
     }
 
@@ -74,6 +76,7 @@ public class AdminMemController {
         model.addAttribute("user",userDTO);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_mem_user_view";
     }
 
@@ -84,6 +87,7 @@ public class AdminMemController {
         model.addAttribute("pro",proDTO);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_mem_pro_view";
     }
 
@@ -120,6 +124,7 @@ public class AdminMemController {
         model.addAttribute("keyword", keyword);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_mem_user_search";
     }
 
@@ -140,7 +145,17 @@ public class AdminMemController {
         model.addAttribute("keyword", keyword);
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_mem_pro_search";
+    }
+
+//    메인 > 전문가찾기 > 지역별 기사리스트
+    @RequestMapping("/loc_pro")
+    public String loc_pro(@RequestParam String loc, Model model) {
+        List<ProDTO> proDTOS = adminLocService.locPro(loc);
+        model.addAttribute("cardList",proDTOS);
+
+        return "/list/pro/proinfo_loc";
     }
 
 }

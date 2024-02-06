@@ -3,6 +3,8 @@ package com.project.dasuri.admin.service;
 import com.project.dasuri.admin.dto.LocCount;
 import com.project.dasuri.admin.repository.AdminProRepository;
 import com.project.dasuri.admin.repository.AdminUserRepository;
+import com.project.dasuri.member.dto.ProDTO;
+import com.project.dasuri.member.entity.ProEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -62,5 +64,15 @@ public class Admin_LocService {
         locCounts.sort(Comparator.comparingLong(LocCount::getAmount).reversed());
 
         return locCounts;
+    }
+
+    //    특정 지역에서 활동하는 기사리스트
+    public List<ProDTO> locPro(String loc) {
+        List<ProEntity> proEntities = proRepository.findByProLegionsContaining(loc);
+        List<ProDTO> proDTOS = new ArrayList<>();
+        for (ProEntity pro : proEntities) {
+            proDTOS.add(ProDTO.toProDTO(pro));
+        }
+        return proDTOS;
     }
 }

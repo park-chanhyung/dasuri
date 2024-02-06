@@ -7,6 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/adminComm.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin_pagingBtn.css}">
 </head>
 <body>
 
@@ -34,18 +35,20 @@
             <div class="mem_container">
                 <table class="comm_table">
                     <tr>
-                        <th width="10%">번호</th>
-                        <th width="15%">아이디</th>
-                        <th width="10%">구분</th> <!-- 기사/고객/관리자 -->
+                        <th>번호</th>
+                        <th>구분</th> <!-- 기사/고객/관리자 -->
+                        <th>아이디</th>
+                        <th>닉네임</th>
                         <th>제목</th>
+                        <th>조회수</th>
                     </tr>
-<!--                        <tr th:each="comm: ${communityList}" th:attr="onclick='submitLook('+${comm.id}+')'" class="goComm">-->
-<!--                        <tr th:each="comm: ${communityList}" th:attr="onclick='@{|/board/Community_list/${CommunityDto.id}|}'" class="goComm">-->
                     <tr th:each="comm: ${communityList}" th:attr="data-id=${comm.id}" class="goComm">
                         <td th:text="${comm.id}"></td>
-                        <td th:text="${comm.userID}"></td>
                         <td th:text="${comm.role == 'ROLE_USER' ? '고객' : (comm.role == 'ROLE_PRO' ? '기사' : (comm.role == 'ROLE_ADMIN' ? '관리자' : '기타'))}"></td>
+                        <td th:text="${comm.userID}"></td>
+                        <td th:text="${comm.userNickname}"></td>
                         <td th:text="${comm.commuTitle}"></td>
+                        <td th:text="${comm.commuHits}"></td>
                     </tr>
                 </table>
                 <div class="mem_paging_wrap">

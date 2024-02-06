@@ -3,6 +3,7 @@ package com.project.dasuri.admin.controller;
 import com.project.dasuri.admin.dto.FaqDTO;
 import com.project.dasuri.admin.dto.NoticeDTO;
 import com.project.dasuri.admin.service.Admin_MoonService;
+import com.project.dasuri.admin.service.Admin_ReportService;
 import com.project.dasuri.admin.service.FaqService;
 import com.project.dasuri.admin.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -27,11 +28,13 @@ public class FaqController {
     private final FaqService faqService;
     private final NoticeService noticeService;
     private final Admin_MoonService adminMoonService;
+    private final Admin_ReportService adminReportService;
 
     //    관리자페이지 > 공지관리 > faq올리기 (작성 폼)
     @RequestMapping("/admin_faq_write")
     public String admin_faq_write(Model model) {
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_faq_write";
     }
 
@@ -40,6 +43,7 @@ public class FaqController {
     public String admin_faq_write_ok(@ModelAttribute FaqDTO faqDTO,Model model) {
         faqService.save(faqDTO);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "redirect:/admin_notice";
     }
 
@@ -49,6 +53,7 @@ public class FaqController {
         FaqDTO faqDTO = faqService.findByFaqId(id);
         model.addAttribute("faq",faqDTO);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_faq_look";
     }
 
@@ -57,6 +62,7 @@ public class FaqController {
     public String admin_faq_update(@PathVariable Long faqId, Model model) {
         model.addAttribute("faq",faqService.findByFaqId(faqId));
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_faq_update";
     }
 
@@ -66,6 +72,7 @@ public class FaqController {
         faqService.update(faqDTO);
         model.addAttribute("faq", faqDTO);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "adminad/admin_faq_look";
     }
 
@@ -75,6 +82,7 @@ public class FaqController {
     public String admin_faq_delete(@PathVariable Long faqId, Model model) {
         faqService.deleteByFaqId(faqId);
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "redirect:/admin_notice";
     }
 
@@ -110,12 +118,7 @@ public class FaqController {
         model.addAttribute("importants", importantDTOs); // 중요공지
 
         model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
         return "/adminad/admin_faq_search";
     }
-
-
-
-
-
-
 }
