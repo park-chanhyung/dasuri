@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -122,18 +123,24 @@ public class CommuController {
     }
 
     @GetMapping("Community_list/{id}")
-    public String findById(@PathVariable Long id, Model model)throws IOException{
-
+    public String findById(@PathVariable Long id, Model model, Principal principal)throws IOException{
 //        해당 게시글의 조회수를 하나 올리고
 //        게시글 데이터를 가져와서 list/community/community_detail.html에출력
-
         communityService.updateHits(id);
         CommunityDto communityDto = communityService.findById(id);
+
+        String userId = null;
+
+        // principal이 null이 아닌지 확인 후 속성에 액세스
+        if (principal != null) {
+            userId = principal.getName();
+        }
 //        댓글 목록 가져오기
         List<CommentDto> commentDtoList = commentService.findAll(id);
 
         model.addAttribute("commentList", commentDtoList);
         model.addAttribute("community", communityDto);
+        model.addAttribute("userId", userId);
         return "list/community/community_detail";
     }
 

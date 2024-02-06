@@ -1,0 +1,95 @@
+section {
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #00c73c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #00972b; /* Hover 효과 색상 변경 */
+}
+
+#comment_write {
+    margin-top: 20px;
+}
+
+#comment_write input[type="text"] {
+    width: 70%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#comment_write button {
+    background-color: #00c73c;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#comment_list {
+    margin-top: 20px;
+}
+
+#comment_list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#comment_list th, #comment_list td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#comment_list th {
+    background-color: #f2f2f2;
+}
+
+body{
+    display:flex;
+    flex-direction:column;
+    min-height: 100vh;
+}

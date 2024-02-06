@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/community_detail.css}">
     <!-- jquery cdn -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
@@ -11,11 +12,8 @@
 <header style="font-size: 50px;">
     <div th:include="/list/layout/nav"></div>
 </header>
+
 <table>
-    <tr>
-        <th>id</th>
-        <td th:text="${community.id}"></td>
-    </tr>
     <tr>
         <th>title</th>
         <td th:text="${community.commuTitle}"></td>
@@ -26,7 +24,8 @@
     </tr>
     <tr>
         <th>date</th>
-        <td th:text="${community.commuCreatedTime}"></td>
+<!--        <td th:text="${community.commuCreatedTime,'yyyy-MM-dd'}"></td>-->
+        <td th:text="*{#temporals.format(community.commuCreatedTime, 'yyyy-MM-dd')}"></td>
     </tr>
     <tr>
         <th>hits</th>
@@ -44,13 +43,12 @@
     </tr>
 </table>
 <button onclick="listReq()" >목록</button>
-<button onclick="updateReq()" sec:authorize="isAuthenticated()">수정</button>
-<button onclick="deleteReq()" sec:authorize="isAuthenticated()">삭제</button>
+<button onclick="updateReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">수정</button>
+<button onclick="deleteReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">삭제</button>
 <button onclick="admindeleteReq()" sec:authorize="hasRole('ROLE_ADMIN')">블라인드</button>
 
 <!--댓글 작성 부분-->
 <div id="comment_write">
-    <input type="text" id="commentWriter" placeholder="작성자">
     <input type="text" id="commentContents" placeholder="내용">
      <button id="comment_write_btn" onclick="commentWrite()" sec:authorize="isAuthenticated()">작성</button>
 </div>
@@ -131,12 +129,14 @@
         console.log("목록 돌아가기");
         location.href = "/board/Community_list";
     }
+
     const updateReq = () => {
         console.log("수정하기");
         const id = [[${community.id}]];
 
         location.href = "/board/Update/" + id;
     }
+
     const deleteReq = () => {
         console.log("삭제하기");
         const id = [[${community.id}]];

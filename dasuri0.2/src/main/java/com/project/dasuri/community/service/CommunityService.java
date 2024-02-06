@@ -31,7 +31,7 @@ public class CommunityService {
 
     public void save(CommunityDto communityDto) throws IOException {
         // 파일 첨부 여부에 따라 로직 분리
-        if (communityDto.getCommunityFile().isEmpty()) {
+        if (communityDto.getCommunityFile() == null ||communityDto.getCommunityFile().isEmpty()) {
             // 첨부 파일 없음.
             CommunityEntity communityEntity = CommunityEntity.toSaveEntity(communityDto);
             communityRepository.save(communityEntity);
@@ -98,7 +98,7 @@ public class CommunityService {
 
 //    업데이트
     public CommunityDto update(CommunityDto communityDto) {
-        CommunityEntity communityEntity =CommunityEntity.toUpdateEntity(communityDto);
+        CommunityEntity communityEntity =CommunityEntity.toUpdateEntity(communityDto);  
         communityRepository.save(communityEntity);
 
         return findById(communityDto.getId());
