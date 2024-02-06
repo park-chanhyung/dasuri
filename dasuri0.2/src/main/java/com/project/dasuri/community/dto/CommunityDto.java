@@ -59,8 +59,10 @@ public class CommunityDto {
         communityDto.setCommuHits(communityEntity.getCommuHits());
         communityDto.setCommuCreatedTime(communityEntity.getCreatedTime());
         communityDto.setComumUpdatedTime(communityEntity.getUpdatedTime());
-//        communityDto.setUserID(communityEntity.getUserId()); //유저 아이디
-//        communityDto.setRole(communityEntity.getRole());//role
+        communityDto.setAdminDeleted(communityEntity.getAdminDeleted());
+        communityDto.setUserID(communityEntity.getUserId()); //유저 아이디
+        communityDto.setRole(communityEntity.getRole());//role
+        communityDto.setUserNickname(communityEntity.getUserNickname());
 
         if (communityEntity.getFileAttached() == 0){ //파일이 없는경우
             communityDto.setFileAttached(communityEntity.getFileAttached());//0

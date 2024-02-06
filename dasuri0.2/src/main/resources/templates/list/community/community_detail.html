@@ -22,7 +22,7 @@
     </tr>
     <tr>
         <th>writer</th>
-        <td th:text="${community.commuWriter}"></td>
+        <td th:text="${community.userNickname}"></td>
     </tr>
     <tr>
         <th>date</th>
@@ -46,6 +46,7 @@
 <button onclick="listReq()" >목록</button>
 <button onclick="updateReq()" sec:authorize="isAuthenticated()">수정</button>
 <button onclick="deleteReq()" sec:authorize="isAuthenticated()">삭제</button>
+<button onclick="admindeleteReq()" sec:authorize="hasRole('ROLE_ADMIN')">블라인드</button>
 
 <!--댓글 작성 부분-->
 <div id="comment_write">
@@ -145,5 +146,13 @@
 
         location.href = "/board/delete/"+id;
     }
+
+    const admindeleteReq = () => {
+        console.log("블라인드하기");
+        const id = [[${community.id}]];
+
+        location.href = "/admin_comm_blind/" + id;
+    }
+
 </script>
 </html>

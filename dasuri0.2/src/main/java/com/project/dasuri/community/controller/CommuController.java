@@ -96,11 +96,9 @@ public class CommuController {
     //글작성 저장
     @PostMapping("/community_post")
     public String post(@ModelAttribute CommunityDto communityDto, Model model) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
-
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         Iterator<? extends GrantedAuthority> iter = authorities.iterator();
@@ -124,7 +122,8 @@ public class CommuController {
     }
 
     @GetMapping("Community_list/{id}")
-    public String findById(@PathVariable Long id, Model model){
+    public String findById(@PathVariable Long id, Model model)throws IOException{
+
 //        해당 게시글의 조회수를 하나 올리고
 //        게시글 데이터를 가져와서 list/community/community_detail.html에출력
 
@@ -132,6 +131,7 @@ public class CommuController {
         CommunityDto communityDto = communityService.findById(id);
 //        댓글 목록 가져오기
         List<CommentDto> commentDtoList = commentService.findAll(id);
+
         model.addAttribute("commentList", commentDtoList);
         model.addAttribute("community", communityDto);
         return "list/community/community_detail";
@@ -144,12 +144,33 @@ public class CommuController {
         CommunityDto communityDto = communityService.findById(post_id);
         model.addAttribute("communityUpdate", communityDto);
 
+
+
         return "list/community/community_Update";
 
     }
     //    ID값을 받아와서 업데이트
     @PostMapping("/Update/")
     public String update(@ModelAttribute CommunityDto communityDto, Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+        GrantedAuthority auth = iter.next();
+        String role = auth.getAuthority();
+
+        UserDTO userDTO = adminUserService.findByUserId(id);
+        String Nickname =userDTO.getUserNickname();
+
+
+        //사용자 아이디와 역할 가져오기
+        communityDto.setUserID(id);
+        communityDto.setRole(role);
+        communityDto.setUserNickname(Nickname);
+
+
         CommunityDto community =  communityService.update(communityDto);
         model.addAttribute("community", community);
         return "/list/community/community_detail";
@@ -161,12 +182,7 @@ public class CommuController {
             communityService.delete(post_id);
             return "redirect:/board/Community_list";
     }
-//    관리자삭제
-//    @GetMapping("/delete/{post_id}")
-//        public String admin_delete(@PathVariable Long post_id){
-//            communityService.delete(post_id);
-//            return "redirect:/board/Community_list";
-//    }
+
 
 
 
