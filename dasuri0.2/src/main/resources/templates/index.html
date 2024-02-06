@@ -90,34 +90,33 @@
 </section>
 
 <section>
-    <h2>Our Services</h2>
-
+    <h2>인기 상품 </h2>
     <ul class="services">
         <li class="card-large card-dark card-wide" id="serv-groom">
-            <div class="card-image"><img src="https://ouch-cdn2.icons8.com/T11rfGmMKgcStJyAFKNgtOfE79cadabx0DVMnvzA9Pk/rs:fit:368:313/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNDQx/LzFlYWU4MWY3LWQ1/ZjYtNDM2Ny1hZjM5/LWVmNTFmMGM5Njk4/MS5wbmc.png"></div>
+            <div class="card-image"> <img th:src="@{'http://localhost:9000' + ${bestitem.filePath}}" alt="Item image" class="card-img-top"> </div>
             <ul>
-                방문 설치<span class="subtitle">Tail-wagging transformations are our specialty.</span>
-                <li><a href="#">Coat Care</a><span>$80</span></li>
-                <li><a href="#">Nail Care</a><span>$16</span></li>
-                <li><a href="#">Doggie Deluxe Spa Day</a><span>$160</span></li>
-                <button class="btn-filled-dark"><span class="material-symbols-outlined"></span></button>
-                전문가 찾기
+                추천상품<span class="subtitle">리뷰가 가장많은 제품</span>
+                <li>상품명: <span th:text="${bestitem.itemname} ?: '상품명 없음'"></span></li>
+                <li>가격: <span th:text="${bestitem.price} ?: '가격 정보 없음'"></span></li>
+                <li>소개: <span th:text="${bestitem.shortinfo} ?: '가격 정보 없음'"></span></li>
+                <button class="btn-filled-dark" th:onclick="'window.location.href=\'/shop/detail/' + ${bestitem.id} + '\''">
+                    <span class="material-symbols-outlined"></span>구매하기</button>
             </ul>
         </li>
         <li class="card-large card-dark card-wide" id="serv-board">
             <div class="card-image"><img src=""></div>
             <ul>
-                방문 수리<span class="subtitle">Where fun and care never take a day off.</span>
-                <li><a href="#">Doggie Daycare</a><span>$80</span></li>
-                <li><a href="#">Short Term Boarding</a><span>$80</span></li>
-                <button class="btn-filled-dark"><span class="material-symbols-outlined"></span></button>
-                전문가 찾기
+                추천상품<span class="subtitle">추천상품 한줄소개</span>
+                <li>상품명: <span>신라면</span></li>
+                <li>가격: <span>1000</span></li>
+                <button class="btn-filled-dark" onclick=location.href="/shop/detail/1">
+                    <span class="material-symbols-outlined"></span>구매하기</button>
 
             </ul>
-
         </li>
-
     </ul>
+
+
 
 </section>
 

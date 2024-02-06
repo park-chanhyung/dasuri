@@ -30,7 +30,5 @@ public class ReviewEntity {
     @ManyToOne
     private UserEntity author;
 
-    @Column
-    private Double avgStar; // 평균 별점 필드 추가
 }
 

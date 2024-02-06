@@ -14,6 +14,8 @@ import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.entity.UserEntity;
 import com.project.dasuri.member.service.UserService;
 import com.project.dasuri.mypage.service.UserMyPageService;
+import com.project.dasuri.shop.entity.ShopEntity;
+import com.project.dasuri.shop.service.ShopService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -43,45 +45,47 @@ public class checkcontroller {
     private final UserMyPageService userMyPageService;
     private final UserService userService;
     private final MysqlChatService mysqlChatService;
+    private final ShopService shopService;
 //    메인화면
-    @GetMapping("/index")
-    public String index(Model model, Principal principal) {
+@GetMapping("/index")
+public String index(Model model, Principal principal) {
 
-        System.out.println("@#@# 로그인 성공하면 메인페이지로 이동함.");
+    System.out.println("@#@# 로그인 성공하면 메인페이지로 이동함.");
 
+    if (principal != null) {
+        String userId = principal.getName();
+        System.out.println("userID 아이디!!@#!@#" + userId);
 
-        System.out.println("@#@# 로그인 성공하면 메인페이지로 이동함.");
-        if (principal != null) {
-            String userId = principal.getName();
-            System.out.println("userID 아이디!!@#!@#" + userId);
+        UserEntity user = userService.mappingId(userId);
+        model.addAttribute("id", userId); // 현재 사용자 아이디
+        model.addAttribute("user", user);
+        System.out.println("user 아이디!!@#!@#" + user);
 
-            UserEntity user = userService.mappingId(userId);
-            model.addAttribute("id", userId); // 현재 사용자 아이디
-            model.addAttribute("user", user);
-            System.out.println("user 아이디!!@#!@#" + user);
-
-            Integer maxroomNum = mysqlChatService.findmaxRoomNum();
-            if (maxroomNum != null) {
-                model.addAttribute("maxroomNum", maxroomNum);
-            } else {
-                return "/index"; // 로그인 페이지의 URL
-            }
+        Integer maxroomNum = mysqlChatService.findmaxRoomNum();
+        if (maxroomNum != null) {
+            model.addAttribute("maxroomNum", maxroomNum);
         } else {
             return "/index"; // 로그인 페이지의 URL
         }
-
-        //현재 로그인한 사용자의 role값
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Iterator<? extends GrantedAuthority> iter = authorities.iterator();
-        GrantedAuthority auth = iter.next();
-        String role = auth.getAuthority();
-
-        model.addAttribute("role",role);
-
-        return "index";
     }
+
+    //현재 로그인한 사용자의 role값
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    Iterator<? extends GrantedAuthority> iter = authorities.iterator();
+    GrantedAuthority auth = iter.next();
+    String role = auth.getAuthority();
+
+    model.addAttribute("role",role);
+
+    // 로그인 여부와 상관 없이 bestItem 값을 가져옵니다.
+    ShopEntity bestItem = shopService.findProductWithMostReviews();
+    model.addAttribute("bestitem", bestItem);
+    System.out.println("베스트아이템"+bestItem);
+
+    return "index";
+}
     
     //------------------------------- 공지사항 ------------------------------------------
 

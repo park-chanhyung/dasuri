@@ -4,6 +4,7 @@ import com.project.dasuri.member.entity.UserEntity;
 import com.project.dasuri.shop.entity.ReviewEntity;
 import com.project.dasuri.shop.entity.ShopEntity;
 import com.project.dasuri.shop.repository.ReviewRepository;
+import com.project.dasuri.shop.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService {
     private final ReviewRepository reviewRepository;
-
+    private final ShopRepository shopRepository;
     public void create(ShopEntity shopEntity, String comment, UserEntity author,String  star)
     {
         ReviewEntity reviewEntity = new ReviewEntity();
@@ -50,4 +51,5 @@ public class ReviewService {
     public Double starAvg(ShopEntity shopEntity) {
         return reviewRepository.starAvg(shopEntity);
     }
+
 }

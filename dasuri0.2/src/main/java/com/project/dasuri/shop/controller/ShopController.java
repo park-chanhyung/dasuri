@@ -12,20 +12,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/shop")
+//@RequestMapping("/shop")
 public class ShopController {
     private final ShopService shopService;
     private final ReviewService reviewService;
 
-    @GetMapping("")
+    @GetMapping("/shop")
     public String shop(Model model, @RequestParam(value = "page",defaultValue = "0")int page) {
         Page<ShopEntity> paging = shopService.itemlist(page);
 
@@ -37,18 +39,17 @@ public class ShopController {
                 shopEntity.setAvgStar(0.0); // 평점이 없을 경우 0으로 처리하거나 다른 방법으로 처리할 수 있습니다.
             }
         }
-
         model.addAttribute("paging", paging);
         return "list/Shop/shop";
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/create")
+    @GetMapping("/shop/create")
     public String createForm(ShopForm shopForm){
 
         return  "list/Shop/shopForm";
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/create")
+    @PostMapping("/shop/create")
     public String itemCreate(@Valid ShopForm shopForm, BindingResult bindingResult,  @RequestParam("file")MultipartFile file) throws IOException {
         if(bindingResult.hasErrors()){
             return "list/Shop/shopForm";
@@ -60,7 +61,7 @@ public class ShopController {
         return "redirect:/shop";
     }
 
-    @GetMapping(value = "/detail/{id}")
+    @GetMapping(value = "/shop/detail/{id}")
     public String detail(@PathVariable("id") Long id, Model model, ReviewForm reviewForm){
         ShopEntity shopEntity = this.shopService.getItem(id); // 변수 이름을 shopEntity로 변경
         // 리뷰 평균 별점을 계산하여 모델에 추가
@@ -69,7 +70,7 @@ public class ShopController {
         model.addAttribute("item", shopEntity);
         return "list/Shop/itemDetail";
     }
-    @GetMapping("/modify/{id}")
+    @GetMapping("/shop/modify/{id}")
     public String itemModify(ShopForm shopForm, @PathVariable("id") Long id) {
         ShopEntity item = this.shopService.getItem(id);
 
@@ -82,7 +83,7 @@ public class ShopController {
         shopForm.setIteminfo(shopForm.getIteminfo());
         return "list/Shop/shopForm";
     }
-    @PostMapping("/modify/{id}")
+    @PostMapping("/shop/modify/{id}")
     public String itemModify(@Valid ShopForm shopForm, BindingResult bindingResult, @PathVariable("id")Long id){
         if (bindingResult.hasErrors()) {
             System.out.println("hasError");
@@ -101,7 +102,7 @@ public class ShopController {
         return String.format("redirect:/shop/detail/%s",id);
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/shop/delete/{id}")
     public String delete(@PathVariable("id") Long id){
         ShopEntity item =this.shopService.getItem(id);
         this.shopService.delete(item);
@@ -116,7 +117,7 @@ public class ShopController {
 //        model.addAttribute("searchResults", searchResults);
 //        return "list/Shop/shopSearchResults"; // 검색 결과를 표시할 Thymeleaf 템플릿 이름
 //    }
-    @GetMapping("/search")
+    @GetMapping("/shop/search")
     public String searchItems(@RequestParam("keyword") String keyword,@RequestParam(value = "page",defaultValue = "0")int page, Model model) {
         Page<ShopEntity> searchResults = this.shopService.searchItem(keyword,page);
         model.addAttribute("searchResults", searchResults);

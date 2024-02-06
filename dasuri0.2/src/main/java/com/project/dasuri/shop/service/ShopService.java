@@ -2,6 +2,7 @@ package com.project.dasuri.shop.service;
 
 import com.project.dasuri.shop.DataNotFoundException;
 import com.project.dasuri.shop.entity.ShopEntity;
+import com.project.dasuri.shop.repository.ReviewRepository;
 import com.project.dasuri.shop.repository.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ShopService {
     private final ShopRepository shopRepository;
+    private final ReviewRepository reviewRepository;
 
     public void create(Long id, String itemname, String price, String seller, String deliveryinfo,
                        String shortinfo, String iteminfo,
@@ -51,7 +53,7 @@ public class ShopService {
     }
 
     public Page<ShopEntity> itemlist(int page) {
-        Pageable pageable= PageRequest.of(page,12);
+        Pageable pageable = PageRequest.of(page, 12);
         return this.shopRepository.findAll(pageable);
     }
 
@@ -65,7 +67,7 @@ public class ShopService {
 
     }
 
-    public void modify(ShopEntity item,String itemname, String price, String seller, String deliveryinfo,
+    public void modify(ShopEntity item, String itemname, String price, String seller, String deliveryinfo,
                        String shortinfo, String iteminfo,
                        MultipartFile file
     ) throws IOException {
@@ -90,21 +92,26 @@ public class ShopService {
         item.setFilePath("/files/" + fileName);
         this.shopRepository.save(item);
     }
-    public void delete(ShopEntity item){
+
+    public void delete(ShopEntity item) {
         this.shopRepository.delete(item);
     }
 
-//    public Page<ShopEntity> searchItem(int page) {
+    //    public Page<ShopEntity> searchItem(int page) {
 //        Pageable pageable= PageRequest.of(page,12);
 //        return shopRepository.findByItemnameContaining(pageable);
 //    }
     public Page<ShopEntity> searchItem(String keyword, int page) {
-        Pageable pageable= PageRequest.of(page,12);
+        Pageable pageable = PageRequest.of(page, 12);
         return this.shopRepository.findByItemnameContaining(keyword, pageable);
     }
-
-    public List<ShopEntity> getlist() {
-        return this.shopRepository.findAll();
+    public ShopEntity findProductWithMostReviews() {
+        Pageable topOne = PageRequest.of(0, 1);
+        List<Object[]> shopsWithMostReviews = reviewRepository.findShopsWithMostReviews(topOne);
+        if(!shopsWithMostReviews.isEmpty()) {
+            return (ShopEntity) shopsWithMostReviews.get(0)[0];
+        } else {
+            return null;
+        }
     }
-
 }
