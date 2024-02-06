@@ -1,12 +1,16 @@
 package com.project.dasuri.mypage.service;
 
+import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
+import com.project.dasuri.member.entity.ProEntity;
 import com.project.dasuri.member.entity.UserEntity;
+import com.project.dasuri.member.repository.UserRepository;
 import com.project.dasuri.mypage.Repository.UserMyPageRepository;
 import com.project.dasuri.mypage.Repository.UserUpPageRepository;
 import com.project.dasuri.mypage.entity.UserPageEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -18,36 +22,42 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserMyPageService {
     private final UserMyPageRepository userMyPageRepository;
-    private final UserUpPageRepository userUpPageRepository;
-    public UserDTO findById(String userId) {// findById사용자 아이디에 해당하는 db 정보를 dto로 변환
-        Optional<UserEntity> userEntityOptional = userMyPageRepository.findByUserId(userId);
-//            if (userEntityOptional.isPresent()) {
-//                return UserDTO.toUserDTO(userEntityOptional.get());
-//            }else {
-//                return null;
-//            }
-        return userEntityOptional.map(UserDTO::toUserDTO).orElse(null);
-    }
+    private final UserRepository userRepository;
+//    public UserDTO findById(String userId) {// findById사용자 아이디에 해당하는 db 정보를 dto로 변환
+//        Optional<UserEntity> userEntityOptional = userMyPageRepository.findByUserId(userId);
+////            if (userEntityOptional.isPresent()) {
+////                return UserDTO.toUserDTO(userEntityOptional.get());
+////            }else {
+////                return null;
+////            }
+//        return userEntityOptional.map(UserDTO::toUserDTO).orElse(null);
+//    }
 
-    public void create(Long id, MultipartFile file) throws IOException{
+    @Transactional
+    public void update(UserDTO userDTO, MultipartFile file) throws IOException {
+        System.out.println(" 유저 이미지 수정 메소드");
+        UserEntity userEntity = UserEntity.toUserEntity(userDTO);
 
-        UserPageEntity userPageEntity = new UserPageEntity();
-        userPageEntity.setId(id);
+        if (file != null && !file.isEmpty()) {
+//        파일경로 변수
+            String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\pro_files";
 
-        String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\pro_files";
+//        파일명 변수
+            UUID uuid = UUID.randomUUID();
+            String fileName = uuid + "_" + file.getOriginalFilename();
 
-        UUID uuid = UUID.randomUUID();
+//        파일 객체 생성
+            File saveFile = new File(projectPath, fileName);
 
-        String fileName = uuid + "_" + file.getOriginalFilename();
+//        생성한 파일 객체에 첨부파일 넣기
+            file.transferTo(saveFile);
 
-        File saveFile = new File(projectPath, fileName);
-
-        file.transferTo(saveFile);
-
-        userPageEntity.setFilename(fileName);
-        userPageEntity.setFilePath("/pro_files/" + fileName);
-        this.userUpPageRepository.save(userPageEntity);
-
+//        엔티티에 파일명 + 파일 경로 저장
+            userEntity.setFilename(fileName);
+            userEntity.setFilePath("/pro_files/" + fileName);
+            userEntity.setProfileImagePath("/pro_files/" + fileName);
+        }
+        userRepository.save(userEntity);
     }
 }
 //    // 새로운 메서드 추가: 데이터 업데이트
