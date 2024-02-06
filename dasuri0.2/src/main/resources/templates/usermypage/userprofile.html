@@ -61,31 +61,43 @@
 <!--    }-->
 <!--</script>-->
 
+<!--<script>-->
+<!--    // function submitForm(userId, action) {-->
+<!--    function submitForm(userId) {-->
+<!--        // 클릭된 값 저장-->
+<!--        document.getElementById('userId').value = userId;-->
+
+<!--        // 폼 action 변경-->
+<!--        // document.getElementById('view_userpage').action = action;-->
+
+<!--        // 폼 제출-->
+<!--        document.getElementById('view_userpage').submit();-->
+<!--    }-->
+<!--</script>-->
+
+<!--<script>-->
+<!--    function submitMoon(userId){-->
+<!--        // 클릭된 값 저장-->
+<!--        document.getElementById('userId').value = userId;-->
+
+<!--        // 폼 action 변경-->
+<!--        // document.getElementById('view_userpage').action = action;-->
+
+<!--        // 폼 제출-->
+<!--        document.getElementById('view_usermoon').submit();-->
+
+<!--    }-->
+<!--</script>-->
 <script>
-    // function submitForm(userId, action) {
     function submitForm(userId) {
-        // 클릭된 값 저장
-        document.getElementById('userId').value = userId;
-
-        // 폼 action 변경
-        // document.getElementById('view_userpage').action = action;
-
-        // 폼 제출
+        document.getElementById('userIdPage').value = userId;
         document.getElementById('view_userpage').submit();
     }
-</script>
 
-<script>
-    function submitMoon(userId){
-        // 클릭된 값 저장
-        document.getElementById('userId').value = userId;
+    function submitMoon(userId) {
 
-        // 폼 action 변경
-        // document.getElementById('view_userpage').action = action;
-
-        // 폼 제출
+        document.getElementById('userIdMoon').value = userId;
         document.getElementById('view_usermoon').submit();
-
     }
 </script>
 

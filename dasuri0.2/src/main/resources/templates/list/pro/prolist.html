@@ -14,18 +14,33 @@
 <section>
     <h2>전문가찾기</h2>
     <ul class="shop-pets">
-        <li class="card-large card-light" id="sup-dog">
-            <div class="card-image"><img src=""></div>
+        <li th:each="card : ${cardList}" class="card-large card-light" id="sup-dog">
+            <!-- 이미지 동적으로 불러오기 -->
+            <div class="card-image"><img th:src="${card.profileImagePath}" alt="프로필 이미지"></div>
             <ul>
-                <li><td th:text="${pro.proName}"></td></li>
-                <li><td th:text="${pro.proLegions}"></td></li>
-                <li>업채명: <td th:text="${pro.proNickname}"></td></li>
-                <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined">
-                        </span></button>
+                <li><span th:text="${card.proName}"></span></li>
+                <li><span th:text="${card.proLegions}"></span></li>
+                <li>업채명: <span th:text="${card.proNickname}"></span></li>
+                <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined"></span></button>
             </ul>
         </li>
     </ul>
 </section>
+<!--<section>-->
+<!--    <h2>전문가찾기</h2>-->
+<!--    <ul class="shop-pets">-->
+<!--        <li class="card-large card-light" id="sup-dog">-->
+<!--            <div class="card-image"><img src=""></div>-->
+<!--            <ul>-->
+<!--                <li><td th:text="${pro.proName}"></td></li>-->
+<!--                <li><td th:text="${pro.proLegions}"></td></li>-->
+<!--                <li>업채명: <td th:text="${pro.proNickname}"></td></li>-->
+<!--                <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined">-->
+<!--                        </span></button>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</section>-->
 <!--<table>-->
 <!--    <tr>-->
 <!--        <th>proid</th>-->

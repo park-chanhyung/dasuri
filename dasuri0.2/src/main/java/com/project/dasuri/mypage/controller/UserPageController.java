@@ -40,6 +40,7 @@ public class UserPageController {
 
     @PostMapping("/usermoonpage")
     public String usermoonpage(Model model) {
+        System.out.println("무니가 나왔나??");
         // Spring Security를 통해 로그인한 사용자의 정보를 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

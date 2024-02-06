@@ -149,13 +149,13 @@ public String index(Model model, Principal principal) {
     //------------------------------- 전문가찾기 ------------------------------------------
 
 //    메인 > 전문가찾기
-    @GetMapping("/proinfo")
-    public String proinfo(Model model) {
-//    public String index() {
-        List<ProDTO> proDTOList = proCardService.findAll();
-        model.addAttribute("cardList", proDTOList);
-        return "/list/pro/proinfo";
-    }
+//    @GetMapping("/proinfo")
+//    public String proinfo(Model model) {
+////    public String index() {
+//        List<ProDTO> proDTOList = proCardService.findAll();
+//        model.addAttribute("cardList", proDTOList);
+//        return "/list/pro/proinfo";
+//    }
 
 //    @GetMapping("/userprofile")
 ////    public String userprofile(@RequestParam("userId")String userId, Model model){

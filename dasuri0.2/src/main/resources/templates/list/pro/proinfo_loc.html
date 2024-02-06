@@ -24,7 +24,7 @@
 
 <!--    <form action="/profile/card" method="post">-->
     <section>
-        <form th:action="@{/prolist}" id="view_pro" method="post">
+        <form th:action="@{/prolist}" id="view_procard" method="post">
             <input type="hidden" id="proId" name="proId" value=""/>
             <div th:each="card : ${cardList}"
                     class="card1"
@@ -56,6 +56,6 @@
         document.getElementById('proId').value = proId;
 
         // 폼 제출 (공지 게시물 보기)
-        document.getElementById('view_pro').submit();//view_pro는 form id
+        document.getElementById('view_procard').submit();//view_pro는 form id
     }
 </script>
