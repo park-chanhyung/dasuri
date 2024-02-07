@@ -1,8 +1,10 @@
 package com.project.dasuri.community.controller;
 
+import com.project.dasuri.admin.service.Admin_ProService;
 import com.project.dasuri.admin.service.Admin_UserService;
 import com.project.dasuri.community.dto.CommentDto;
 import com.project.dasuri.community.service.CommentService;
+import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,8 @@ import java.util.List;
 public class CommentController {
     private  final CommentService commentService;
     private final Admin_UserService adminUserService;
+    private final Admin_ProService adminProService;
+
     @PostMapping("/save")
 //    public @ResponseBody String save(@ModelAttribute CommentDto commentDto){
     public ResponseEntity  save(@ModelAttribute CommentDto commentDto, Principal principal){
@@ -30,13 +34,21 @@ public class CommentController {
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
 
         UserDTO userDTO = adminUserService.findByUserId(id);
-        String Nickname =userDTO.getUserNickname();
+        ProDTO proDTO =  adminProService.findByProId(id);
+        String Nickname=null;
+        if (userDTO != null && proDTO == null){
+            commentDto.setUserNickname(userDTO.getUserNickname());
+            Nickname =userDTO.getUserNickname();
+        }else {
+            commentDto.setUserNickname(proDTO.getProName());
+            Nickname = proDTO.getProName();
+        }
 
 
         //사용자 아이디와 역할 가져오기
         commentDto.setUserId(id);
         commentDto.setUserNickname(Nickname);
-        System.out.println("#@#@#@#@#@#@#@#==>"+Nickname);
+
 
 
         Long saveResult = commentService.save(commentDto);
