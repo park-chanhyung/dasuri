@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,14 +13,26 @@
 </header>
 <section>
     <h2>전문가찾기</h2>
+<!--    <ul class="shop-pets">-->
+<!--        <li th:each="procard : ${procardList}" class="card-large card-light" id="sup-dog">-->
+<!--            &lt;!&ndash; 이미지 동적으로 불러오기 &ndash;&gt;-->
+<!--            <div class="card-image"><img th:src="${procard.profileImagePath}" alt="프로필 이미지"></div>-->
+<!--            <ul>-->
+<!--                <li><span th:text="${procard.proName}"></span></li>-->
+<!--                <li><span th:text="${procard.proLegions}"></span></li>-->
+<!--                <li>업채명: <span th:text="${procard.proNickname}"></span></li>-->
+<!--                <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined"></span></button>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--    </ul>-->
     <ul class="shop-pets">
-        <li th:each="card : ${cardList}" class="card-large card-light" id="sup-dog">
-            <!-- 이미지 동적으로 불러오기 -->
-            <div class="card-image"><img th:src="${card.profileImagePath}" alt="프로필 이미지"></div>
+
+        <li th:each="procard : ${procardList}" class="card-large card-light" id="sup-dog">
+            <div class="card-image"><img th:src="${procard.profileImagePath}" alt="프로필 이미지"></div>
             <ul>
-                <li><span th:text="${card.proName}"></span></li>
-                <li><span th:text="${card.proLegions}"></span></li>
-                <li>업채명: <span th:text="${card.proNickname}"></span></li>
+                <li><span th:text="${procard.proName}"></span></li>
+                <li><span th:text="${procard.proLegions}"></span></li>
+                <li>업채명: <span th:text="${procard.proNickname}"></span></li>
                 <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined"></span></button>
             </ul>
         </li>
@@ -29,22 +41,24 @@
     <div class="mem_paging_wrap">
         <table class="mem_paging">
             <tr>
-                <td><a id="page1" class="arrow pprev" th:href="@{/usermoonpage(page=1)}"><<</a> </td>
-                <td><a id="page1" class="arrow prev" th:href="${cardList.first} ? '#' : @{/usermoonpage(page=${cardList.number})}"><</a></td>
+                <td><a id="page1" class="arrow pprev" th:href="@{/prolist(page=1)}"><<</a> </td>
+                <td><!--/*@thymesVar id="first" type=""*/-->
+                <!--/*@thymesVar id="first" type=""*/-->
+                <a id="page1" class="arrow prev" th:href="${cardList.first} ? '#' : @{/prolist(page=${cardList.number})}"><</a></td>
                 <td>
 								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
-									<span class="current" th:if="${page == usermoni.number + 1}" th:text="${page}"></span>
+									<span class="current" th:if="${page == cardList.number + 1}" th:text="${page}"></span>
 									<span th:unless="${page == cardList.number + 1}">
-										<a th:href="@{/usermoonpage(page=${page})}" th:text="${page}"></a>
+										<a th:href="@{/prolist(page=${page})}" th:text="${page}"></a>
 									</span>
 								</span>
                 </td>
-                <td> <a id="page1" th:href="${cardList.last} ? '#' : @{/usermoonpage(page=${cardList.number + 2})}"> > </a> </td>
-                <td> <a id="page1" th:href="@{/usermoonpage(page=${cardList.totalPages})}"> >> </a> </td>
+                <td> <a id="page1" th:href="${cardList.last} ? '#' : @{/prolist(page=${cardList.number + 2})}"> > </a> </td>
+                <td> <a id="page1" th:href="@{/prolist(page=${cardList.totalPages})}"> >> </a> </td>
             </tr>
         </table>
     </div>
-    <!-- 페이징 영역 끝 -->
+<!--     페이징 영역 끝 -->
 </section>
 <!--<section>-->
 <!--    <h2>전문가찾기</h2>-->
@@ -77,7 +91,6 @@
 <!--    </tr>-->
     <!-- query string /member?id=1
                 rest api /member/1 -->
-</table>
 <footer>
     <div th:include="/list/layout/footer"></div>
 </footer>

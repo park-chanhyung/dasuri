@@ -150,12 +150,12 @@ public class AdminMemController {
     }
 
 //    메인 > 전문가찾기 > 지역별 기사리스트
-    @RequestMapping("/loc_pro")
-    public String loc_pro(@RequestParam String loc, Model model) {
-        List<ProDTO> proDTOS = adminLocService.locPro(loc);
-        model.addAttribute("cardList",proDTOS);
-
-        return "/list/pro/proinfo_loc";
-    }
+//    @RequestMapping("/loc_pro")
+//    public String loc_pro(@RequestParam String loc, Model model) {
+//        List<ProDTO> proDTOS = adminLocService.locPro(loc);
+//        model.addAttribute("cardList",proDTOS);
+//
+//        return "/list/pro/proinfo_loc";
+//    }
 
 }
