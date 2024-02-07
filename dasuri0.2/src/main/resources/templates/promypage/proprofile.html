@@ -19,11 +19,8 @@
 <div id="app">
     <div id="profile">
         <div class="profile-pic-container">
-<!--            <img th:src="@{'/pro_files/'+${proDTO.filename}}" alt="프로필 이미지" id="profileImage">-->
-<!--            <img th:src="@{'/pro_files/'+${propf.filename}} ? @{'/pro_files/'+${propf.filename}} : @{'/img/default_profile.jpg'}" alt="프로필 이미지" id="profileImage">-->
             <img th:src="${propf != null and propf.filename != null} ? @{'/pro_files/' + ${propf.filename}} : @{'/img/default_profile.jpg'}" alt="프로필 이미지" id="profileImage">
         </div>
-<!--            <img id="profileImage" th:src="@{'/pro_files/' + ${propf.filename}}" alt="Profile Picture">-->
         <h2 id="nickname" th:text="${propf.proName}+' 님'"></h2>
         <div id="buttons">
             <form id="view_propage" th:action="@{/propage}" method="post">
@@ -47,9 +44,6 @@
     function submitForm(proId) {
         // 클릭된 값 저장
         document.getElementById('proId').value = proId;
-
-        // 폼 action 변경
-        // document.getElementById('view_userpage').action = action;
 
         // 폼 제출
         document.getElementById('view_propage').submit();

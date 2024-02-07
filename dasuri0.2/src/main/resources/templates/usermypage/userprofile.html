@@ -1,99 +1,80 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/my_profile.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="/js/my_profile.js"></script>
+    <!--    Sweetalert2 사용 선언 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <title>My Page</title>
 </head>
 <body>
 <header style="font-size: 50px;">
     <div th:include="/list/layout/nav"></div>
 </header>
+
 <div id="app">
     <div id="profile">
-        <img id="profileImage" th:src="@{/img/login/default-profile.png}" alt="Profile Picture">
-        <h2 id="nickname" th:text="${userpf.userName}"></h2>
+        <div class="profile-pic-container">
+            <img th:src="${userpf != null and userpf.filename != null} ? @{'/pro_files/' + ${userpf.filename}} : @{'/img/default_profile.jpg'}" alt="프로필 이미지" id="profileImage">
+        </div>
+        <h2 id="nickname" th:text="${userpf.userName}+' 님'"></h2>
         <div id="buttons">
-            <!-- userprofile.html -->
-<!--            <div class="button" id="editprofile" onclick="loadContent('EditProfile')">-->
-<!--                <a href="usermypage">회원 정보 수정</a>-->
-<!--            </div>-->
-<!--            <div class="button" id="editprofile" th:onclick="'submitForm(\'' + ${userpf.userId} + '\')'">-->
-<!--                회원 정보 수정-->
-<!--            </div>-->
-
-<!--            <form id="view_userpage" th:action="@{/usermypage}" method="get">-->
-<!--                <input type="hidden" id="userId" name="userId" value="" />-->
-<!--            </form>-->
-
-            <!-- userprofile.html -->
             <form id="view_userpage" th:action="@{/userpage}" method="post">
                 <input type="hidden" id="userId" name="userId" value="" />
-
-
-<!--            <div class="button" id="editprofile" onclick="submitForm('${userpf.userId}', '/usermypage')">-->
-<!--        submitForm('${userpf.userId}')": JavaScript 함수를 호출하여 폼을 제출-->
                 <div class="button" id="editprofile" onclick="submitForm('${userpf.userId}')">
                     회원 정보 수정
                 </div>
             </form>
-
             <form id="view_usermoon" th:action="@{/usermoonpage}" method="post">
                 <div class="button" id="inquiries" onclick="submitMoon('${userpf.userId}')">
                     문의 내역
                 </div>
             </form>
-            <a  class="button"  href="/chat/chatHistory">채팅내역</a>
+            <a class="button"  href="/chat/chatHistory">채팅내역</a>
             <a class="button"  href="/shop/payments" >결제 내역</a>
-
-            <div class="button" id="withdraw" onclick="confirmDelete()">회원 탈퇴</div>
-
+            <div class="button" id="withdraw" th:onclick="confirmDelete()">회원 탈퇴</div>
         </div>
     </div>
 </div>
-
-<!--<script>-->
-<!--    function submitForm(userId) {-->
-<!--        // 클릭된 값 저장-->
-<!--        document.getElementById('userId').value = userId;-->
-
-<!--        // 폼 제출 (회원_마이페이지 보기)-->
-<!--        document.getElementById('view_userpage').submit();-->
-<!--    }-->
-<!--</script>-->
-
-<!--<script>-->
-<!--    // function submitForm(userId, action) {-->
-<!--    function submitForm(userId) {-->
-<!--        // 클릭된 값 저장-->
-<!--        document.getElementById('userId').value = userId;-->
-
-<!--        // 폼 action 변경-->
-<!--        // document.getElementById('view_userpage').action = action;-->
-
-<!--        // 폼 제출-->
-<!--        document.getElementById('view_userpage').submit();-->
-<!--    }-->
-<!--</script>-->
-
-<!--<script>-->
-<!--    function submitMoon(userId){-->
-<!--        // 클릭된 값 저장-->
-<!--        document.getElementById('userId').value = userId;-->
-
-<!--        // 폼 action 변경-->
-<!--        // document.getElementById('view_userpage').action = action;-->
-
-<!--        // 폼 제출-->
-<!--        document.getElementById('view_usermoon').submit();-->
-
-<!--    }-->
-<!--</script>-->
-
+</body>
 <footer>
     <div th:include="/list/layout/footer"></div>
 </footer>
-</body>
+<script>
+    // function submitForm(userId, action) {
+    function submitForm(userId) {
+        // 클릭된 값 저장
+        document.getElementById('userId').value = userId;
+
+        // 폼 제출
+        document.getElementById('view_userpage').submit();
+    }
+
+    //회원 탈퇴 메소드
+    function confirmDelete() {
+        Swal.fire({
+            title: '정말로 탈퇴하시겠습니까?',
+            text: "탈퇴 후 복구는 불가능합니다!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '탈퇴',
+            cancelButtonText: '취소'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swal.fire(
+                    '탈퇴가 완료되었습니다.',
+                    '이용해주셔서 감사합니다.',
+                    'success'
+                )
+                window.location.href = '/delete-account'; // 서버의 탈퇴 처리 URL로 리디렉션
+            }
+        });
+    }
+</script>
 </html>
