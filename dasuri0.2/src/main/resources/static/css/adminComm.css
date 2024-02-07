@@ -24,3 +24,20 @@
     overflow: hidden;
     height: 50px;
 }
+.comm_table tr td:nth-child(3){
+    font-weight: 700;
+    width: 120px;
+}
+.comm_table tr td:nth-child(4){
+    font-weight: 700;
+    width: 150px;
+}
+.comm_table tr td:nth-child(1),
+.comm_table tr td:nth-child(2){
+    width: 60px;
+}
+.comm_table tr td:nth-child(5){
+    width: 300px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

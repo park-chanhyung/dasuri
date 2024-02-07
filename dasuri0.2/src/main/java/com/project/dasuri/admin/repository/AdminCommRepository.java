@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface AdminCommRepository extends JpaRepository<CommunityEntity, Long> {
 
-    List<CommunityEntity> findByUserIdContainingOrCommuTitleContainingOrCommuContentsContaining(String k1,String k2,String k3);
+    Page<CommunityEntity> findByUserIdContainingOrCommuTitleContainingOrCommuContentsContainingOrUserNicknameContaining(String k1,String k2,String k3,String k4,Pageable pageable);
 
     Long countByCreatedTimeBetween(LocalDateTime localDateTime1,LocalDateTime localDateTime2);
 

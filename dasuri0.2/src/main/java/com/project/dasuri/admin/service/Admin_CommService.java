@@ -49,13 +49,19 @@ public class Admin_CommService {
         return communityDtos;
     }
 
-//    관리자페이지 > 커뮤니티 > 검색
-    public List<CommunityDto> searchComm(String keyword){
-        List<CommunityEntity> communityEntities = adminCommRepository.findByUserIdContainingOrCommuTitleContainingOrCommuContentsContaining(keyword,keyword,keyword);
-        List<CommunityDto> communityDtos = new ArrayList<>();
-        for (CommunityEntity communityEntity : communityEntities) {
-            communityDtos.add(CommunityDto.toCommunityDto(communityEntity));
-        }
+    //    관리자페이지 -> 블라인드된 게시물 검색 (페이징)
+    public Page<CommunityDto> commSearch(String keyword, Pageable pageable){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 7; // 한 페이지당 글 7개
+
+//        검색한 블라인드게시물 고유번호 기준으로 내림차순 (최신순)
+        Page<CommunityEntity> communityEntities =
+                adminCommRepository.findByUserIdContainingOrCommuTitleContainingOrCommuContentsContainingOrUserNicknameContaining(keyword,keyword,keyword,keyword,PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "id")));
+
+        // 페이징에 가져갈 항목
+        Page<CommunityDto> communityDtos = communityEntities.map
+                (comm -> new CommunityDto(comm.getId(),comm.getCommuWriter(),comm.getCommuTitle(),comm.getCommuHits(),comm.getCreatedTime(),comm.getUserId(),comm.getRole(),comm.getUserNickname(),comm.getAdminDeleted()));
+
         return communityDtos;
     }
 

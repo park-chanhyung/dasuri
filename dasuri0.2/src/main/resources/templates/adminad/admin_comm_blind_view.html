@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
 </head>
 <body>
-    <div class="mem_view_container">
+    <div class="blind_view_container">
         <h1>블라인드 게시물 조회</h1>
         <hr>
         <form th:action="@{admin_mem_user_view}" method="post" id="view">
@@ -22,7 +22,7 @@
                     <td th:text="${comm.userID}"></td>
                 </tr>
                 <tr>
-                    <th>닉네임</th>
+                    <th th:text="${comm.role == 'ROLE_USER' ? '닉네임' : (comm.role == 'ROLE_PRO' ? '업체명' : '확인불가')}"></th>
                     <td th:text="${comm.userNickname}"></td>
                 </tr>
                 <tr>
@@ -41,6 +41,12 @@
                 </tr>
                 <tr>
                     <td colspan="2" th:text="${comm.commuContents}"></td>
+                </tr>
+                <tr th:if="${comm.fileAttached == 1}">
+                    <td colspan="2" th:each="fileName: ${comm.storedFileName}">
+                        <p class="blind_img_p">(클릭 시 원본 이미지를 확인하실 수 있습니다.)</p>
+                        <img class="blind_img" th:src="@{|/upload/${fileName}|}" alt="" onclick="openImagePopup(this.src)">
+                    </td>
                 </tr>
                 <td colspan="2" onclick="unBlind()">
                     <p class="unblind">블라인드 해제</p>
@@ -90,5 +96,10 @@
             // 폼 제출 (블라인드 해제)
             document.getElementById('unb').submit();
         }
+    }
+    <!--	이미지 원본 보기 (팝업) -->
+    function openImagePopup(imageUrl) {
+        var popupWindow = window.open(imageUrl, 'Image Popup', 'width=800, height=600');
+        popupWindow.focus();
     }
 </script>

@@ -21,10 +21,10 @@
 
             <h1 class="red">블라인드 게시물 관리</h1>
 
-            <!--		검색창 영역 -->
+            <!--  	  검색창 영역 -->
             <form th:action="@{admin_comm_search}" id="comm_search">
                 <div class="search">
-                    <input type="text" class="searchTerm" name="comm_keyword" placeholder="아이디or제목or내용">
+                    <input type="text" class="moonsearchTerm" name="keyword" placeholder="아이디or닉네임/업체명or제목or내용">
                     <div class="searchButton" onclick="submitSearch()">
                         <img class="search_img" src="/img/admin/search.png">
                     </div>
@@ -40,7 +40,7 @@
                             <th>번호</th>
                             <th>구분</th> <!-- 기사/고객/관리자 -->
                             <th>아이디</th>
-                            <th>닉네임</th>
+                            <th>닉네임/업체명</th>
                             <th>제목</th>
                             <th>조회수</th>
                         </tr>
@@ -69,7 +69,7 @@
 									</span>
 								</span>
                             </td>
-                            <td> <a id="page1" th:href="${communityList.last} ? '#' : @{/admin_community(page=${moonss.number + 2})}"> > </a> </td>
+                            <td> <a id="page1" th:href="${communityList.last} ? '#' : @{/admin_community(page=${communityList.number + 2})}"> > </a> </td>
                             <td> <a id="page1" th:href="@{/admin_community(page=${communityList.totalPages})}"> >> </a> </td>
                         </tr>
                     </table>
@@ -88,9 +88,8 @@
 </html>
 <script type="text/javascript">
 
-<!--    게시물 검색 -->
+<!--    게시물 검색 (키워드 제출) -->
     function submitSearch() {
-        // 폼 제출 (공지 검색)
         document.getElementById('comm_search').submit();
     }
 

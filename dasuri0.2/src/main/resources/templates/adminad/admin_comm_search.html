@@ -19,12 +19,12 @@
     <section class="content">
         <div class="admin_one_area">
 
-            <h1 class="blue">커뮤니티 관리</h1>
+            <h1 class="red">블라인드 게시물 관리</h1>
 
-            <!--		검색창 영역 -->
+            <!--  	  검색창 영역 -->
             <form th:action="@{admin_comm_search}" id="comm_search">
                 <div class="search">
-                    <input type="text" class="searchTerm" name="comm_keyword" placeholder="아이디or제목or내용">
+                    <input type="text" class="moonsearchTerm" name="keyword" placeholder="아이디or닉네임/업체명or제목or내용">
                     <div class="searchButton" onclick="submitSearch()">
                         <img class="search_img" src="/img/admin/search.png">
                     </div>
@@ -33,34 +33,49 @@
             <!--		검색창 영역 끝 -->
 
             <div class="mem_container">
-                <table class="comm_table">
-                    <tr>
-                        <th width="10%">번호</th>
-                        <th width="15%">아이디</th>
-                        <th width="10%">구분</th> <!-- 기사/고객/관리자 -->
-                        <th>제목</th>
-                    </tr>
-<!--                        <tr th:each="comm: ${communityList}" th:attr="onclick='submitLook('+${comm.id}+')'" class="goComm">-->
-<!--                        <tr th:each="comm: ${communityList}" th:attr="onclick='@{|/board/Community_list/${CommunityDto.id}|}'" class="goComm">-->
-                    <tr th:each="comm: ${communityList}" th:attr="data-id=${comm.id}" class="goComm">
-                        <td th:text="${comm.id}"></td>
-                        <td th:text="${comm.userID}" th:utext="${#strings.replace(comm.userID, keyword, '<span>' + keyword + '</span>')}"></td>
-                        <td th:text="${comm.role == 'ROLE_USER' ? '고객' : (comm.role == 'ROLE_PRO' ? '기사' : (comm.role == 'ROLE_ADMIN' ? '관리자' : '기타'))}"></td>
-                        <td th:text="${comm.commuTitle}" th:utext="${#strings.replace(comm.commuTitle, keyword, '<span>' + keyword + '</span>')}"></td>
-                    </tr>
-                </table>
+                <form th:action="@{/admin_comm_blind_view}" method="post" id="view">
+                    <input type="hidden" name="id" id="goId" value="">
+                    <table class="comm_table">
+                        <tr>
+                            <th>번호</th>
+                            <th>구분</th> <!-- 기사/고객/관리자 -->
+                            <th>아이디</th>
+                            <th>닉네임/업체명</th>
+                            <th>제목</th>
+                            <th>조회수</th>
+                        </tr>
+                        <tr th:each="comm: ${commSearch}" th:data-id="${comm.id}" onclick="submitLook(this)">
+                            <td th:text="${comm.id}"></td>
+                            <td th:text="${comm.role == 'ROLE_USER' ? '고객' : (comm.role == 'ROLE_PRO' ? '기사' : (comm.role == 'ROLE_ADMIN' ? '관리자' : '기타'))}"></td>
+                            <td th:text="${comm.userID}" th:utext="${#strings.replace(comm.userID, keyword, '<span>' + keyword + '</span>')}"></td>
+                            <td th:text="${comm.userNickname}" th:utext="${#strings.replace(comm.userNickname, keyword, '<span>' + keyword + '</span>')}"></td>
+                            <td th:text="${comm.commuTitle}" th:utext="${#strings.replace(comm.commuTitle, keyword, '<span>' + keyword + '</span>')}"></td>
+                            <td th:text="${comm.commuHits}"></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <!--페이징 영역-->
                 <div class="mem_paging_wrap">
                     <table class="mem_paging">
                         <tr>
-                            <td> << </td>
-                            <td> 1 </td>
-                            <td> 2 </td>
-                            <td> 3 </td>
-                            <td> 4 </td>
-                            <td> >> </td>
+                            <td><a id="page1" class="arrow pprev" th:href="@{/admin_comm_search(page=1, keyword=${keyword})}"><<</a> </td>
+                            <td><a id="page1" class="arrow prev" th:href="${commSearch.first} ? '#' : @{/admin_comm_search(page=${commSearch.number}, keyword=${keyword})}"><</a></td>
+                            <td>
+								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+									<span class="current" th:if="${page == commSearch.number + 1}" th:text="${page}"></span>
+									<span th:unless="${page == commSearch.number + 1}">
+										<a th:href="@{/admin_comm_search(page=${page}, keyword=${keyword})}" th:text="${page}"></a>
+									</span>
+								</span>
+                            </td>
+                            <td> <a id="page1" th:href="${commSearch.last} ? '#' : @{/admin_comm_search(page=${commSearch.number + 2}, keyword=${keyword})}"> > </a> </td>
+                            <td> <a id="page1" th:href="@{/admin_comm_search(page=${commSearch.totalPages}, keyword=${keyword})}"> >> </a> </td>
                         </tr>
                     </table>
                 </div>
+                <!-- 페이징 영역 끝 -->
+
             </div>
         </div>
 
@@ -73,26 +88,35 @@
 </html>
 <script type="text/javascript">
 
-<!--    게시물 검색 -->
+<!--    게시물 검색 (키워드 제출) -->
     function submitSearch() {
-        // 폼 제출 (공지 검색)
         document.getElementById('comm_search').submit();
     }
 
+//     블라인드된 게시물 조회 (팝업창)
+function submitLook(element) {
+    // input hidden에 값 넣기
+    var id = element.getAttribute('data-id');
+    document.getElementById('goId').value = id;
 
-<!--     게시물로 이동 -->
-    document.addEventListener("DOMContentLoaded", function() {
-        var goCommElements = document.querySelectorAll(".goComm");
+    var url = '/admin_comm_blind_view';
+    var formData = new FormData(document.getElementById('view'));
 
-        goCommElements.forEach(function(element) {
-            element.addEventListener("click", function() {
-                var commId = element.getAttribute("data-id");
-                var confirmMessage = '게시물로 이동하시겠습니까?';
+    fetch(url, {
+        method: 'POST',
+        body: formData
+    })
+        .then(response => response.text())
+        .then(data => {
+            // 컨트롤러로 리턴하는 페이지를 페이지 이동이 아닌 팝업 형식으로 띄움
+            var newWindow = window.open('', '_blank', 'width=900,height=800');
 
-                if (window.confirm(confirmMessage)) {
-                    window.location.href = '/board/Community_list/' + commId;
-                }
-            });
+            // 화면의 가로세로 좌표를 이용하여 가운데 지점 설정
+            var centerX = (window.innerWidth - newWindow.outerWidth) / 2 + window.screenX;
+            var centerY = (window.innerHeight - newWindow.outerHeight) / 2 + window.screenY;
+            // 팝업 창을 화면 가운데로 세팅
+            newWindow.moveTo(centerX, centerY);
+            newWindow.document.write(data);
         });
-    });
+}
 </script>
