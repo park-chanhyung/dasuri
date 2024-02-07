@@ -72,7 +72,12 @@ public class ProDTO {
         proDTO.setProNickname(proEntity.getProNickname());
         proDTO.setProPwd(proEntity.getProPwd());
         proDTO.setProPhone(proEntity.getProPhone());
-        proDTO.setProLegions(proEntity.getProLegions());
+
+//        강서_구 -> 강서구로 변경
+        String proLegions = proEntity.getProLegions();
+        proLegions = proLegions.replace("_", "");
+        proDTO.setProLegions(proLegions);
+
         proDTO.setBirth(proEntity.getBirth());
 
         proDTO.setSignupDate(proEntity.getSignupDate());

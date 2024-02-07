@@ -33,9 +33,25 @@ public class Admin_ProService {
 
 //        목록에 보여질 항목
 //        아이디,이름,업체명,활동지역,가입일,정지여부
-        Page<ProDTO> proDTOS = proEntities.map
-                (pro -> new ProDTO(pro.getProId(),pro.getProName(),pro.getProNickname(),pro.getProLegions(),pro.getSignupDate(),pro.getSuspensionExpiry()));
+//        Page<ProDTO> proDTOS = proEntities.map
+//                (pro -> new ProDTO(pro.getProId(),pro.getProName(),pro.getProNickname(),pro.getProLegions(),pro.getSignupDate(),pro.getSuspensionExpiry()));
+//
+//        return proDTOS;
 
+        Page<ProDTO> proDTOS = proEntities.map(pro -> {
+            // "강서_구"를 "강서구"로 대체하여 변경
+            String proLegions = pro.getProLegions().replace("_", "");
+
+            // 변경된 proLegions 값을 이용하여 ProDTO 객체 생성
+            return new ProDTO(
+                    pro.getProId(),
+                    pro.getProName(),
+                    pro.getProNickname(),
+                    proLegions,
+                    pro.getSignupDate(),
+                    pro.getSuspensionExpiry()
+            );
+        });
         return proDTOS;
     }
 
