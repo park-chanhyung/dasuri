@@ -47,7 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         CustomUserDetails customUserDetails = new CustomUserDetails(userDetailEntity);
 
         if (!customUserDetails.isEnabled()) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm a");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd a hh:mm");
             String formattedDate = userDetailEntity.getSuspensionExpiry().format(formatter);
             throw new DisabledException("만료 일자: " + formattedDate);
 
