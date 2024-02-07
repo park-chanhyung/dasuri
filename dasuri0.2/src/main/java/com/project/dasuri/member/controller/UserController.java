@@ -34,7 +34,8 @@ public class UserController {
     public String deleteAccount(Principal principal) {
         String username = principal.getName();
         userService.deleteUser(username);
-        SecurityContextHolder.clearContext(); //로그아웃시킴
+        //세션무효화
+        SecurityContextHolder.getContext().setAuthentication(null);
         return "redirect:index"; // 메인 페이지로 리디렉션
     }
 

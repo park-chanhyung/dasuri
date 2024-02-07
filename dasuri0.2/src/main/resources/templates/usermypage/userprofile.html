@@ -8,6 +8,9 @@
     <title>My Page</title>
 </head>
 <body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
 <div id="app">
     <div id="profile">
         <img id="profileImage" th:src="@{/img/login/default-profile.png}" alt="Profile Picture">
@@ -88,20 +91,9 @@
 
 <!--    }-->
 <!--</script>-->
-<script>
-    function submitForm(userId) {
-        document.getElementById('userIdPage').value = userId;
-        document.getElementById('view_userpage').submit();
-    }
 
-    function submitMoon(userId) {
-
-        document.getElementById('userIdMoon').value = userId;
-        document.getElementById('view_usermoon').submit();
-    }
-</script>
-
-
-<script src="main.js"></script>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
 </body>
 </html>

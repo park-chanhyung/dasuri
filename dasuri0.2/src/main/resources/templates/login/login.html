@@ -26,78 +26,84 @@
             const error = urlParams.get('error');
             const message = urlParams.get('message');
 
-            // if (error && message) {
-            //     let modalOptions = { // 기본 모달 옵션 설정
-            //         icon: 'error',
-            //         title: '오류 발생!',
-            //         html: decodeURIComponent(message),
-            //     };
-            //     console.log(message);
-            //     // message 내용에 따라 다른 모달 설정
-            if(error && message){
+            // 리디렉션을 처리하는 함수
+            function redirectToLogin() {
+                window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션
+            }
+
+            if (error && message) {
+                let swalOptions; // SweetAlert2 옵션 객체
+
+                // message 내용에 따라 다른 모달 설정
                 if (message === 'id_password') {
-                    Swal.fire({
+                    swalOptions = {
                         icon: 'warning',
                         title: '로그인 실패!',
                         text: '아이디 또는 비밀번호가 잘못되었습니다.'
-                    }).then(() => {
-                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션
-                    });
-                }else if(message === 'default'){
-                    Swal.fire({
+                    };
+                } else if (message === 'default') {
+                    swalOptions = {
                         icon: 'question',
                         title: '오류 발생',
                         text: '알 수 없는 오류가 발생했습니다.'
-                    }).then(() => {
-                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션
-                    });
-                }else{
-                    Swal.fire({
+                    };
+                } else {
+                    swalOptions = {
                         icon: 'error',
                         title: '비활성화된 계정',
                         html: decodeURIComponent(message)
-                    }).then(() => {
-                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션
-                    });
+                    };
                 }
+
+                // SweetAlert2 모달을 띄우고, 확인 버튼 클릭 후 리디렉션
+                Swal.fire(swalOptions).then(redirectToLogin);
             }
-
-            //
-            //
-            // // error와 message가 모두 있을 경우
-            // if (error && message) {
-            //     Swal.fire({
-            //         icon: 'info',
-            //         title: '로그인 실패',
-            //         // text: decodeURIComponent(message),
-            //         html: decodeURIComponent(message),
-            //     }).then(() => {
-            //         window.location.href = '/login';
-            //     });
-            // }
-            // // error만 있을 경우
-            // else if (error) {
-            //     Swal.fire({
-            //         icon: 'warning',
-            //         title: '경고!',
-            //         text: '문제가 발생했습니다. 다시 시도해 주세요.',
-            //     }).then(() => {
-            //         window.location.href = '/login';
-            //     });
-            // }
-            // // message만 있을 경우
-            // else if (message) {
-            //     Swal.fire({
-            //         icon: 'error',
-            //         title: '계정이 정지되었습니다.',
-            //         text: decodeURIComponent(message),
-            //     }).then(() => {
-            //         window.location.href = '/login';
-            //     });
-            // }
         });
-
     </script>
+<!--    <script>-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            const urlParams = new URLSearchParams(window.location.search);-->
+<!--            const error = urlParams.get('error');-->
+<!--            const message = urlParams.get('message');-->
+
+<!--            // if (error && message) {-->
+<!--            //     let modalOptions = { // 기본 모달 옵션 설정-->
+<!--            //         icon: 'error',-->
+<!--            //         title: '오류 발생!',-->
+<!--            //         html: decodeURIComponent(message),-->
+<!--            //     };-->
+<!--            //     console.log(message);-->
+<!--            //     // message 내용에 따라 다른 모달 설정-->
+<!--            if(error && message){-->
+<!--                if (message === 'id_password') {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'warning',-->
+<!--                        title: '로그인 실패!',-->
+<!--                        text: '아이디 또는 비밀번호가 잘못되었습니다.'-->
+<!--                    }).then(() => {-->
+<!--                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션-->
+<!--                    });-->
+<!--                }else if(message === 'default'){-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'question',-->
+<!--                        title: '오류 발생',-->
+<!--                        text: '알 수 없는 오류가 발생했습니다.'-->
+<!--                    }).then(() => {-->
+<!--                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션-->
+<!--                    });-->
+<!--                }else{-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'error',-->
+<!--                        title: '비활성화된 계정',-->
+<!--                        html: decodeURIComponent(message)-->
+<!--                    }).then(() => {-->
+<!--                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션-->
+<!--                    });-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+
+<!--    </script>-->
 
 </head>
 <body>

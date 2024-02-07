@@ -10,16 +10,18 @@
 </header>
 <!--<img  th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="img-fluid">-->
 <!--엿이나 무라~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<form th:action="@{/userpage_img_ok}" method="post" onsubmit="return confirm('등록하시겠습니까?');" enctype="multipart/form-data">
-<p>* 파일은 이미지만 첨부 가능합니다.</p>
-<input type="file" id="file" name="file" accept="image/*">
-<ul>
-    <li th:text="${usermodify.userName}"></li>
-    <li th:text="${usermodify.userPhone}"></li>
-    <li>업채명: <span th:text="${usermodify.userNickname}"></span></li>
-</ul>
-    <th> <input type="submit" value="완료"> </th>
-</form>
+<div>
+    <form th:action="@{/userpage_img_ok}" method="post" onsubmit="return confirm('등록하시겠습니까?');" enctype="multipart/form-data">
+    <p>* 파일은 이미지만 첨부 가능합니다.</p>
+    <input type="file" id="file" name="file" accept="image/*">
+    <ul>
+        <li th:text="${usermodify.userName}"></li>
+        <li th:text="${usermodify.userPhone}"></li>
+        <li>업채명: <span th:text="${usermodify.userNickname}"></span></li>
+    </ul>
+        <th> <input type="submit" value="완료"> </th>
+    </form>
+</div>
 <footer>
     <div th:include="/list/layout/footer"></div>
 </footer>
