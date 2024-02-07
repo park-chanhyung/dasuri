@@ -54,6 +54,17 @@
         document.getElementById('view_userpage').submit();
     }
 
+    function submitMoon(userId){
+        // 클릭된 값 저장
+        document.getElementById('userId').value = userId;
+
+        // 폼 action 변경
+        // document.getElementById('view_userpage').action = action;
+
+        // 폼 제출
+        document.getElementById('view_usermoon').submit();
+
+    }
     //회원 탈퇴 메소드
     function confirmDelete() {
         Swal.fire({

@@ -18,4 +18,6 @@ public interface MoonRepository extends JpaRepository<MoonEntity, Long> {
     Page<MoonEntity> findByMoonStatusContaining(String status, Pageable pageable);
 
     Long countByMoonQuestionDateBetween(LocalDateTime localDateTime1, LocalDateTime localDateTime2);
+
+    Page<MoonEntity> findByMoonUserId(String userId, Pageable pageable);
 }

@@ -9,13 +9,15 @@ import com.project.dasuri.mypage.service.UserMyPageService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -46,8 +48,8 @@ public class UserPageController {
         return "usermypage/userpage";
     }
 
-    @PostMapping("/usermoonpage")
-    public String usermoonpage(Model model) {
+    @RequestMapping("/usermoonpage")
+    public String usermoonpage(@PageableDefault(page = 1) Pageable pageable, Model model) {
         System.out.println("무니가 나왔나??");
         // Spring Security를 통해 로그인한 사용자의 정보를 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -55,8 +57,19 @@ public class UserPageController {
         // 사용자 아이디 추출
         String userId = authentication.getName();
 
-        List<MoonDTO> moonDTOS = adminMoonService.findByMoonUserId(userId);
-        model.addAttribute("usermoni", moonDTOS);
+
+        Page<MoonDTO> moonDTOS = userMyPageService.user_paging(userId,pageable);
+        // 현재 페이지에서 앞 뒤 갯수
+        int blockLimit = 5;
+        int startPage = (((int) (Math.ceil((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
+        int endPage = ((startPage + blockLimit - 1) < moonDTOS.getTotalPages()) ? startPage + blockLimit - 1 : moonDTOS.getTotalPages();
+
+        model.addAttribute("usermoni",moonDTOS);
+//        model.addAttribute("usermoni",userdto);
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+
+//        model.addAttribute("usermoni", moonDTOS);
         return "usermypage/usermoonpage";
     }
 
@@ -84,6 +97,15 @@ public class UserPageController {
             }
         }
     }
+    @GetMapping("/usermoonpage_view/{moonPkId}")
+    public String usermoonpage_view(@PathVariable Long moonPkId, Model model) {
+        MoonDTO moonDTO = adminMoonService.findByMoonPkId(moonPkId);
+        moonDTO.setMoonQuestion(moonDTO.getMoonQuestion().replace("<br>","\n"));
+        model.addAttribute("jo", moonDTO);
 
+//        model.addAttribute("moons", adminMoonService.admin_paging(PageRequest.of(1, 7))); // 푸터용
+//        model.addAttribute("report", adminReportService.todayReport()); // 푸터용2
+        return "usermypage/usermoonpage_view";
+    }
 
 }

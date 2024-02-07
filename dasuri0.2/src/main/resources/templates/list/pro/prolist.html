@@ -25,6 +25,26 @@
             </ul>
         </li>
     </ul>
+    <!--페이징 영역-->
+    <div class="mem_paging_wrap">
+        <table class="mem_paging">
+            <tr>
+                <td><a id="page1" class="arrow pprev" th:href="@{/usermoonpage(page=1)}"><<</a> </td>
+                <td><a id="page1" class="arrow prev" th:href="${cardList.first} ? '#' : @{/usermoonpage(page=${cardList.number})}"><</a></td>
+                <td>
+								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+									<span class="current" th:if="${page == usermoni.number + 1}" th:text="${page}"></span>
+									<span th:unless="${page == cardList.number + 1}">
+										<a th:href="@{/usermoonpage(page=${page})}" th:text="${page}"></a>
+									</span>
+								</span>
+                </td>
+                <td> <a id="page1" th:href="${cardList.last} ? '#' : @{/usermoonpage(page=${cardList.number + 2})}"> > </a> </td>
+                <td> <a id="page1" th:href="@{/usermoonpage(page=${cardList.totalPages})}"> >> </a> </td>
+            </tr>
+        </table>
+    </div>
+    <!-- 페이징 영역 끝 -->
 </section>
 <!--<section>-->
 <!--    <h2>전문가찾기</h2>-->

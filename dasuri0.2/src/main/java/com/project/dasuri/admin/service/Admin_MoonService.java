@@ -50,14 +50,14 @@ public class Admin_MoonService {
     }
 
 //    내 아이디로 문의글 불러오기
-    public List<MoonDTO> findByMoonUserId(String id){
-        List<MoonEntity> moonEntities = moonRepository.findByMoonUserId(id);
-        List<MoonDTO> moonDTOS = new ArrayList<>();
-        for (MoonEntity moonEntity : moonEntities) {
-            moonDTOS.add(MoonDTO.toMoonDTO(moonEntity));
-        }
-        return moonDTOS;
-    }
+//    public List<MoonDTO> findByMoonUserId(String id){
+//        List<MoonEntity> moonEntities = moonRepository.findByMoonUserId(id);
+//        List<MoonDTO> moonDTOS = new ArrayList<>();
+//        for (MoonEntity moonEntity : moonEntities) {
+//            moonDTOS.add(MoonDTO.toMoonDTO(moonEntity));
+//        }
+//        return moonDTOS;
+//    }
 
 //    문의글 검색
     public Page<MoonDTO> moonSearch(String keyword, Pageable pageable){

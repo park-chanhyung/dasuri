@@ -1,5 +1,8 @@
 package com.project.dasuri.mypage.service;
 
+import com.project.dasuri.admin.dto.MoonDTO;
+import com.project.dasuri.admin.entity.MoonEntity;
+import com.project.dasuri.admin.repository.MoonRepository;
 import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import com.project.dasuri.member.entity.ProEntity;
@@ -10,6 +13,10 @@ import com.project.dasuri.mypage.Repository.UserUpPageRepository;
 import com.project.dasuri.mypage.entity.UserPageEntity;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +32,20 @@ import java.util.UUID;
 public class UserMyPageService {
     private final UserMyPageRepository userMyPageRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MoonRepository moonRepository;
+    public Page<MoonDTO> user_paging(String userId, Pageable pageable){
+        int page = pageable.getPageNumber() -1; //page 값은 0부터 시작하므로 1 뺌 (디폴트 1 요청 시 -1)
+        int pageLimit = 7; // 한 페이지당 글 7개
 
+//       로그인한 유저의 문의글 고유번호 기준으로 내림차순 (최신순)
+        Page<MoonEntity> moonEntities =
+                moonRepository.findByMoonUserId(userId, PageRequest.of(page, pageLimit, Sort.by(Sort.Direction.DESC, "moonPkId")));
+
+//        목록에 보여질 항목
+        Page<MoonDTO> moonDTOS = moonEntities.map
+                (moon -> new MoonDTO(moon.getMoonUserId(),moon.getMoonRole(),moon.getMoonType(),moon.getMoonStatus(),moon.getMoonTitle(),moon.getMoonQuestionDate(),moon.getMoonPkId()));
+        return moonDTOS;
+    }
     @Transactional
     public boolean update(UserDTO userDTO, MultipartFile file) throws IOException {
 //    public void update(ProDTO proDTO, MultipartFile file) throws IOException {
