@@ -149,6 +149,69 @@ $(document).ready(function() {
         }
     }
 });
+
+//회원정보 수정시 비밀번호 입력값 필수
+function validateForm() {
+    var password = document.getElementById('userPwd').value;
+    var confirmPassword = document.getElementById('userPwdConfirm').value;
+
+    // 비밀번호와 비밀번호 확인이 비어있는지 확인
+    if (password === '' || confirmPassword === '') {
+        Swal.fire({
+            icon: 'warning',
+            text: '비밀번호는 필수 입력값입니다.',
+            confirmButtonText: '확인'
+        });
+        return false; // 폼 제출을 방지
+    }
+
+    // 비밀번호와 비밀번호 확인이 일치하는지 확인
+    if (password !== confirmPassword) {
+        Swal.fire({
+            icon: 'error',
+            text: '비밀번호가 일치하지 않습니다.',
+            confirmButtonText: '확인'
+        });
+        return false; // 폼 제출을 방지
+    }
+
+    // 모든 검사를 통과하면 토스트 알림을 띄우고 폼 제출을 진행
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'center-center',
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    });
+
+    Toast.fire({
+        icon: 'success',
+        title: '완료! 로그인으로 이동합니다.'
+    }).then(() => {
+        // 토스트가 닫힌 후 폼 제출
+        document.querySelector('form').submit();
+    });
+
+    return false; // 비동기 처리를 위해 기본 제출을 방지
+}
+
+//파일 선택 미리보기
+function previewImage(input) {
+    var file = input.files[0];
+    if (file) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('profileImage').src = e.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+}
+
+
 /*==========================================================================================================================================================
  * 기사 지역구 전체 선택 처리 (start)
  */

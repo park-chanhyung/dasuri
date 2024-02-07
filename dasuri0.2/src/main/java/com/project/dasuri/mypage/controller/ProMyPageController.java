@@ -57,11 +57,11 @@ public class ProMyPageController {
         System.out.println("proDTO = " + proDTO + ", br = " + br + ", model = " + model);
         if(br.hasErrors()){
             //회원정보 수정 실패시 기존 입력값 유지
-            System.out.println("혹시 회원정보 수정 실패해서 여기 들어오냐?");
             model.addAttribute("proDTO",proDTO);
             return "redirect:/propage";
         }else {
             boolean isPasswordChanged = proMyPageService.update(proDTO, file);
+            System.out.println("비밀번호를 변경하면 true, 변경 안하면 false가 보여야함 ===>"+isPasswordChanged);
             if (isPasswordChanged) {
                 // 비밀번호가 변경되었으면 현재 세션 무효화
                 SecurityContextHolder.getContext().setAuthentication(null);
@@ -70,7 +70,7 @@ public class ProMyPageController {
                 return "redirect:/login"; // 로그인 페이지로 리다이렉션
             } else {
                 // 비밀번호 변경이 없으면 프로필 페이지로 리다이렉션
-                return "redirect:/proprofile_P";
+                return "redirect:/proprofile";
             }
         }
     }
