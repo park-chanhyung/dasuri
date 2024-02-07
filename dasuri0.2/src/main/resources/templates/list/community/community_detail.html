@@ -58,17 +58,14 @@
     <table>
         <tbody>
             <tr>
-                <th>No.</th>
                 <th>작성자</th>
                 <th>내용</th>
                 <th>작성시간</th>
             </tr>
             <tr th:each="comment: ${commentList}">
-                <td th:text="${comment.id}"></td>
-                <td th:text="${comment.userNickname}"></td>
+                <td th:text="${comment.getUserNickname()}"></td>
                 <td th:text="${comment.commentContents}"></td>
-<!--                <td th:text="${comment.commentCreatedTime}"></td>-->
-                <td th:text="*{#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd')}"></td>
+                <td th:text="*{#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd HH:mm')}"></td>
             </tr>
         </tbody>
     </table>
@@ -83,9 +80,7 @@
 
 <script th:inline="javascript">
     const commentWrite = () => {
-        // const  writer = document.getElementById("userNickname").value;
         const  contents = document.getElementById("commentContents").value;
-        // console.log("작성자: " +writer);
         console.log("내용: " +contents);
         const id = [[${community.id}]]; // 게시글 번호
         $.ajax({
@@ -93,28 +88,31 @@
             type : "post",
             url : "/comment/save",
             data : {
-                // "userNickname": writer,
                 "commentContents": contents,
                 "boardId": id
             },
             success: function (res){
                 console.log("요청성공", res);
                 let output = "<table>";
-                output += "<tr><th>댓글번호</th>";
+                output += "<tr>";
                 output += "<th>작성자</th>";
                 output += "<th>내용</th>";
                 output += "<th>작성시간</th></tr>";
                 for (let i in res) {
+                    let commentTime = new Date(res[i].commentCreatedTime);
+                    let formattedDateTime = commentTime.toISOString().slice(0, 19).replace("T", " "); // Format as 'yyyy-MM-dd HH:mm:ss'
+
+
                     output += "<tr>";
-                    output += "<td>" -+ res[i].id + "</td>";
-                    // output += "<td>" + res[i].userNickname + "</td>";
+                    // output += "<td>" + res[i].id + "</td>";
+                    output += "<td>" + res[i].userNickname + "</td>"; // 작성자
                     output += "<td>" + res[i].commentContents + "</td>";
-                    output += "<td>" + res[i].commentCreatedTime + "</td>";
+                    // output += "<td>" + res[i].commentCreatedTime + "</td>";
+                    output += "<td>" + formattedDateTime + "</td>";
                     output += "</tr>";
                 }
                 output += "</table>";
                 document.getElementById('comment_list').innerHTML = output;
-                // document.getElementById('userNickname').value = '';
                 document.getElementById('commentContents').value = '';
             },
             error: function (err){

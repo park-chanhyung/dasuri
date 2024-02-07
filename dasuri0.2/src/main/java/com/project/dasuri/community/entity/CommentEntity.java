@@ -15,7 +15,7 @@ public class CommentEntity extends TimeEntity{
     private Long id;
 
     @Column
-    private String userid;
+    private String userId;
 
     @Column
     private String userNickname;
@@ -34,8 +34,8 @@ public class CommentEntity extends TimeEntity{
         CommentEntity commentEntity = new CommentEntity();
         commentEntity.setCommentContents(commentDto.getCommentContents());
         commentEntity.setCommunityEntity(CommunityEntity);
-        commentEntity.setUserid(commentDto.getUserId());
-        commentEntity.setUserNickname(commentDto.getUserId());
+        commentEntity.setUserId(commentDto.getUserId());
+        commentEntity.setUserNickname(commentDto.getUserNickname());
 
         return commentEntity;
     }

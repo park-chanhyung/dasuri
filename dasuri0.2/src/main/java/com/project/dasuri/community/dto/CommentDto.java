@@ -23,7 +23,7 @@ public class CommentDto {
         commentDto.setId(commentEntity.getId());
         commentDto.setCommentContents(commentEntity.getCommentContents());
         commentDto.setCommentCreatedTime(commentEntity.getCreatedTime());
-        commentDto.setUserId(commentEntity.getUserid());
+        commentDto.setUserId(commentEntity.getUserId());
         commentDto.setUserNickname(commentEntity.getUserNickname());
 //        commentDto.setBoardId(commentEntity.getCommunityEntity().getId());
 //        위의 구조를 쓰려면 Servie 메서드에 @Transactional

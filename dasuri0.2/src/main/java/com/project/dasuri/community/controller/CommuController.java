@@ -1,10 +1,12 @@
 package com.project.dasuri.community.controller;
 
+import com.project.dasuri.admin.service.Admin_ProService;
 import com.project.dasuri.admin.service.Admin_UserService;
 import com.project.dasuri.community.dto.CommentDto;
 import com.project.dasuri.community.dto.CommunityDto;
 import com.project.dasuri.community.service.CommentService;
 import com.project.dasuri.community.service.CommunityService;
+import com.project.dasuri.member.dto.ProDTO;
 import com.project.dasuri.member.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,6 +34,7 @@ public class CommuController {
     private final CommunityService communityService;
     private final CommentService commentService;
     private final Admin_UserService adminUserService;
+    private final Admin_ProService adminProService;
     //리스트 목록[페이징이랑 합침]
     @GetMapping("/Community_list")
     public String Communit_list(@PageableDefault(page = 1)Pageable pageable, Model model){
@@ -73,11 +76,6 @@ public class CommuController {
     public String community_post(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null || authentication.getPrincipal() == null || authentication.getPrincipal().equals("anonymousUser")) {
-            // 사용자가 인증되지 않은 경우, 로그인 페이지로 redirect
-            return "redirect:/login";
-        }
-
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -107,16 +105,19 @@ public class CommuController {
         String role = auth.getAuthority();
 
         UserDTO userDTO = adminUserService.findByUserId(id);
-        String Nickname =userDTO.getUserNickname();
+        ProDTO proDTO =  adminProService.findByProId(id);
+
+        if (userDTO != null && proDTO == null){
+            communityDto.setUserNickname(userDTO.getUserNickname());
+        }else {
+            communityDto.setUserNickname(proDTO.getProName());
+        }
+
 
 
         //사용자 아이디와 역할 가져오기
         communityDto.setUserID(id);
         communityDto.setRole(role);
-        communityDto.setUserNickname(Nickname);
-
-//        model.addAttribute("id", id);
-//        model.addAttribute("role", role);
 
         communityService.save(communityDto);
         return "redirect:Community_list";
