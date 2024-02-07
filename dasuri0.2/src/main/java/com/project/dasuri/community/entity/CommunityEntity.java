@@ -86,6 +86,7 @@ public class CommunityEntity extends TimeEntity {
         communityEntity.setUserId(communityDto.getUserID()); //새로추가
         communityEntity.setRole(communityDto.getRole()); //role추가
         communityEntity.setUserNickname(communityDto.getUserNickname());//닉네임
+        communityEntity.setAdminDeleted(communityDto.getAdminDeleted());//블라인드여부
 
         return communityEntity;
     }
