@@ -40,7 +40,9 @@
 <!--                        </div>-->
                         <div class="profile-pic-container" onclick="document.getElementById('file').click();">
                             <input type="file" id="file" name="file" accept="image/*" style="display: none;" onchange="previewImage(this);">
-                            <img th:src="@{'/pro_files/'+${proDTO.filename}}" alt="프로필 이미지" id="profileImage">
+<!--                            <img th:src="@{'/pro_files/'+${proDTO.filename}}" alt="프로필 이미지" id="profileImage">-->
+<!--                            <img th:src="@{'/pro_files/'+${proDTO.filename}} ? @{'/pro_files/'+${proDTO.filename}} : @{'/img/default_profile.jpg'}" alt="프로필 이미지" id="profileImage">-->
+                            <img th:src="${proDTO != null and proDTO.filename != null} ? @{'/pro_files/' + ${proDTO.filename}} : @{'/img/default_profile.jpg'}" alt="프로필 이미지" id="profileImage">
                             <label for="file">
                                 <i class="fa fa-camera"></i>
                             </label>
