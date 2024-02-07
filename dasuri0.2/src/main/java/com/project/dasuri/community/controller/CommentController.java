@@ -1,5 +1,6 @@
 package com.project.dasuri.community.controller;
 
+import com.project.dasuri.admin.service.Admin_UserService;
 import com.project.dasuri.community.dto.CommentDto;
 import com.project.dasuri.community.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,28 @@ import java.util.List;
 @RequestMapping("/comment")
 public class CommentController {
     private  final CommentService commentService;
-
+    private final Admin_UserService adminUserService;
     @PostMapping("/save")
 //    public @ResponseBody String save(@ModelAttribute CommentDto commentDto){
     public ResponseEntity  save(@ModelAttribute CommentDto commentDto){
         System.out.println("commentDto: "+commentDto);
+
+//        String id = SecurityContextHolder.getContext().getAuthentication().getName();
+//
+//        UserDTO userDTO = adminUserService.findByUserId(id);
+//        String Nickname =userDTO.getUserNickname();
+//        CommentDto.
+//        String userId = null;
+//
+//        // principal이 null이 아닌지 확인 후 속성에 액세스
+//        if (principal != null) {
+//            userId = principal.getName();
+//            commentDto.setUserId(userId);
+//            UserDTO userDTO = adminUserService.findByUserId(userId);
+//            String Nickname =userDTO.getUserNickname();
+//            commentDto.setUserNickname(Nickname);
+//        }
+
         Long saveResult = commentService.save(commentDto);
         if (saveResult != null){
 //            작성 성공하면 댓글목록을 가져와서 리턴

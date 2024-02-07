@@ -12,17 +12,19 @@ import java.time.LocalDateTime;
 @ToString
 public class CommentDto {
     private Long id; //댓글 id값
-    private String commentWriter;
     private String commentContents;
     private Long boardId; //게시글 번호
     private LocalDateTime commentCreatedTime;
+    private String userId;
+    private String userNickname;
 
     public static CommentDto toCommentDto(CommentEntity commentEntity, Long boardId) {
         CommentDto commentDto = new CommentDto();
         commentDto.setId(commentEntity.getId());
-        commentDto.setCommentWriter(commentEntity.getCommentWriter());
         commentDto.setCommentContents(commentEntity.getCommentContents());
         commentDto.setCommentCreatedTime(commentEntity.getCreatedTime());
+        commentDto.setUserId(commentEntity.getUserid());
+        commentDto.setUserNickname(commentEntity.getUserNickname());
 //        commentDto.setBoardId(commentEntity.getCommunityEntity().getId());
 //        위의 구조를 쓰려면 Servie 메서드에 @Transactional
         commentDto.setBoardId(boardId);

@@ -65,7 +65,7 @@
             </tr>
             <tr th:each="comment: ${commentList}">
                 <td th:text="${comment.id}"></td>
-                <td th:text="${comment.commentWriter}"></td>
+                <td th:text="${comment.userNickname}"></td>
                 <td th:text="${comment.commentContents}"></td>
 <!--                <td th:text="${comment.commentCreatedTime}"></td>-->
                 <td th:text="*{#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd')}"></td>
@@ -83,9 +83,9 @@
 
 <script th:inline="javascript">
     const commentWrite = () => {
-        const  writer = document.getElementById("commentWriter").value;
+        // const  writer = document.getElementById("userNickname").value;
         const  contents = document.getElementById("commentContents").value;
-        console.log("작성자: " +writer);
+        // console.log("작성자: " +writer);
         console.log("내용: " +contents);
         const id = [[${community.id}]]; // 게시글 번호
         $.ajax({
@@ -93,7 +93,7 @@
             type : "post",
             url : "/comment/save",
             data : {
-                "commentWriter": writer,
+                // "userNickname": writer,
                 "commentContents": contents,
                 "boardId": id
             },
@@ -107,14 +107,14 @@
                 for (let i in res) {
                     output += "<tr>";
                     output += "<td>" -+ res[i].id + "</td>";
-                    output += "<td>" + res[i].commentWriter + "</td>";
+                    // output += "<td>" + res[i].userNickname + "</td>";
                     output += "<td>" + res[i].commentContents + "</td>";
                     output += "<td>" + res[i].commentCreatedTime + "</td>";
                     output += "</tr>";
                 }
                 output += "</table>";
                 document.getElementById('comment_list').innerHTML = output;
-                document.getElementById('commentWriter').value = '';
+                // document.getElementById('userNickname').value = '';
                 document.getElementById('commentContents').value = '';
             },
             error: function (err){

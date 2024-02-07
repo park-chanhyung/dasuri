@@ -147,7 +147,6 @@ public class CommuController {
 //    ID값을 받아와서 업데이트
     @GetMapping("/Update/{post_id}")
     public String updateForm(@PathVariable long post_id, Model model){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CommunityDto communityDto = communityService.findById(post_id);
         model.addAttribute("communityUpdate", communityDto);
 

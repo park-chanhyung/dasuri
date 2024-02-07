@@ -14,8 +14,11 @@ public class CommentEntity extends TimeEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 20, nullable = false)
-    private  String commentWriter;
+    @Column
+    private String userid;
+
+    @Column
+    private String userNickname;
 
     @Column
     private String commentContents;
@@ -25,11 +28,14 @@ public class CommentEntity extends TimeEntity{
     @JoinColumn(name = "commu_Id")
     private CommunityEntity communityEntity;
 
+
+
     public static CommentEntity toSaveEntity(CommentDto commentDto, CommunityEntity CommunityEntity) {
         CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setCommentWriter(commentDto.getCommentWriter());
         commentEntity.setCommentContents(commentDto.getCommentContents());
         commentEntity.setCommunityEntity(CommunityEntity);
+        commentEntity.setUserid(commentDto.getUserId());
+        commentEntity.setUserNickname(commentDto.getUserId());
 
         return commentEntity;
     }

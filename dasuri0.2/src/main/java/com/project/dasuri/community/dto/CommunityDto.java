@@ -64,8 +64,8 @@ public class CommunityDto {
         communityDto.setRole(communityEntity.getRole());//role
         communityDto.setUserNickname(communityEntity.getUserNickname());
 
-        if (communityEntity.getFileAttached() == 0){ //파일이 없는경우
-            communityDto.setFileAttached(communityEntity.getFileAttached());//0
+        if (communityEntity.getFileAttached() == null){ //파일이 없는경우
+            communityDto.setFileAttached(0);//0
         }else {//있는 경우
             List<String> originalFileNameList = new ArrayList<>();
             List<String> storedFileNameList = new ArrayList<>();
