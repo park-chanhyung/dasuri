@@ -51,6 +51,8 @@ public class ProMyPageController {
         model.addAttribute("proDTO", prodto);
         return "promypage/propage";
     }
+
+    //기사회원정보 메소드
     @PostMapping("/proupdate")
     public String update(@Valid @ModelAttribute ProDTO proDTO, BindingResult br, Model model, MultipartFile file, HttpServletRequest request, RedirectAttributes redirectAttributes) throws IOException {
         System.out.println("컨트롤러 메소드 업데이트 -> 서비스로 가야함");

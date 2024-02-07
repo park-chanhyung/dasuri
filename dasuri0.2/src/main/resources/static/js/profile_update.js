@@ -255,19 +255,19 @@ document.addEventListener("DOMContentLoaded", function() {
  *
  */
 function sendVerificationCode() {
-    var userPhone = $('#userPhone').val();
+    var phone = $('#userPhone').val() || $('#proPhone').val();
     $.ajax({
         url: '/sendVerificationCode', // 인증번호를 보내는 서버의 URL
         type: 'POST',
         contentType: 'application/json',
-        data: JSON.stringify({ phoneNumber: userPhone }),
+        data: JSON.stringify({ phoneNumber: phone }),
         success: function(response) {
             // SweetAlert를 사용하여 성공 메시지를 표시합니다.
             Swal.mixin({
                 toast: true,
                 position: 'center-center',
                 showConfirmButton: false,
-                timer: 3000,
+                timer: 1000,
                 timerProgressBar: true,
                 didOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -284,7 +284,7 @@ function sendVerificationCode() {
                 toast: true,
                 position: 'center-center',
                 showConfirmButton: false,
-                timer: 3000,
+                timer: 1000,
                 timerProgressBar: true,
                 didOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer)

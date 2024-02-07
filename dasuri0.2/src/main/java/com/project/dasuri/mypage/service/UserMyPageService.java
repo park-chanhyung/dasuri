@@ -8,7 +8,9 @@ import com.project.dasuri.member.repository.UserRepository;
 import com.project.dasuri.mypage.Repository.UserMyPageRepository;
 import com.project.dasuri.mypage.Repository.UserUpPageRepository;
 import com.project.dasuri.mypage.entity.UserPageEntity;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,24 +24,34 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserMyPageService {
     private final UserMyPageRepository userMyPageRepository;
-    private final UserRepository userRepository;
-//    public UserDTO findById(String userId) {// findById사용자 아이디에 해당하는 db 정보를 dto로 변환
-//        Optional<UserEntity> userEntityOptional = userMyPageRepository.findByUserId(userId);
-////            if (userEntityOptional.isPresent()) {
-////                return UserDTO.toUserDTO(userEntityOptional.get());
-////            }else {
-////                return null;
-////            }
-//        return userEntityOptional.map(UserDTO::toUserDTO).orElse(null);
-//    }
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Transactional
-    public void update(UserDTO userDTO, MultipartFile file) throws IOException {
-        System.out.println(" 유저 이미지 수정 메소드");
-        UserEntity userEntity = UserEntity.toUserEntity(userDTO);
+    public boolean update(UserDTO userDTO, MultipartFile file) throws IOException {
+//    public void update(ProDTO proDTO, MultipartFile file) throws IOException {
+        // 기존 정보 조회
+        UserEntity existingUser = userMyPageRepository.findByUserId(userDTO.getUserId())
+                .orElseThrow(() -> new EntityNotFoundException("해당 사용자를 찾을 수 없습니다. ID: " + userDTO.getUserId()));
 
+        boolean isPwdChanged = false; // 비밀번호 변경 여부를 추적하는 변수
+
+        //비밀번호가 변경되었으면 암호화처리
+        if (userDTO.getUserPwd() != null && !userDTO.getUserPwd().isEmpty()) {
+            String encodedPassword = passwordEncoder.encode(userDTO.getUserPwd());
+            existingUser.setUserPwd(encodedPassword);
+            isPwdChanged = true; // 비밀번호가 변경되었음을 표시
+        }
+
+        // 변경할 필드 업데이트
+        existingUser.setUserName(userDTO.getUserName());
+        existingUser.setUserNickname(userDTO.getUserNickname());
+        existingUser.setUserPhone(userDTO.getUserPhone());
+        existingUser.setUserAddress(userDTO.getUserAddress());
+        existingUser.setBirth(userDTO.getBirth());
+
+        // 파일 처리 로직 (파일이 제공되었을 경우)
         if (file != null && !file.isEmpty()) {
-//        파일경로 변수
+            //  파일경로 변수
             String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\pro_files";
 
 //        파일명 변수
@@ -52,12 +64,15 @@ public class UserMyPageService {
 //        생성한 파일 객체에 첨부파일 넣기
             file.transferTo(saveFile);
 
-//        엔티티에 파일명 + 파일 경로 저장
-            userEntity.setFilename(fileName);
-            userEntity.setFilePath("/pro_files/" + fileName);
-            userEntity.setProfileImagePath("/pro_files/" + fileName);
+            // 파일 처리 로직...
+            existingUser.setFilename(fileName);
+            existingUser.setFilePath("/pro_files/" + fileName);
+            existingUser.setProfileImagePath("/pro_files/" + fileName);
         }
-        userRepository.save(userEntity);
+        // 엔티티 저장 (이 경우 JPA는 변경 감지 기능을 사용하여 업데이트 쿼리를 실행)
+        userMyPageRepository.save(existingUser);
+
+        return isPwdChanged;
     }
 }
 //    // 새로운 메서드 추가: 데이터 업데이트

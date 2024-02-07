@@ -8,6 +8,10 @@
     <script th:src="@{/js/jquery.js}"></script>
     <script th:inline="javascript" src="/js/sign_up.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!--    Sweetalert2 사용 선언 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
     <title>기사회원 가입</title>
 </head>
 <body>
@@ -70,8 +74,15 @@
                         <div th:if="${#fields.hasErrors('proPhone')}" class="group">
                             <p id="error-Message" th:each="err : ${#fields.errors('proPhone')}" th:text="${err}"></p>
                         </div>
-                        <button type="button" class="button" onclick="verifyPhoneNumber()">인증하기</button>
+                        <button type="button" class="button" onclick="sendVerificationCode()">인증하기</button>
                     </div>
+                    <div class="group">
+                        <label for="verificationCode" class="label">인증번호 입력</label>
+                        <input id="verificationCode" name="verificationCode" type="text" class="input" placeholder="인증번호를 입력하세요">
+                        <button type="button" class="button" onclick="verifyCode()">인증번호 확인</button>
+                        <p id="verificationMessage"></p> <!-- 인증 결과 메시지 출력 -->
+                    </div>
+
                     <div class="group">
                         <input type="checkbox" id="selectAll" name="proLegions" value="전체" onclick="toggleCheckboxes()"> 전체
                         <br>
@@ -103,7 +114,7 @@
                     </div>
                     <div class="hr"></div>
                     <div class="foot-lnk">
-                        <a href="/login">이미 아이디가 있으신가요?</a>
+                        <a href=@{"/login"}>이미 아이디가 있으신가요?</a>
                     </div>
                 </div>
             </form>

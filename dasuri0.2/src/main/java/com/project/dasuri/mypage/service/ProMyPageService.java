@@ -49,7 +49,6 @@ public class ProMyPageService {
 
         // 파일 처리 로직 (파일이 제공되었을 경우)
         if (file != null && !file.isEmpty()) {
-            System.out.println("@#@# 파일이 일단 들어온걸 확인하고 파일 처리 로직에 들어옴.");
             //  파일경로 변수
             String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\pro_files";
 
@@ -70,7 +69,6 @@ public class ProMyPageService {
         }
         // 엔티티 저장 (이 경우 JPA는 변경 감지 기능을 사용하여 업데이트 쿼리를 실행)
         proMyPageRepository.save(existingPro);
-        System.out.println("그럼 일단 여기서 서비스에서 결과값을 먼저 리턴하는지 보자고.");
 
         return isPwdChanged;
     }
