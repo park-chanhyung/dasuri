@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -114,7 +115,6 @@ public class CommuController {
         }
 
 
-
         //사용자 아이디와 역할 가져오기
         communityDto.setUserID(id);
         communityDto.setRole(role);
@@ -169,18 +169,26 @@ public class CommuController {
         String role = auth.getAuthority();
 
         UserDTO userDTO = adminUserService.findByUserId(id);
-        String Nickname =userDTO.getUserNickname();
+        ProDTO proDTO =  adminProService.findByProId(id);
+//        String Nickname =userDTO.getUserNickname();
 
+        if (userDTO != null && proDTO == null){
+            communityDto.setUserNickname(userDTO.getUserNickname());
+
+        }else {
+            communityDto.setUserNickname(proDTO.getProName());
+        }
 
         //사용자 아이디와 역할 가져오기
         communityDto.setUserID(id);
         communityDto.setRole(role);
-        communityDto.setUserNickname(Nickname);
-
+//        communityDto.setUserNickname(Nickname);
+        communityDto.setComumUpdatedTime(LocalDateTime.now());
 
         CommunityDto community =  communityService.update(communityDto);
         model.addAttribute("community", community);
-        return "/list/community/community_detail";
+//        return "/list/community/community_detail/";
+        return "redirect:/board/Community_list";
     }
 
 //    삭제

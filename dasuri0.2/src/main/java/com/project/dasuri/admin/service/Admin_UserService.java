@@ -44,8 +44,14 @@ public class Admin_UserService {
 
     //    고객 정보 조회
     public UserDTO findByUserId(String userId){
-        UserDTO userDTO = UserDTO.toUserDTO(userRepository.findByUserId(userId));
-        return userDTO;
+        //        UserDTO userDTO = UserDTO.toUserDTO(userRepository.findByUserId(userId));
+        UserDTO userDTO = new UserDTO();
+        if (userRepository.findByUserId(userId) != null){
+            userDTO = UserDTO.toUserDTO(userRepository.findByUserId(userId));
+            return userDTO;
+        }else{
+            return null;
+        }
     }
 
     //    고객 수
