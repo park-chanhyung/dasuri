@@ -188,3 +188,7 @@ body{
     flex-direction:column;
     min-height: 100vh;
 }
+.blided{
+    font-weight: 700;
+    color: grey;
+}

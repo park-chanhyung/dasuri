@@ -35,7 +35,7 @@ public class Admin_CommService {
 
         // 페이징에 가져갈 항목
         Page<CommunityDto> communityDtos = communityEntities.map
-                (comm -> new CommunityDto(comm.getId(),comm.getCommuWriter(),comm.getCommuTitle(),comm.getCommuHits(),comm.getCreatedTime(),comm.getUserId(),comm.getRole(),comm.getUserNickname()));
+                (comm -> new CommunityDto(comm.getId(),comm.getCommuWriter(),comm.getCommuTitle(),comm.getCommuHits(),comm.getCreatedTime(),comm.getUserId(),comm.getRole(),comm.getUserNickname(),comm.getAdminDeleted()));
         return communityDtos;
     }
 

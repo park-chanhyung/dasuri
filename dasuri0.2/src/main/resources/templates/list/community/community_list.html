@@ -42,16 +42,19 @@
      <th>조회수</th>
 <!--     <th>유형</th>-->
     <tr th:each="CommunityDto: ${communityList}">
-     <td th:text="${CommunityDto.id}"></td>
-     <td th:text="${CommunityDto.getUserNickname()}"></td>
-     <td>
+     <td th:if="${CommunityDto.adminDeleted == null}" th:text="${CommunityDto.id}"></td>
+     <td th:if="${CommunityDto.adminDeleted == null}" th:text="${CommunityDto.getUserNickname()}"></td>
+     <td th:if="${CommunityDto.adminDeleted == null}">
       <a th:href="@{|/board/Community_list/${CommunityDto.id}|}" th:text="${CommunityDto.commuTitle}"></a>
      </td>
      <!--  <td><a th:href="@{/community_list/${community.id}}" th:text="${community.boardTitle}"></a></td>-->
      <!--  <td th:text="${CommunityDto.commuWriter}"></td>-->
      <!--  <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd HH:mm:ss')}"></td>-->
-     <td th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd')}"></td>
-     <td th:text="${CommunityDto.commuHits}"></td>
+     <td th:if="${CommunityDto.adminDeleted == null}" th:text="*{#temporals.format(CommunityDto.commuCreatedTime, 'yyyy-MM-dd')}"></td>
+     <td th:if="${CommunityDto.adminDeleted == null}" th:text="${CommunityDto.commuHits}"></td>
+     <td th:unless="${CommunityDto.adminDeleted == null}" class="blided" colspan="5">
+       --- 관리자에 의해 블라인드 처리된 게시물입니다. ---
+     </td>
 <!--     <td th:text="${CommunityDto.getRole()}"></td>-->
     </tr>
    </table>

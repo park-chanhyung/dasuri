@@ -38,7 +38,7 @@ public class CommunityDto {
     private int fileAttached; // 파일 첨부 여부(첨부 1, 미첨부 0)
 
     public CommunityDto(Long id, String commuWriter, String commuTitle, int commuHits, LocalDateTime commuCreatedTime,
-                        String userId, String role, String userNickname) {
+                        String userId, String role, String userNickname, String adminDeleted) {
         this.id = id;
         this.commuWriter = commuWriter;
         this.commuTitle = commuTitle;
@@ -47,6 +47,7 @@ public class CommunityDto {
         this.userID = userId; //사용자ID
         this.role = role; //역할
         this.userNickname= userNickname; //유저닉네임
+        this.adminDeleted= adminDeleted; //블라인드여부
     }
 
 
