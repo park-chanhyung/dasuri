@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" th:href="@{/css/my_profile.css}">
@@ -57,7 +58,7 @@
 <div id="app">
     <div id="profile">
 <!--        <img id="profileImage" src="/img/login/default-profile.png" alt="Profile Picture">-->
-                <img id="profileImage" th:src="@{'/pro_files/' + ${propf.filename}}" alt="Profile Picture">
+            <img id="profileImage" th:src="@{'/pro_files/' + ${propf.filename}}" alt="Profile Picture">
 <!--        <h2 id="nickname">Nickname</h2>-->
         <h2 id="nickname" th:text="${propf.proName}"></h2>
         <div id="buttons">
@@ -76,11 +77,6 @@
         </div>
     </div>
 </div>
-
-
-<script src="main.js"></script>
-
-
 </body>
 <footer>
     <div th:include="/list/layout/footer"></div>
