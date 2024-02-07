@@ -4,92 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자주 찾는 질문</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin_pagingBtn.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/faq.css}">
     <script src="/js/faq.js"></script>
 </head>
 <body>
-<header style="font-size: 50px;">
-    <div th:include="/list/layout/nav"></div>
-</header>
+    <header style="font-size: 50px;">
+        <div th:include="/list/layout/nav"></div>
+    </header>
 
-<div class="center_loc">
-    <a href="index"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
-    <a href="center_main"> 고객센터 &nbsp; > &nbsp; </a>
-    <a href="center_faq"> 자주 찾는 질문</a>
-</div>
-
-<div class="center_title">
-    <h1>자주 찾는 질문</h1>
-    <h4>다수리 사이트에 관한 궁금하신 사항을 확인하세요.</h4>
-
-    <!--  	  검색창 영역 -->
-    <form th:action="@{center_faq_search}" id="faq_search">
-        <div class="faq_search">
-            <input type="text" class="faq_searchTerm" name="faq_keyword" placeholder="태그or질문or답변">
-            <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
-        </div>
-    </form>
-    <!--		검색창 영역 끝 -->
-
-    <!--    해시태그(중복값 제거) -->
-    <form th:action="@{/center_faq_tag}" id="hashForm">
-        <div class="hashTag_area">
-            <ul th:if="${faqs.content.size() > 0}" id="hashTagList">
-                <th:block th:with="uniqueTags=${#sets.toSet(faqs.content.![faqTag])}">
-                    <li th:each="tag : ${uniqueTags}">
-                        <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'"></div>
-                    </li>
-                    <li>
-                        <div class="hashTag" onclick="location='center_faq'">전체보기</div>
-                    </li>
-                </th:block>
-            </ul>
-        </div>
-        <input type="hidden" name="faqTag" id="tag"/>
-    </form>
-
-    <!--faq 리스트 -->
-    <div class="faq_area">
-        <div class="faq_table_area">
-            <table class="faq_table" th:each="faq: ${faqs}">
-                <tr>
-                    <td th:text="${faq.faqTag}"></td>
-                    <td class="ck" th:text="${faq.faqQuestion}"></td>
-                    <td class="ck">▼</td>
-                </tr>
-                <tr class="hide" style="height: 200px">
-                    <td colspan="3" th:text="${faq.faqAnswer}"></td>
-                </tr>
-            </table>
-            <!-- 페이징 영역 -->
-            <div class="pageArea">
-                <!-- 첫번째 페이지로 이동 -->
-                <a th:href="@{/center_faq_tag(page=1, faqTag=${faqTag})}"> << </a>
-                <!-- 이전 링크 활성화 비활성화 -->
-                <a th:href="${faqs.first} ? '#' : @{/center_faq_tag(page=${faqs.number}, faqTag=${faqTag})}"> < </a>
-
-                <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
-                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-                    <!-- 현재페이지는 링크 없이 숫자만 -->
-                    <span th:if="${page == faqs.number + 1}" th:text="${page}"></span>
-                    <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
-                    <span th:unless="${page == faqs.number + 1}">
-                        <a th:href="@{/center_faq_tag(page=${page}, faqTag=${faqTag})}" th:text="${page}"></a>
-                    </span>
-                </span>
-                <!-- 다음 링크 활성화 비활성화 -->
-                <a th:href="${faqs.last} ? '#' : @{/center_faq_tag(page=${faqs.number + 2}, faqTag=${faqTag})}"> > </a>
-                <!-- 마지막 페이지로 이동 -->
-                <a th:href="@{/center_faq_tag(page=${faqs.totalPages}, faqTag=${faqTag})}"> >> </a>
-            </div>
-<!--            페이징 영역 끝 -->
+    <div>
+        <div class="center_locc">
+            <a href="index"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
+            <a href="center_main"> 고객센터 &nbsp; > &nbsp; </a>
+            <a href="center_faq"> 자주 찾는 질문</a>
         </div>
     </div>
 
-    <footer>
-        <div th:include="/list/layout/footer"></div>
-    </footer>
+    <div class="center_title">
+        <h1>자주 찾는 질문</h1>
+        <h4>다수리 사이트에 관한 궁금하신 사항을 확인하세요.</h4>
+
+        <!--  	  검색창 영역 -->
+        <form th:action="@{center_faq_search}" id="faq_search">
+            <div class="faq_search">
+                <input type="text" class="faq_searchTerm" name="faq_keyword" placeholder="태그or질문or답변">
+                <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
+            </div>
+        </form>
+        <!--		검색창 영역 끝 -->
+
+        <!--    해시태그(중복값 제거) -->
+        <form th:action="@{/center_faq_tag}" id="hashForm">
+            <div class="hashTag_area">
+                <ul th:if="${faqs.content.size() > 0}" id="hashTagList">
+                    <th:block th:with="uniqueTags=${#sets.toSet(faqs.content.![faqTag])}">
+                        <li th:each="tag : ${uniqueTags}">
+                            <div class="hashTag" th:text="${tag}" th:attr="onclick='submitForm(this)'"></div>
+                        </li>
+                        <li>
+                            <div class="hashTag" onclick="location='center_faq'">전체보기</div>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+            <input type="hidden" name="faqTag" id="tag"/>
+        </form>
+
+        <!--faq 리스트 -->
+        <div class="faq_area">
+            <div class="faq_table_area">
+                <table class="faq_table" th:each="faq: ${faqs}">
+                    <tr>
+                        <td th:text="${faq.faqTag}"></td>
+                        <td class="ck" th:text="${faq.faqQuestion}"></td>
+                        <td class="ck">▼</td>
+                    </tr>
+                    <tr class="hide" style="height: 200px">
+                        <td colspan="3" th:text="${faq.faqAnswer}"></td>
+                    </tr>
+                </table>
+                <!-- 페이징 영역 -->
+                <div class="pageArea_faq">
+                    <!-- 첫번째 페이지로 이동 -->
+                    <a id="page1" class="arrow pprev" th:href="@{/center_faq_tag(page=1, faqTag=${faqTag})}"> << </a>
+                    <!-- 이전 링크 활성화 비활성화 -->
+                    <a id="page1" class="arrow prev" th:href="${faqs.first} ? '#' : @{/center_faq_tag(page=${faqs.number}, faqTag=${faqTag})}"> < </a>
+
+                    <!-- 페이지 번호 링크(현재 페이지는 숫자만) -->
+                    <span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                        <!-- 현재페이지는 링크 없이 숫자만 -->
+                        <span class="current" th:if="${page == faqs.number + 1}" th:text="${page}"></span>
+                        <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+                        <span th:unless="${page == faqs.number + 1}">
+                            <a th:href="@{/center_faq_tag(page=${page}, faqTag=${faqTag})}" th:text="${page}"></a>
+                        </span>
+                    </span>
+                    <!-- 다음 링크 활성화 비활성화 -->
+                    <a id="page1" th:href="${faqs.last} ? '#' : @{/center_faq_tag(page=${faqs.number + 2}, faqTag=${faqTag})}"> > </a>
+                    <!-- 마지막 페이지로 이동 -->
+                    <a id="page1" th:href="@{/center_faq_tag(page=${faqs.totalPages}, faqTag=${faqTag})}"> >> </a>
+                </div>
+    <!--            페이징 영역 끝 -->
+            </div>
+        </div>
+
+        <footer>
+            <div th:include="/list/layout/footer"></div>
+        </footer>
 </body>
 <script>
     function submitForm(faq) {

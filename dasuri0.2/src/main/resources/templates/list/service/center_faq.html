@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>자주 찾는 질문</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin_pagingBtn.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/css/faq.css}">
     <script src="/js/faq.js"></script>
@@ -13,10 +14,12 @@
         <div th:include="/list/layout/nav"></div>
     </header>
 
-    <div class="center_loc">
-        <a th:href="@{/index}"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
-        <a th:href="@{/center_main}"> 고객센터 &nbsp; > &nbsp; </a>
-        <a th:href="@{/center_faq}"> 자주 찾는 질문</a>
+    <div>
+        <div class="center_locc">
+            <a th:href="@{/index}"><img src="/img/admin/admin_home_bl.png" width="15px"> &nbsp; > &nbsp;</a>
+            <a th:href="@{/center_main}"> 고객센터 &nbsp; > &nbsp; </a>
+            <a th:href="@{/center_faq}"> 자주 찾는 질문</a>
+        </div>
     </div>
 
     <div class="center_title">
@@ -60,31 +63,20 @@
                 </tr>
             </table>
             <!--        페이징 영역 -->
-            <div class="pageArea">
-                <!-- 첫번째 페이지로 이동 -->
-                <a th:href="@{/center_faq(page=1)}"> << </a>
-                <!-- 이전 링크 활성화 비활성화 -->
-                <a th:href="${faqs.first} ? '#' : @{/center_faq(page=${faqs.number})}"> < </a>
-
-                <!-- 페이지 번호 링크(현재 페이지는 숫자만)
-                        for(int page=startPage; page<=endPage; page++)-->
-                <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-
-            <!-- 현재페이지는 링크 없이 숫자만 -->
-                <span th:if="${page == faqs.number + 1}" th:text="${page}"></span>
-                    <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
-                <span th:unless="${page == faqs.number + 1}">
-                    <a th:href="@{/center_faq(page=${page})}" th:text="${page}"></a>
+            <div class="pageArea_faq">
+                <a id="page1" class="arrow pprev" th:href="@{/center_faq(page=1)}"> << </a>
+                <a id="page1" class="arrow prev" th:href="${faqs.first} ? '#' : @{/center_faq(page=${faqs.number})}"> < </a>
+                <span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                    <span class="current" th:if="${page == faqs.number + 1}" th:text="${page}"></span>
+                    <span th:unless="${page == faqs.number + 1}">
+                        <a th:href="@{/center_faq(page=${page})}" th:text="${page}"></a>
+                    </span>
                 </span>
-            </span>
-
-                <!-- 다음 링크 활성화 비활성화
-                    사용자: 2페이지, getNumber: 1, 3페이지-->
-                <a th:href="${faqs.last} ? '#' : @{/center_faq(page=${faqs.number + 2})}"> > </a>
-                <!-- 마지막 페이지로 이동 -->
-                <a th:href="@{/center_faq(page=${faqs.totalPages})}"> >> </a>
+                <a id="page1" th:href="${faqs.last} ? '#' : @{/center_faq(page=${faqs.number + 2})}"> > </a>
+                <a id="page1" th:href="@{/center_faq(page=${faqs.totalPages})}"> >> </a>
             </div>
             <!--        페이징 영역 끝 -->
+
         </div>
     </div>
 

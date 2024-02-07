@@ -88,3 +88,10 @@
     color: blue;
     font-weight: 700;
 }
+.pageArea_faq{
+    width: 40%;
+    margin: 20px auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}

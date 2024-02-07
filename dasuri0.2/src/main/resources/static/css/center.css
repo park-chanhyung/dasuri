@@ -74,14 +74,13 @@ p{
     font-size: 300%;
 }
 
-.center_loc{
+.center_locc{
     width: 250px;
-    height: 100px;
     float: right;
-    margin-right: 30px;
-    margin-top: 30px;
+    margin-right: 40px;
+    margin-top: 20px;
 }
-.center_loc *{
+.center_locc *{
     font-size: 0.8em;
     text-decoration: none;
 }
