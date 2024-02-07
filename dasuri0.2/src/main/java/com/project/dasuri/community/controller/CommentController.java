@@ -30,6 +30,9 @@ public class CommentController {
 //    public @ResponseBody String save(@ModelAttribute CommentDto commentDto){
     public ResponseEntity  save(@ModelAttribute CommentDto commentDto, Principal principal){
         System.out.println("commentDto: "+commentDto);
+        if (commentDto.getCommentContents() == null || commentDto.getCommentContents().trim().isEmpty()) {
+            return ResponseEntity.badRequest().body("내용은 필수입니다.");
+        }
 
         String id = SecurityContextHolder.getContext().getAuthentication().getName();
 

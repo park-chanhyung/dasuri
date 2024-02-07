@@ -13,62 +13,64 @@
     <div th:include="/list/layout/nav"></div>
 </header>
 
-<table>
-    <tr>
-        <th>title</th>
-        <td th:text="${community.commuTitle}"></td>
-    </tr>
-    <tr>
-        <th>writer</th>
-        <td th:text="${community.userNickname}"></td>
-    </tr>
-    <tr>
-        <th>date</th>
-<!--        <td th:text="${community.commuCreatedTime,'yyyy-MM-dd'}"></td>-->
-        <td th:text="*{#temporals.format(community.commuCreatedTime, 'yyyy-MM-dd')}"></td>
-    </tr>
-    <tr>
-        <th>hits</th>
-        <td th:text="${community.commuHits}"></td>
-    </tr>
-    <tr>
-        <th>contents</th>
-        <td th:text="${community.commuContents}"></td>
-    </tr>
-    <tr th:if="${community.fileAttached == 1}">
-        <th>image</th>
-        <td th:each="fileName: ${community.storedFileName}">
-            <img th:src="@{|/upload/${fileName}|}" alt="">
-        </td>
-    </tr>
-</table>
-<button onclick="listReq()" >목록</button>
-<button onclick="updateReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">수정</button>
-<button onclick="deleteReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">삭제</button>
-<button onclick="admindeleteReq()" sec:authorize="hasRole('ROLE_ADMIN')">블라인드</button>
+<div class="title">
+    <h3>게시글 보기</h3>
+</div>
+
+<div id="board_read">
+    <div>
+    <p>제목: <span th:text="${community.commuTitle}"></span></p><br>
+    <p>작성일: <span th:text="${#temporals.format(community.commuCreatedTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+    <p>작성자: <span th:text="${community.userNickname}"></span></p>
+    <p>조회수: <span th:text="${community.commuHits}"></span></p>
+    </div>
+    <div class="contents">
+        <p><textarea th:text="${community.commuContents}" readonly></textarea></p>
+    </div>
+    <div class="image-container">
+        <span th:each="fileName: ${community.storedFileName}">
+        <img th:src="@{|/upload/${fileName}|}" alt="">
+        </span>
+    </div>
+    <!-- 목록, 수정, 삭제 -->
+
+    <div id="bo_ser">
+            <button onclick="listReq()" >목록</button>
+            <button onclick="updateReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">수정</button>
+            <button class="redBtn" onclick="deleteReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">삭제</button>
+            <button onclick="admindeleteReq()" sec:authorize="hasRole('ROLE_ADMIN')">블라인드</button>
+    </div>
+</div>
+
+
+
+
 
 <!--댓글 작성 부분-->
-<div id="comment_write">
-    <input type="text" id="commentContents" placeholder="내용">
-     <button id="comment_write_btn" onclick="commentWrite()" sec:authorize="isAuthenticated()">작성</button>
+<!--<div id="comment_write">-->
+<!--    <input type="text" id="commentContents" placeholder="내용">-->
+<!--     <button id="comment_write_btn" onclick="commentWrite()" sec:authorize="isAuthenticated()">작성</button>-->
+<!--</div>-->
+<!--- 댓글 입력 폼 -->
+<div class="dap_ins">
+<!--        <input type="text" id="commentContents" placeholder="내용">-->
+        <div style="margin-top:10px; ">
+            <textarea type="text" id="commentContents" placeholder="내용" ></textarea>
+            <button id="comment_write_btn" onclick="commentWrite()" sec:authorize="isAuthenticated()">작성</button>
+        </div>
 </div>
 
 <!--댓글 출력 부분-->
 <div id="comment_list">
-    <table>
-        <tbody>
-            <tr>
-                <th>작성자</th>
-                <th>내용</th>
-                <th>작성시간</th>
-            </tr>
-            <tr th:each="comment: ${commentList}">
-                <td th:text="${comment.getUserNickname()}"></td>
-                <td th:text="${comment.commentContents}"></td>
-                <td th:text="*{#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd HH:mm')}"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="dap_ins">
+        <form th:each="comment: ${commentList}">
+            <p> <span th:text="${comment.getUserNickname()}"></span></p>
+            <div style="margin-top:10px; ">
+                <textarea  th:text="${comment.commentContents}" readonly></textarea>
+            </div>
+            <p> <span  th:text="*{#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd HH:mm')}"></span></p><br>
+        </form>
+    </div>
 </div>
 
 
@@ -92,26 +94,29 @@
                 "boardId": id
             },
             success: function (res){
+                const input = document.getElementById('commentContents');
+                if (input.value.trim() == ""){
+                    alert("내용은 넣고 작성 버튼을 눌러주세요")
+                    return;
+                }
                 console.log("요청성공", res);
-                let output = "<table>";
-                output += "<tr>";
-                output += "<th>작성자</th>";
-                output += "<th>내용</th>";
-                output += "<th>작성시간</th></tr>";
+                    let output = "<form>";
+
                 for (let i in res) {
                     let commentTime = new Date(res[i].commentCreatedTime);
                     let formattedDateTime = commentTime.toISOString().slice(0, 19).replace("T", " "); // Format as 'yyyy-MM-dd HH:mm:ss'
 
 
-                    output += "<tr>";
-                    // output += "<td>" + res[i].id + "</td>";
-                    output += "<td>" + res[i].userNickname + "</td>"; // 작성자
-                    output += "<td>" + res[i].commentContents + "</td>";
-                    // output += "<td>" + res[i].commentCreatedTime + "</td>";
-                    output += "<td>" + formattedDateTime + "</td>";
-                    output += "</tr>";
+                    output += "<p>" + res[i].userNickname + "</p>"; // 작성자
+                    output += "<div>";
+                    output += "<textarea>" + res[i].commentContents + "</textarea>";
+                    output += "</div>";
+                    output += "<p>";
+                    output += "<span>" + formattedDateTime + "</span>";
+                    output += "</p>";
                 }
-                output += "</table>";
+                    output += "</form>";
+                // output += "</table>";
                 document.getElementById('comment_list').innerHTML = output;
                 document.getElementById('commentContents').value = '';
             },
