@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    color: #6a6f8c;
+    background: #c8c8c8;
+    font: 600 16px/18px 'Open Sans', sans-serif;
+}
+
+.sign-in {
+    display: none; /* 라디오 버튼 숨기기 */
+}
+
+.tab {
+    font-size: 22px; /* 라벨 폰트 크기 */
+    color: #fff; /* 라벨 텍스트 색상 */
+    margin-right: 15px; /* 라벨 우측 여백 */
+    padding-bottom: 5px; /* 라벨 하단 여백 */
+    margin: 0 15px 10px 0; /* 라벨 마진 설정 */
+    display: inline-block; /* 인라인 블록 요소로 표시 */
+    border-bottom: 2px solid transparent; /* 하단 테두리 */
+}
+
+/* 선택된 탭 스타일 */
+.sign-in:checked + .tab,
+.sign-up:checked + .tab {
+    color: #fff; /* 선택된 탭의 텍스트 색상 */
+    border-color: #1161ee; /* 선택된 탭의 테두리 색상 */
+}
+*,:after,:before{box-sizing:border-box}
+.clearfix:after,.clearfix:before{content:'';display:table}
+.clearfix:after{clear:both;display:block}
+a{color:inherit;text-decoration:none}
+
+
+.login-wrap {
+    width: 100%;
+    margin: auto;
+    max-width: 525px;
+    min-height: 670px;
+    position: relative;
+    background: url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
+}
+
+.login-html {
+    /*width: calc(100% - 140px); !* 오른쪽과 왼쪽에 각각 70px의 여백을 제외한 크기로 설정합니다. *!*/
+    width: 100%; /* 오른쪽과 왼쪽에 각각 70px의 여백을 제외한 크기로 설정합니다. */
+    height: 100%;
+    position: absolute;
+    padding: 90px 70px 50px 70px;
+    background: rgba(40, 57, 101, .9);
+}
+
+.login-form .group {
+    margin-bottom: 15px;
+}
+
+.login-form .group .label,
+.login-form .group .input,
+.login-form .group .button {
+    width: 100%;
+    color: #fff;
+    display: block;
+}
+
+.login-form .group .input,
+.login-form .group .button {
+    border: none;
+    padding: 15px 20px; /* 로그인 버튼과 동일한 패딩 적용 */
+    border-radius: 25px;
+    background: rgba(255, 255, 255, .1);
+    box-sizing: border-box; /* 입력 요소의 패딩과 테두리가 요소의 크기에 포함되도록 설정 */
+    margin: 0 0px; /* 좌우 여백 설정 */
+}
+
+.login-form .group input[data-type="password"] {
+    text-security: circle;
+    -webkit-text-security: circle;
+}
+
+.login-form .group .label {
+    color: #aaa;
+    font-size: 12px;
+}
+
+.login-form .group .button {
+    background: #1161ee;
+    cursor: pointer; /* 커서 모양 변경 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    text-transform: uppercase; /* 텍스트 대문자로 변환 */
+    transition: background 0.3s ease; /* 배경색 변경에 대한 애니메이션 효과 설정 */
+}
+
+.login-form .group .check:checked + label .icon:before {
+    transform: scale(1) rotate(45deg);
+}
+
+.login-form .group .check:checked + label .icon:after {
+    transform: scale(1) rotate(-45deg);
+}
+
+.hr {
+    height: 2px;
+    margin: 30px 0 30px 0;
+    background: rgba(255, 255, 255, .2);
+}
+
+.foot-lnk {
+    text-align: center; /* 내용을 가운데 정렬합니다. */
+    display: flex;
+}
+
+.foot-lnk a {
+    color: #fff;
+    font-size: medium;
+    display: inline-block;
+    width: 50%; /* 각 링크의 너비를 50%로 설정하여 두 링크가 동일한 너비를 가지게 합니다. */
+    text-align: center; /* 링크의 텍스트를 가운데 정렬합니다. */
+    text-decoration: none;
+}
+
+.foot-lnk a:first-child {
+    text-align: left; /* 첫 번째 링크는 왼쪽으로 정렬합니다. */
+}
+
+.foot-lnk a:last-child {
+    text-align: right; /* 두 번째 링크는 오른쪽으로 정렬합니다. */
+}

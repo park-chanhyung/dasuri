@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/login.css}">
+<!--    Sweetalert2 사용 선언 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.10/dist/sweetalert2.min.js"></script>
+
+    <title>로그인</title>
+    <style>
+        .my-custom-popup-class {
+            width: 400px;
+            height: 150px;
+        }
+        .my-custom-popup-class .swal2-content {
+            font-size: 14px; /* 폰트 크기 조절 */
+            padding: 20px; /* 내부 패딩 조절 */
+            overflow-y: auto; /* 내용이 많을 경우 스크롤 추가 */
+            max-height: 100px; /* 내용 영역의 최대 높이 설정 */
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const error = urlParams.get('error');
+            const message = urlParams.get('message');
+
+            // 리디렉션을 처리하는 함수
+            function redirectToLogin() {
+                window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션
+            }
+
+            if (error && message) {
+                let swalOptions; // SweetAlert2 옵션 객체
+
+                // message 내용에 따라 다른 모달 설정
+                if (message === 'id_password') {
+                    swalOptions = {
+                        icon: 'warning',
+                        title: '로그인 실패!',
+                        text: '아이디 또는 비밀번호가 잘못되었습니다.'
+                    };
+                } else if (message === 'default') {
+                    swalOptions = {
+                        icon: 'question',
+                        title: '오류 발생',
+                        text: '알 수 없는 오류가 발생했습니다.'
+                    };
+                } else {
+                    swalOptions = {
+                        icon: 'error',
+                        title: '비활성화된 계정',
+                        html: decodeURIComponent(message)
+                    };
+                }
+
+                // SweetAlert2 모달을 띄우고, 확인 버튼 클릭 후 리디렉션
+                Swal.fire(swalOptions).then(redirectToLogin);
+            }
+        });
+    </script>
+<!--    <script>-->
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+<!--            const urlParams = new URLSearchParams(window.location.search);-->
+<!--            const error = urlParams.get('error');-->
+<!--            const message = urlParams.get('message');-->
+
+<!--            // if (error && message) {-->
+<!--            //     let modalOptions = { // 기본 모달 옵션 설정-->
+<!--            //         icon: 'error',-->
+<!--            //         title: '오류 발생!',-->
+<!--            //         html: decodeURIComponent(message),-->
+<!--            //     };-->
+<!--            //     console.log(message);-->
+<!--            //     // message 내용에 따라 다른 모달 설정-->
+<!--            if(error && message){-->
+<!--                if (message === 'id_password') {-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'warning',-->
+<!--                        title: '로그인 실패!',-->
+<!--                        text: '아이디 또는 비밀번호가 잘못되었습니다.'-->
+<!--                    }).then(() => {-->
+<!--                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션-->
+<!--                    });-->
+<!--                }else if(message === 'default'){-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'question',-->
+<!--                        title: '오류 발생',-->
+<!--                        text: '알 수 없는 오류가 발생했습니다.'-->
+<!--                    }).then(() => {-->
+<!--                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션-->
+<!--                    });-->
+<!--                }else{-->
+<!--                    Swal.fire({-->
+<!--                        icon: 'error',-->
+<!--                        title: '비활성화된 계정',-->
+<!--                        html: decodeURIComponent(message)-->
+<!--                    }).then(() => {-->
+<!--                        window.location.href = '/login'; // 확인을 누르면 로그인 페이지로 리디렉션-->
+<!--                    });-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+
+<!--    </script>-->
+
+</head>
+<body>
+
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="login-wrap">
+    <div class="login-html">
+        <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">로그인</label>
+        <div class="login-form">
+            <form th:action="@{/login}" method="post" name="loginForm">
+            <div class="sign-in-htm">
+                <div class="group">
+                    <label for="userId" class="label">아이디</label>
+                    <input id="userId" name="userId" type="text" class="input">
+                </div>
+                <div class="group">
+                    <label for="userPwd" class="label">비밀번호</label>
+                    <input id="userPwd" name="userPwd" type="password" class="input" data-type="password">
+                </div>
+                <div class="group">
+                    <input id="member_remember" type="checkbox" class="check" checked>
+                    <label for="member_remember"><span class="icon"></span>로그인 정보 기억하기</label>
+                </div>
+                <div class="group">
+                    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+<!--                    <input type="submit" class="button" value="로그인">-->
+
+
+                    <input type="submit" class="button" value="로그인" id="alertStart">
+
+
+
+                </div>
+                <div class="hr"></div>
+                <div class="foot-lnk">
+                    <a href="/find_user">아이디/비밀번호 찾기</a>
+                    <a href="/sign_up">회원가입</a>
+                </div>
+            </div>
+            <!--div sign-in-htm end-->
+            </form>
+        </div>
+    </div>
+</div>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>관리자 페이지 : 푸터 (오른쪽 섹션)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+</head>
+<body>
+
+        <div th:fragment="admin_footer" class="right-content">
+			<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+			<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+
+          <div class="user-info">
+			  <h4 class="blue">관리자 님 환영합니다!</h4>
+			  <a href="index"> 메인으로>> </a>
+          </div>
+
+          <div class="active-calories">
+			  <h4>일간 리포트</h4>
+			  <ul>
+				  <li><b>커뮤니티 수</b> : <span th:text="${report.commuCount}"></span></li>
+				  <li><b>문의 수</b> : <span th:text="${report.moonCount}"></span></li>
+				  <li><b>가입 수</b> : <span th:text="${report.signCount}"></span></li>
+			  </ul>
+          </div>
+
+          <div class="friends-activity">
+            <div class="card-container">
+            <h4>신규 문의글 <span class="red_new">new!</span></h4>
+              <div class="card">
+				  <table class="footer_moon">
+					  <tr>
+						  <th colspan="4">
+							  <a href="/admin_moon" class="moon_total">전체보기</a>
+						  </th>
+					  </tr>
+					  <tr th:each="moon: ${moons}" th:onclick="'moonView(\'' + ${moon.moonPkId} + '\', ' + (${moons.number} + 1) + ')'" class="yy">
+						  <td th:text="${moon.moonUserId}"></td>
+						  <td>
+							  <span th:utext="${moon.moonType == '1' ? '문의' : '신고'}" th:class="${moon.moonType == '1' ? 'moon_blue' : 'moon_red'}"></span>
+						  </td>
+						  <td th:text="${moon.moonTitle}"></td>
+						  <td><span class="red_new">new!</span></td>
+					  </tr>
+				  </table>
+              </div>
+            </div>
+          </div>
+			<script>
+				function moonView(moonPkId, currentPage) {
+					window.location.href = '/admin_moon_view/' + moonPkId + '?page=' + currentPage;
+				}
+			</script>
+        </div>
+          
+</body>
+</html>
+<!--<script type="text/javascript">-->
+<!--	function submitFooter(moonPkId) {-->
+<!--		document.getElementById("moonPkId").value = moonPkId;-->
+<!--		document.getElementById("moonView").submit();-->
+<!--	}-->
+<!--</script>-->
+
+
+
+

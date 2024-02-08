@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자페이지 : 고객관리 > 기사</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin_pagingBtn.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin_mem.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+</head>
+<body>
+
+<main>
+
+    <!--   헤더 -->
+    <nav th:replace="~{/adminad/fragment/admin_header :: admin_header2}"></nav>
+
+    <section class="content">
+        <div class="admin_one_area">
+
+            <div class="mem_top">
+                <div class="memBtn">
+                    <h1 class="blue">회원 리스트 (기사)</h1>
+                    <button class="mem_type_btn" type="button" onclick="location='admin_mem'">고객</button>
+                    <button class="mem_type_btn_ck" type="button" onclick="location='admin_mem_pro'">기사</button>
+                </div>
+
+                <!--  	  검색창 영역 -->
+                <form th:action="@{admin_pro_search}" id="pro_search">
+                    <div class="mem_search">
+                        <input type="text" class="moonsearchTerm" name="keyword" placeholder="아이디or이름or업체명or활동지역">
+                        <div class="searchButton" onclick="submitSearch()">
+                            <img class="search_img" src="/img/admin/search.png">
+                        </div>
+                    </div>
+                </form>
+                <!--		검색창 영역 끝 -->
+            </div>
+
+            <div class="mem_container">
+                <form th:action="@{admin_mem_pro_view}" method="post" id="view">
+                    <input type="hidden" name="proId" id="goId" value="">
+                    <table class="admin_mem_table">
+                        <tr>
+                            <th>유형</th>
+                            <th>아이디</th>
+                            <th>이름</th>
+                            <th>업체명</th>
+                            <th>활동지역</th>
+                            <th>가입일</th>
+                            <th>정지여부</th>
+                        </tr>
+                        <tr th:each="pro: ${pros}" class="result" th:data-proId="${pro.proId}" onclick="submitLook(this)">
+                            <td>기사</td>
+                            <td th:text="${pro.proId}"></td>
+                            <td th:text="${pro.proName}"></td>
+                            <td th:text="${pro.proNickname}"></td>
+                            <td th:text="${pro.proLegions}"></td>
+                            <td th:text="${#temporals.format(pro.signupDate, 'yy-MM-dd') ?: ''}"></td>
+                            <td th:if="${pro.suspensionExpiry != null}" th:text="${#temporals.format(pro.suspensionExpiry, '~yy-MM-dd')}"></td>
+                            <td th:if="${pro.suspensionExpiry == null}">-</td>
+                        </tr>
+                    </table>
+                </form>
+                <!-- 페이징 영역-->
+                <div class="mem_paging_wrap">
+                    <table class="mem_paging">
+                        <tr>
+                            <td> <a id="page1" class="arrow pprev" th:href="@{/admin_mem_pro(page=1)}"><<</a></td>
+                            <td><a id="page1" class="arrow prev" th:href="${pros.first} ? '#' : @{/admin_mem_pro(page=${pros.number})}"><</a></td>
+                            <td>
+								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+									<span class="current" th:if="${page == pros.number + 1}" th:text="${page}"></span>
+									<span th:unless="${page == pros.number + 1}">
+										<a th:href="@{/admin_mem_pro(page=${page})}" th:text="${page}"></a>
+									</span>
+								</span>
+                            </td>
+                            <td> <a id="page1" th:href="${pros.last} ? '#' : @{/admin_mem_pro(page=${pros.number + 2})}"> > </a> </td>
+                            <td> <a id="page1" th:href="@{/admin_mem_pro(page=${pros.totalPages})}"> >> </a> </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- 페이징 영역 끝 -->
+            </div>
+        </div>
+
+        <!--   푸터 -->
+        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
+
+    </section>
+</main>
+
+</body>
+</html>
+
+<script th:inline="javascript">
+    function submitLook(element) {
+        // input hidden에 값 넣기
+        var proId = element.getAttribute('data-proId');
+        document.getElementById('goId').value = proId;
+
+        var url = '/admin_mem_pro_view';
+        var formData = new FormData(document.getElementById('view'));
+
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                // 컨트롤러로 리턴하는 페이지를 페이지 이동이 아닌 팝업 형식으로 띄움
+                var newWindow = window.open('', '_blank', 'width=700,height=800');
+
+                // 화면의 가로세로 좌표를 이용하여 가운데 지점 설정
+                var centerX = (window.innerWidth - newWindow.outerWidth) / 2 + window.screenX;
+                var centerY = (window.innerHeight - newWindow.outerHeight) / 2 + window.screenY;
+                // 팝업 창을 화면 가운데로 세팅
+                newWindow.moveTo(centerX, centerY);
+                newWindow.document.write(data);
+            });
+    }
+    // 기사 검색
+    function submitSearch() {
+        // 폼 제출 (공지 검색)
+        document.getElementById('pro_search').submit();
+    }
+</script>

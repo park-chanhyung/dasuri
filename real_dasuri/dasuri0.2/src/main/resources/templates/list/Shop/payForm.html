@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay Form</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/star.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/itemDetail.css}">
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script src="/js/payment.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="/js/payform.js"></script>
+    <style>
+        .col-md-6{
+            width: 70%;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="container py-5">
+    <div class="row">
+<!--         Left Column: Product Information-->
+                <div class="col-md-6">
+                    <div class="card">
+                        <img style="max-width: 270px; max-height: 270px;" th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="card-img-top">
+                        <div class="card-body">
+                            <h2 th:text="${item.itemname}" class="card-title"></h2>
+                            <p class="card-text">브랜드: <span th:text="${item.seller}"></span></p>
+                            <p class="card-text">가격: <span th:text="${item.price}"></span></p>
+                            <p class="card-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">평점:
+                                <span th:each="star : ${#numbers.sequence(1, avgRating)}" style="display: inline-block;">
+                <img class="img-star" width="30px" height="30px" th:src="@{/img/shop/statpoint.png}" alt="star"/>
+            </span>
+                                <span th:text="'(' + ${avgRating} + ')'"></span>
+                            </p>
+                            <p th:if="${avgRating == null}" class="card-text">평가된 리뷰가 없습니다.</p>
+                            <p class="card-text">요약: <span th:text="${item.shortinfo}"></span></p>
+                            <p class="card-text">제품설명: <span th:text="${item.iteminfo}"></span></p>
+                            <p class="card-text">배송 정보: <span th:text="${item.deliveryinfo}"></span></p>
+                        </div>
+                    </div>
+                </div>
+        <!-- Right Column: Order Details -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">주문하기</h2>
+                    <form th:action="@{/shop/payForm}" th:object="${payForm}" method="post" id="payment-form">
+                        <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                            <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+                        </div>
+                        <input type="hidden" id="userId" name="userId" th:value="${username}">
+                        <div class="form-group">
+                            <label for="payusername">구매자</label>
+                            <input type="text" class="form-control" id="payusername" name="payusername">
+                        </div>
+                        <input type="hidden" id="itemname" name="itemname" th:value="${itemname}">
+                        <input type="hidden" id="price" name="price" th:value="${price}">
+                        <div class="form-group">
+                            <label for="payrequest">요청사항</label>
+                            <input type="text" class="form-control" id="payrequest" name="payrequest">
+                        </div>
+                        <div class="form-group">
+                            <label for="userAddr">주소</label>
+                            <div class="input-group">
+                                <input class="form-control" type="text" id="sample6_postcode" name="userPostcode"
+                                       placeholder="우편번호">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button"
+                                            onclick="sample6_execDaumPostcode()">우편번호 찾기
+                                    </button>
+                                </div>
+                            </div>
+                            <input class="form-control mt-2" type="text" id="sample6_address" name="userAddress"
+                                   placeholder="주소">
+                            <input class="form-control mt-2" type="text" id="sample6_detailAddress"
+                                   name="userDetailaddress" placeholder="상세주소">
+                            <input class="form-control mt-2" type="text" id="sample6_extraAddress"
+                                   name="userExtraaddress" placeholder="참고항목">
+                        </div>
+                        <div class="form-group">
+                            <label for="number">연락처</label>
+                            <input type="text" class="form-control" id="number" name="number">
+                        </div>
+                        <input type="hidden" id="paycheck" name="paycheck" value="0">
+                    </form>
+                        <button id="pay-button" class="btn btn-primary btn-lg"
+                                th:data-price="${price}"
+                                th:data-itemname="${itemname}">
+                            결제하기
+                        </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+
+
+</body>
+
+</html>

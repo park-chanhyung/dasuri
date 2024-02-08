@@ -1,0 +1,51 @@
+.moon_total{
+    width: 180px;
+}
+.footer_moon{
+    border-collapse: collapse;
+    width: 90%;
+}
+.footer_moon tr:nth-child(1){
+    height: 40px;
+    padding-bottom: 10px;
+}
+.footer_moon tr:nth-child(1) th a{
+    font-size: 0.9em;
+    text-decoration: none;
+    font-weight: 700;
+    color: white;
+    background: #4148C1;
+    padding: 5px;
+    border-radius: 5px 2px;
+}
+.footer_moon tr:nth-child(1) th a:hover{
+    background: #393939;
+    cursor: pointer;
+}
+.footer_moon tr td:nth-child(1){
+    text-align: left;
+    width: 90px;
+    font-weight: 700;
+}
+.footer_moon tr td:nth-child(2){
+    text-align: center;
+    width: 50px;
+}
+
+.yy{
+    cursor: pointer;
+}
+.yy:hover{
+    background: #efefef;
+}
+.red_new{
+    font-size: 0.8em;
+    color: red;
+    font-weight: 700;
+}
+.moon_red{
+    color: firebrick;
+}
+.moon_blue{
+    color: #6192FA;
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--xmlns:th="http://www.thymeleaf.org"-->
+<head>
+    <meta charset="UTF-8">
+    <title>커뮤니티 게시판</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/community_list.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/pagingBtn.css}">
+
+</head>
+<body>
+<!--네브바-->
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="title">
+    <h3>커뮤니티 게시판</h3>
+</div>
+
+
+<div class="center_title">
+<!--  	  검색창 영역 -->
+<form th:action="@{/board/search}" id="notice_search">
+    <div class="faq_search">
+        <input type="text" class="faq_searchTerm" name="community_keyword" placeholder="제목 또는 내용으로 검색하세요.">
+        <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
+    </div>
+</form>
+    <div class="search-keyword">
+    <h4 th:text="'( '+${keyword}+' )으로 검색한 결과입니다 '" class="red"></h4>
+    &nbsp;&nbsp;
+    <h4 class="red"><a href="/board/Community_list"> 전체보기 </a></h4>
+    </div>
+<!--		검색창 영역 끝 -->
+
+<button class="button1" onclick="saveReq()">글작성</button>
+
+
+<!--    커뮤니티 리스트 영역 -->
+<div class="notice_area">
+    <div class="notice_table_area">
+        <table class="notice_table">
+            <tr>
+                <th>구분</th>
+                <th>작성자</th>
+                <th>제목</th>
+                <th>수정일자</th>
+                <th>조회수</th>
+            <tr th:each="Results: ${searchc}">
+                <td th:text="${Results.id}" style="color:#6192FA;font-weight: bold"></td>
+                <td th:text="${Results.getUserNickname()}"></td>
+                <td>
+                    <span class="yellow"
+                          th:utext="${#strings.replace(Results.commuTitle, keyword, '<span>' + keyword + '</span>')}"
+                          th:onclick="'noticeView(\'' + ${Results.id} + '\', ' + (${searchc.number} + 1) + ')'"></span>
+                </td>
+<!--                <td>-->
+<!--                            <span th:href="@{|/board/Community_list/${Results.id}|}" th:text="${Results.commuTitle}"></span>-->
+<!--                </td>-->
+
+                <td th:text="*{#temporals.format(Results.commuCreatedTime, 'yyyy-MM-dd')}"></td>
+                <td th:text="${Results.commuHits}"></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+    <!-- 첫번째 페이지로 이동 -->
+    <!-- /board/paging?page=1 -->
+    <div class="page_wrap">
+        <div class="page_nation">
+
+            <a id="page1" class="arrow pprev" th:href="@{/board/search(page=1, community_keyword=${keyword})}"></a>
+            <!-- 이전 링크 활성화 비활성화 -->
+            <!-- boardList.getNumber() 사용자:2페이지 getNumber()=1 -->
+            <a id="page1" class="arrow prev"
+               th:href="${searchc.first} ? '#' : @{/board/search(page=${searchc.number}, community_keyword=${keyword})}"></a>
+
+            <!-- 페이지 번호 링크(현재 페이지는 숫자만)
+                    for(int page=startPage; page<=endPage; page++)-->
+            <span class="page" th:each="page: ${#numbers.sequence(startpage ?: 1, endPage ?: 1)}">
+<!-- 현재페이지는 링크 없이 숫자만 -->
+                <!-- <span th:if="${page == communityList.number + 1}" th:text="${page}"></span>-->
+ <span th:if="${page == searchc.number + 1}">
+  <span th:text="${page}"></span>
+ </span>
+                <!-- 현재페이지 번호가 아닌 다른 페이지번호에는 링크를 보여줌 -->
+    <span  th:unless="${page == searchc.number + 1}">
+        <a  th:href="@{/board/search(page=${page}, community_keyword=${keyword})}" th:text="${page}"></a>
+    </span>
+
+</span>
+
+            <!-- 다음 링크 활성화 비활성화
+                사용자: 2페이지, getNumber: 1, 3페이지-->
+            <a id="page1" class="arrow next" th:href="${searchc.last} ? '#' : @{/board/search(page=${searchc.number + 2},community_keyword=${keyword})}"></a>
+            <!-- 마지막 페이지로 이동 -->
+            <a id="page1" class="arrow nnext" th:href="@{/board/search(page=${searchc.totalPages},community_keyword=${keyword})}"></a>
+        </div>
+    </div>
+</body>
+
+<!--푸터-->
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+
+<script >
+
+    const saveReq = () => {
+        //글쓰기
+        location.href = "/board/community_post";
+    }
+    function submitSearch() {
+        // 폼 제출 (검색)
+        document.getElementById('/board/search').submit();
+    }
+
+    <!--    게시물 보기 (페이지 번호 가지고감)-->
+    function noticeView(id, currentPage) {
+        window.location.href = '/board/Community_list/' + id + '?page=' + currentPage;
+    }
+</script>
+
+</html>

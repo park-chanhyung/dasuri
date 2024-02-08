@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>가입 하기</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
+</head>
+
+<body>
+
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+<section class="faq">
+    <div class="containers">
+        <div class="center_main_container" onclick="location='/user_signup'">
+            <img src="/img/center/faq.png">
+            <div class="pbox">
+                <p class="big">일반</p>
+            </div>
+        </div>
+        <div class="center_main_container" onclick="location='/pro_signup'">
+            <img src="/img/center/moon.png" >
+            <div class="pbox">
+                <p class="big">기사</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+</body>
+</html>
+</body>
+</html>

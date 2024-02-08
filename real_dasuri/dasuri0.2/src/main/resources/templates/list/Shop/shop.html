@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/shop.css}">
+</head>
+
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+<!--<a th:href="@{/shop/create}">상품 등록하기</a>-->
+<a th:href="@{/shop/create}" sec:authorize="hasRole('ADMIN')">상품 등록하기</a>
+
+<!-- 검색 폼 -->
+
+<form action="/shop/search"  method="get"  id="shop-search">
+    <div class="shop_search">
+        <input type="text" class="shop-searchTem" name="keyword" placeholder="제목 또는 내용으로 검색하세요.">
+        <span class="shop_searchButton" onclick="submitSearch()"><img class="shop_search_img" src="/img/admin/search.png"></span>
+    </div>
+</form>
+<div class="shop-body">
+    <div class="row">
+        <div class="col-md-3" th:each="item, loop : ${paging}">
+            <div class="card mb-4">
+                <a th:href="@{|/shop/detail/${item.id}|}">
+                    <img th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${item.itemname}"></h5>
+                        <p class="card-text" th:text="${item.shortinfo}"></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span>가격: </span>
+                            <span th:text="${item.price}"></span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>평점: </span>
+                            <span th:if="${item.avgStar != null}">
+                              <span th:each="star : ${#numbers.sequence(1, item.avgStar)}">
+                               <img style="width: 20px; height: 20px;" class="img-star" th:src="@{/img/shop/statpoint.png}" alt="star"/>
+                             </span>
+                            <span th:text="'(' + ${item.avgStar} + ')'" class="span-text"></span>
+                             </span>
+                            <span th:unless="${item.avgStar != null}">
+                                 평점이 없습니다.
+                             </span>
+                        </li>
+                        <li class="list-group-item">
+                            <span>등록일: </span>
+                            <span th:text="${#temporals.format(item.regtime, 'yyyy-MM-dd')}"></span>
+                        </li>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 페이징처리 시작 -->
+<div th:if="${!paging.isEmpty()}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{|?page=${paging.number-1}|}">
+                <span>이전</span>
+            </a>
+        </li>
+        <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"
+            th:classappend="${page == paging.number} ? 'active'"
+            class="page-item">
+            <a th:text="${page}" class="page-link" th:href="@{|?page=${page}|}"></a>
+        </li>
+        <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">
+            <a class="page-link" th:href="@{|?page=${paging.number+1}|}">
+                <span>다음</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- 페이징처리 끝 -->
+<!--푸터-->
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+<script>
+    function submitSearch() {
+        // 폼 제출 (검색)
+        document.getElementById('shop-search').submit();
+    }
+</script>
+</body>
+</html>

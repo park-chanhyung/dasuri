@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/bootstrap.min.css}">
+    <style>
+        .shop-body{
+            width: 60%;
+            max-height: 1300px;
+
+            margin: auto;
+        }
+        .card {
+            width: 250px;
+            height: 400px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 5px;
+            margin: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+        .card img {
+            margin: auto;
+            padding: 12px;
+            width: 100%;
+            max-height: 180px;
+            min-height: 180px;
+            height: 70%;
+            border-radius: 18px;
+        }
+        .card-title {
+            text-align: left;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .card-text {
+            text-align: left;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .card-body{
+            text-align: left;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .shop_search {
+            width: 40%;
+            height: 40px;
+            display: flex;
+            /*position: relative;*/
+            margin: 20px auto;
+            margin-bottom: 10px;
+            left: 30px;
+            overflow: clip;
+        }
+        .shop-searchTem {
+            display: inline-block;
+            width: 100%;
+            border: 3px solid #4148C1;
+            border-right: none;
+            height: 35px;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+            color: #9DBFAF;
+            text-overflow:ellipsis;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .shop-searchTem:focus{
+            color: #4148C1;
+        }
+        .shop_searchButton {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            border: 1px solid #4148C1;
+            background: #4148C1;
+            border-radius: 0 5px 5px 0;
+            text-align: center;
+            cursor: pointer;
+        }
+        .shop_search_img{
+            width: 60%;
+            margin-top: 5px;
+        }
+        .null-search{
+            color: red;
+            font-weight: bold;
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<!--<form action="/shop/search" method="get">-->
+<!--    <input type="text" name="keyword" placeholder="검색어를 입력하세요">-->
+<!--    <button type="submit">검색</button>-->
+<!--</form>-->
+<form action="/shop/search"  method="get"  id="shop-search">
+    <div class="shop_search">
+        <input type="text" class="shop-searchTem" name="keyword" placeholder="제목 또는 내용으로 검색하세요.">
+        <span class="shop_searchButton" onclick="submitSearch()"><img class="shop_search_img" src="/img/admin/search.png"></span>
+    </div>
+</form>
+<div class="shop-body">
+    <div class="row row-cols-4">
+        <div th:if="${not #lists.isEmpty(searchResults)}" th:each="item : ${searchResults}" class="col">
+            <div class="card mb-4">
+                <a th:href="@{|/shop/detail/${item.id}|}">
+                    <img th:src="@{'http://localhost:9000' + ${item.filePath}}" alt="Item image" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${item.itemname}"></h5>
+                        <p class="card-text" th:text="${item.shortinfo}"></p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">가격 : <span th:text="${item.price}"></span></li>
+                        <li class="list-group-item">등록일 : <span th:text="${#temporals.format(item.regtime,'yyyy-MM-dd')}"></span></li>
+                    </ul>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- (검색결과) 페이징처리 시작 -->
+<div th:if="${!searchResults.isEmpty()}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${!searchResults.hasPrevious} ? 'disabled'">
+            <a class="page-link"
+               th:href="@{|?page=${searchResults.number - 1}&keyword=${keyword}|}">
+                <span>이전</span>
+            </a>
+        </li>
+        <li th:each="page: ${#numbers.sequence(0, searchResults.totalPages-1)}"
+            th:classappend="${page == searchResults.number} ? 'active'"
+            class="page-item">
+            <a th:text="${page}" class="page-link" th:href="@{|?page=${page}&keyword=${keyword}|}"></a>
+        </li>
+        <li class="page-item" th:classappend="${!searchResults.hasNext} ? 'disabled'">
+            <a class="page-link" th:href="@{|?page=${searchResults.number+1}&keyword=${keyword}|}">
+                <span>다음</span>
+            </a>
+        </li>
+    </ul>
+</div>
+<!-- 페이징처리 끝 -->
+
+<!--<div th:unless="${not #lists.isEmpty(searchResults)}">-->
+<!--    <p class="null-search">검색 결과가 없습니다.</p>-->
+<!--</div>-->
+
+<div th:if="${searchResults.isEmpty()}">
+    <p class="null-search">검색 결과가 없습니다.</p>
+</div>
+
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+<script>
+    function submitSearch() {
+    // 폼 제출 (검색)
+    document.getElementById('shop-search').submit();
+    }
+</script>
+</body>
+</html>

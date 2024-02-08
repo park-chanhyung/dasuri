@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/procardtest.css}">
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $(".loc-button").click(function () {
+                    var loc = $(this).data('loc');
+                    $.ajax({
+                        type: "GET",
+                        url: "/loc_pro",
+                        data: {loc: loc},
+                        success: function (data) {
+                            $("#procard-list").html(data);
+                        },
+                        error: function () {
+                            alert("Error loading data.");
+                        }
+                    });
+                });
+            });
+        </script>
+</head>
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+<section>
+    <h2>전문가찾기</h2>
+        <div>
+            <button class="loc-button" data-loc="서구">서구</button>
+            <button class="loc-button" data-loc="금정구">금정구</button>
+            <!-- 추가 지역 버튼 -->
+        </div>
+    <!--    <ul class="shop-pets">-->
+    <!--        <li th:each="procard : ${procardList}" class="card-large card-light" id="sup-dog">-->
+    <!--            &lt;!&ndash; 이미지 동적으로 불러오기 &ndash;&gt;-->
+    <!--            <div class="card-image"><img th:src="${procard.profileImagePath}" alt="프로필 이미지"></div>-->
+    <!--            <ul>-->
+    <!--                <li><span th:text="${procard.proName}"></span></li>-->
+    <!--                <li><span th:text="${procard.proLegions}"></span></li>-->
+    <!--                <li>업채명: <span th:text="${procard.proNickname}"></span></li>-->
+    <!--                <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined"></span></button>-->
+    <!--            </ul>-->
+    <!--        </li>-->
+    <!--    </ul>-->
+
+    <ul class="shop-pets">
+
+        <li th:each="loccard : ${locList}" class="card-large card-light" id="sup-dog">
+            <div class="card-image"><img th:src="${loccard.profileImagePath}" alt="프로필 이미지"></div>
+            <ul>
+                <li><span th:text="${loccard.proName}"></span></li>
+                <li><span th:text="${loccard.proLegions}"></span></li>
+                <li>업채명: <span th:text="${loccard.proNickname}"></span></li>
+                <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined"></span></button>
+            </ul>
+        </li>
+    </ul>
+    <!--    &lt;!&ndash;페이징 영역&ndash;&gt;-->
+    <!--    <div class="mem_paging_wrap">-->
+    <!--        <table class="mem_paging">-->
+    <!--            <tr>-->
+    <!--                <td><a id="page1" class="arrow pprev" th:href="@{/prolist(page=1)}"><<</a> </td>-->
+    <!--                <td>&lt;!&ndash;/*@thymesVar id="first" type=""*/&ndash;&gt;-->
+    <!--                &lt;!&ndash;/*@thymesVar id="first" type=""*/&ndash;&gt;-->
+    <!--                <a id="page1" class="arrow prev" th:href="${cardList.first} ? '#' : @{/prolist(page=${cardList.number})}"><</a></td>-->
+    <!--                <td>-->
+    <!--								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">-->
+    <!--									<span class="current" th:if="${page == cardList.number + 1}" th:text="${page}"></span>-->
+    <!--									<span th:unless="${page == cardList.number + 1}">-->
+    <!--										<a th:href="@{/prolist(page=${page})}" th:text="${page}"></a>-->
+    <!--									</span>-->
+    <!--								</span>-->
+    <!--                </td>-->
+    <!--                <td> <a id="page1" th:href="${cardList.last} ? '#' : @{/prolist(page=${cardList.number + 2})}"> > </a> </td>-->
+    <!--                <td> <a id="page1" th:href="@{/prolist(page=${cardList.totalPages})}"> >> </a> </td>-->
+    <!--            </tr>-->
+    <!--        </table>-->
+    <!--    </div>-->
+    <!--&lt;!&ndash;     페이징 영역 끝 &ndash;&gt;-->
+</section>
+<!--<section>-->
+<!--    <h2>전문가찾기</h2>-->
+<!--    <ul class="shop-pets">-->
+<!--        <li class="card-large card-light" id="sup-dog">-->
+<!--            <div class="card-image"><img src=""></div>-->
+<!--            <ul>-->
+<!--                <li><td th:text="${pro.proName}"></td></li>-->
+<!--                <li><td th:text="${pro.proLegions}"></td></li>-->
+<!--                <li>업채명: <td th:text="${pro.proNickname}"></td></li>-->
+<!--                <button class="btn-outline-light">채팅 상담하기<span class="material-symbols-outlined">-->
+<!--                        </span></button>-->
+<!--            </ul>-->
+<!--        </li>-->
+<!--    </ul>-->
+<!--</section>-->
+<!--<table>-->
+<!--    <tr>-->
+<!--        <th>proid</th>-->
+<!--        <th>pro_legions</th>-->
+<!--        <th>pro_name</th>-->
+<!--        <th>memberName</th>-->
+<!--        <th>pro_nickname</th>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td th:text="${pro.proId}"></td>-->
+<!--        <td th:text="${pro.proLegions}"></td>-->
+<!--        <td th:text="${pro.proName}"></td>-->
+<!--        <td th:text="${pro.proNickname}"></td>-->
+<!--    </tr>-->
+<!-- query string /member?id=1
+            rest api /member/1 -->
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+</body>
+</html>

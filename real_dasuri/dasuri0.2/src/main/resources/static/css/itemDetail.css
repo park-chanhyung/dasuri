@@ -1,0 +1,95 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1071px;
+    margin: 5rem auto;
+    padding: 0 2rem;
+    display: flex;
+}
+
+.col-left,
+.col-right {
+    flex: 1;
+}
+
+.col-left {
+    padding-right: 2rem;
+}
+
+.col-right {
+    background-color: #F9E4D4;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+h2 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.price {
+    color: #6192FA;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    color: #666;
+}
+
+.actions {
+    text-align: center;
+    margin-top: auto;
+}
+
+.btn-modify, .btn-delete, #btn-popup {
+    text-decoration: none;
+    color: #fff;
+    background-color: #6192FA;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-modify, .btn-delete {
+    border: 1px solid #6192FA;
+    color: #6192FA;
+    background-color: transparent;
+}
+
+.btn-modify:hover, .btn-delete:hover {
+    background-color: #6192FA;
+    color: #fff;
+}
+
+#btn-popup {
+    background-color: #FFD700; /* 노란색 */
+}
+
+#btn-popup:hover {
+    background-color: #FADA5E; /* 밝은 노란색 */
+}

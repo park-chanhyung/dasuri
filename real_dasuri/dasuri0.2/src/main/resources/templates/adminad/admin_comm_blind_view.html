@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 조회 (기사)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mem_view.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+</head>
+<body>
+    <div class="blind_view_container">
+        <h1>블라인드 게시물 조회</h1>
+        <hr>
+        <form th:action="@{admin_mem_user_view}" method="post" id="view">
+            <input type="hidden" name="userId" id="goId" value="">
+            <table class="blind_view_table">
+                <tr>
+                    <th>회원 유형</th>
+                    <td th:text="${comm.role == 'ROLE_USER' ? '고객' : (comm.role == 'ROLE_PRO' ? '기사' : '확인불가')}"></td>
+                </tr>
+                <tr>
+                    <th>아이디</th>
+                    <td th:text="${comm.userID}"></td>
+                </tr>
+                <tr>
+                    <th th:text="${comm.role == 'ROLE_USER' ? '닉네임' : (comm.role == 'ROLE_PRO' ? '업체명' : '확인불가')}"></th>
+                    <td th:text="${comm.userNickname}"></td>
+                </tr>
+                <tr>
+                    <th>마지막 수정일</th>
+                    <td th:if="${comm.comumUpdatedTime != null}" th:text="${#temporals.format(comm.comumUpdatedTime, 'yy-MM-dd HH:mm')}"></td>
+                    <td th:unless="${comm.comumUpdatedTime != null}" th:text="${#temporals.format(comm.commuCreatedTime, 'yy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <th colspan="2">제목</th>
+                </tr>
+                <tr>
+                    <td colspan="2" th:text="${comm.commuTitle}"></td>
+                </tr>
+                <tr>
+                    <th colspan="2">내용</th>
+                </tr>
+                <tr>
+                    <td colspan="2" th:text="${comm.commuContents}"></td>
+                </tr>
+                <tr th:if="${comm.fileAttached == 1}">
+                    <td colspan="2" th:each="fileName: ${comm.storedFileName}">
+                        <p class="blind_img_p">(클릭 시 원본 이미지를 확인하실 수 있습니다.)</p>
+                        <img class="blind_img" th:src="@{|/upload/${fileName}|}" alt="" onclick="openImagePopup(this.src)">
+                    </td>
+                </tr>
+                <td colspan="2" onclick="unBlind()">
+                    <p class="unblind">블라인드 해제</p>
+                </td>
+                <tr>
+                    <td colspan="2" th:data-userid="${comm.userID}" onclick="submitLook(this)">
+                        <p class="go_profile">회원 정보 보러가기 >></p>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <form th:action="@{/admin_comm_unBlind}" id="unb" onsubmit="return confirm('블라인드 해제하시겠습니까?');">
+            <input type="hidden" th:value="${comm.id}" name="id">
+        </form>
+    </div>
+</body>
+</html>
+<script th:inline="javascript">
+    function submitLook(element) {
+        // input hidden에 값 넣기
+        var userId = element.getAttribute('data-userid');
+        document.getElementById('goId').value = userId;
+
+        var url = '/admin_mem_user_view';
+        var formData = new FormData(document.getElementById('view'));
+
+        fetch(url, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(data => {
+                // 컨트롤러로 리턴하는 페이지를 페이지 이동이 아닌 팝업 형식으로 띄움
+                var newWindow = window.open('', '_blank', 'width=700,height=800');
+
+                // 화면의 가로세로 좌표를 이용하여 가운데 지점 설정
+                var centerX = (window.innerWidth - newWindow.outerWidth) / 2 + window.screenX;
+                var centerY = (window.innerHeight - newWindow.outerHeight) / 2 + window.screenY;
+                // 팝업 창을 화면 가운데로 세팅
+                newWindow.moveTo(centerX, centerY);
+                newWindow.document.write(data);
+            });
+    }
+    // 고객 검색
+    function unBlind() {
+        if (confirm('블라인드 해제하시겠습니까?')){
+            // 폼 제출 (블라인드 해제)
+            document.getElementById('unb').submit();
+        }
+    }
+    <!--	이미지 원본 보기 (팝업) -->
+    function openImagePopup(imageUrl) {
+        var popupWindow = window.open(imageUrl, 'Image Popup', 'width=800, height=600');
+        popupWindow.focus();
+    }
+</script>

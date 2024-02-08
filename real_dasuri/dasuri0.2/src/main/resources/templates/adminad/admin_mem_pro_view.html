@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 조회 (기사)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mem_view.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+</head>
+<body>
+    <div class="mem_view_container">
+        <h1>기사 정보 조회</h1>
+        <hr>
+        <table class="mem_view_table">
+            <tr>
+                <th>회원 유형</th>
+                <td>기사</td>
+            </tr>
+            <tr>
+                <th>아이디</th>
+                <td th:text="${pro.proId}"></td>
+            </tr>
+            <tr>
+                <th>닉네임</th>
+                <td th:text="${pro.proNickname}"></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td th:text="${pro.proName}"></td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td th:text="${pro.proPhone}"></td>
+            </tr>
+            <tr>
+                <th>활동지역</th>
+                <td th:text="${pro.proLegions}"></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <form th:action="@{/prolist}" method="post">
+                        <input type="hidden" name="proId" th:value="${pro.proId}">
+                        <input type="submit" value="기사 프로필 보러가기 >>" class="go_profile">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" th:if="${pro.suspensionExpiry == null}">
+                    <form th:action="@{/admin_suspendUser}" onsubmit="return confirm('회원을 정지 처리하시겠습니까?');">
+                        <input type="hidden" th:value="${pro.proId}" name="userId">
+                        <label for="duration">회원 정지:</label>
+                        <select name="duration" id="duration">
+                            <option value="7">7일</option>
+                            <option value="30">30일</option>
+                            <option value="40000">영구</option>
+                        </select>
+                        <input type="submit" value="정지">
+                    </form>
+                    <p>정지 처리는 신중히 결정하세요.</p>
+                </td>
+                <td colspan="2" th:if="${pro.suspensionExpiry != null}">
+                    <form th:action="@{/admin_resumeUser}" onsubmit="return confirm('정지 해제하시겠습니까?');">
+                        <input type="hidden" th:value="${pro.proId}" name="userId">
+                        <input type="submit" value="정지해제">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

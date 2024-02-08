@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자페이지 : 홈</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+</head>
+<body>
+<main>
+
+  <!--   헤더 -->
+  <nav th:replace="~{/adminad/fragment/admin_header :: admin_header1}"></nav>
+
+<!--  본문 -->
+
+  <section class="content">
+    <div class="left-content">
+      <div class="activities">
+        <h1 class="blue">사이트 분석</h1>
+        <div class="activity-container">
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>유형별 비율</h3>
+              <div class="ch1">
+                <!--그래프-->
+                <canvas id="myChart1"></canvas>
+              </div>
+            </div>
+
+            <div class="ch1_t">
+              <ul>
+                <li>총 회원수 : <span th:text="${totalUser}"></li>
+                <li><span class="t_1">●</span> 고객 : <span th:text="${userCount}"></span></li>
+                <li><span class="t_2">●</span> 기사 : <span th:text="${proCount}"></span></li>
+              </ul>
+            </div>
+
+          </div>
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>신규가입 수</h3>
+              <div class="ch2">
+                <!--그래프-->
+                <canvas id="myChart5"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="activities">
+        <div class="activity-container">
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>지역별 고객 수 top5</h3>
+              <div class="ch2">
+                <!--그래프-->
+                <canvas id="myChart_loc"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div class="image-container img-three">
+            <div class="overlay">
+              <h3>지역별 기사 수 top5</h3>
+              <div class="ch2">
+                <!--그래프-->
+                <canvas id="myChart_loc_pro"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--   푸터 -->
+    <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
+
+  </section>
+</main>
+<script th:inline="javascript">
+  var userCount = /*[[${userCount}]]*/ 0; // 전체 고객 수 데이터를 chart.js 에 전달
+  var proCount = /*[[${proCount}]]*/ 0; // 전체 기사 수 데이터를 chart.js 에 전달
+
+  // 신규가입 수 데이터를 chart.js 에 전달
+  var day0 = /*[[${day0}]]*/ 0; //오늘
+  var day1 = /*[[${day1}]]*/ 0; //1일 전
+  var day2 = /*[[${day2}]]*/ 0; //2일 전
+  var day3 = /*[[${day3}]]*/ 0; //3일 전
+  var day4 = /*[[${day4}]]*/ 0; //4일 전
+  var day5 = /*[[${day5}]]*/ 0; //5일 전
+  var day6 = /*[[${day6}]]*/ 0; //6일 전
+
+  // 지역별 고객 수를 chart.js에 전달
+  var userLocName0 = /*[[${userLocName0}]]*/ '';
+  var userLocAmount0 = /*[[${userLocAmount0}]]*/ 0;
+  var userLocName1 = /*[[${userLocName1}]]*/ '';
+  var userLocAmount1 = /*[[${userLocAmount1}]]*/ 0;
+  var userLocName2 = /*[[${userLocName2}]]*/ '';
+  var userLocAmount2 = /*[[${userLocAmount2}]]*/ 0;
+  var userLocName3 = /*[[${userLocName3}]]*/ '';
+  var userLocAmount3 = /*[[${userLocAmount3}]]*/ 0;
+  var userLocName4 = /*[[${userLocName4}]]*/ '';
+  var userLocAmount4 = /*[[${userLocAmount4}]]*/ 0;
+
+  // 지역별 기사 수를 chart.js에 전달 (전체 제외)
+  var proLocName0 = /*[[${proLocName0}]]*/ '';
+  var proLocAmount0 = /*[[${proLocAmount0}]]*/ 0;
+  var proLocName1 = /*[[${proLocName1}]]*/ '';
+  var proLocAmount1 = /*[[${proLocAmount1}]]*/ 0;
+  var proLocName2 = /*[[${proLocName2}]]*/ '';
+  var proLocAmount2 = /*[[${proLocAmount2}]]*/ 0;
+  var proLocName3 = /*[[${proLocName3}]]*/ '';
+  var proLocAmount3 = /*[[${proLocAmount3}]]*/ 0;
+  var proLocName4 = /*[[${proLocName4}]]*/ '';
+  var proLocAmount4 = /*[[${proLocAmount4}]]*/ 0;
+</script>
+<script src="/js/admin_chart.js"></script>
+</body>
+</html>

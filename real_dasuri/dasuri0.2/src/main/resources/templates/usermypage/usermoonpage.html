@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert title here</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin_pagingBtn.css}">
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/moon.css}">-->
+    <!--    <link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/center.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/moon.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/notice.css}">
+</head>
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+<main>
+
+    <!--   헤더 -->
+    <!--    <nav th:replace="~{/adminad/fragment/admin_header :: admin_header4}"></nav>-->
+
+    <section class="content">
+        <div class="center_title">
+            <h1>나의 문의 게시판</h1>
+            <h4>답변 글만 확인 가능합니다.</h4>
+
+            <!--  	  검색창 영역 -->
+            <form th:action="@{/notice_search}" id="notice_search">
+                <div class="faq_search">
+                    <input type="text" class="faq_searchTerm" name="notice_keyword" placeholder="제목 또는 내용으로 검색하세요.">
+                    <div class="faq_searchButton" onclick="submitSearch()"><img class="faq_search_img" src="/img/admin/search.png"></div>
+                </div>
+            </form>
+            <!--		검색창 영역 끝 -->
+        </div>
+        <!--        <div class="admin_one_area">-->
+
+        <!--            <h1 class="blue">나의 문의</h1>-->
+
+        <!--            &lt;!&ndash;  	  검색창 영역 &ndash;&gt;-->
+        <!--            <div class="search">-->
+        <!--                <input type="text" class="searchTerm" placeholder="제목or내용">-->
+        <!--                <div class="searchButton"><img class="search_img" src="/img/admin/search.png"></div>-->
+        <!--            </div>-->
+        <!--            &lt;!&ndash;		검색창 영역 끝 &ndash;&gt;-->
+
+        <div class="notice_area">
+            <div class="notice_table_area">
+                <form th:action="@{/usermoonpage}" method="post" id="moonView">
+                    <input type="hidden" id="moonPkId" name="moonPkId" value="">
+                    <table class="notice_table">
+                        <tr>
+                            <th colspan="2" style="width: 20%">회원</th>
+                            <!--                                <th>구분</th>-->
+                            <th>제목</th>
+                            <th>작성일</th>
+                            <th>상태</th>
+                        </tr>
+                        <tr th:each="moni: ${usermoni}" th:onclick="'usmoonView(\''+${moni.moonPkId}+'\', ' + (${usermoni.number} + 1) + ')'" class="moonTr">
+                            <td th:text="${moni.moonUserId}"></td>
+                            <!--                                <td th:utext="${moni.moonRole == '1' ? '고객' : '기사'}"></td>-->
+                            <td th:utext="${moni.moonType=='1' ? '문의' : '신고'}" th:class="${moni.moonType=='1' ? 'moon_blue' : 'moon_red'}"></td>
+                            <td th:text="${moni.moonTitle}"></td>
+                            <td th:text="${#temporals.format(moni.moonQuestionDate, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${moni.moonStatus == '1' ? '대기' : '완료'}"></td>
+                        </tr>
+                    </table>
+                </form>
+
+                <!--페이징 영역-->
+                <div class="mem_paging_wrap">
+                    <table class="mem_paging">
+                        <tr>
+                            <td><a id="page1" class="arrow pprev" th:href="@{/usermoonpage(page=1)}"><<</a> </td>
+                            <td><a id="page1" class="arrow prev" th:href="${usermoni.first} ? '#' : @{/usermoonpage(page=${usermoni.number})}"><</a></td>
+                            <td>
+								<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+									<span class="current" th:if="${page == usermoni.number + 1}" th:text="${page}"></span>
+									<span th:unless="${page == usermoni.number + 1}">
+										<a th:href="@{/usermoonpage(page=${page})}" th:text="${page}"></a>
+									</span>
+								</span>
+                            </td>
+                            <td> <a id="page1" th:href="${usermoni.last} ? '#' : @{/usermoonpage(page=${usermoni.number + 2})}"> > </a> </td>
+                            <td> <a id="page1" th:href="@{/usermoonpage(page=${usermoni.totalPages})}"> >> </a> </td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- 페이징 영역 끝 -->
+
+            </div>
+        </div>
+
+
+        <!--   푸터 -->
+        <!--        <nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>-->
+
+
+    </section>
+</main>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+</body>
+</html>
+<script type="text/javascript">
+    function submitLook(moonPkId) {
+        document.getElementById("moonPkId").value = moonPkId;
+        document.getElementById("moonView").submit();
+    }
+    function usmoonView(moonPkId, currentPage) {
+        window.location.href = '/usermoonpage_view/' + moonPkId + '?page=' + currentPage;
+    }
+    function submitSearch() {
+        // 폼 제출 (공지 검색)
+        document.getElementById('usermoon_search').submit();
+    }
+</script>

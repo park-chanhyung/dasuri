@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>공지 리스트</title>
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin_pagingBtn.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/adminFooter.css}">
+	<link rel="stylesheet" type="text/css" th:href="@{/css/notice.css}">
+</head>
+<body>
+
+<main>
+
+	<!--   헤더 -->
+	<nav th:replace="~{/adminad/fragment/admin_header :: admin_header3}"></nav>
+
+	<section class="content">
+
+		<div class="half_content">
+			<!--		1 공지사항 -->
+			<div class="admin_half_area">
+				<h2 class="noFaq_title">공지사항</h2>
+				<!--  	  검색창 영역 -->
+				<div class="noFaq_search">
+					<form th:action="@{admin_notice_search}" id="notice_search">
+						<div class="search">
+							<button type="button" onclick="location='admin_notice_write'">공지올리기</button>
+							<input type="text" class="searchTerm" name="notice_keyword" placeholder="제목or내용 검색">
+							<div class="searchButton" onclick="submitSearch()">
+								<img class="search_img" src="/img/admin/search.png">
+							</div>
+						</div>
+					</form>
+				</div>
+				<!--		검색창 영역 끝 -->
+
+				<!--					공지 리스트 -->
+				<div class="notice_container">
+					<table class="noticeFAQ_table">
+						<tr>
+							<th style="width: 5%">구분</th>
+							<th style="width: 30%">제목</th>
+						</tr>
+						<tr th:each="important: ${importants}" th:onclick="'noticeView(\'' + ${important.notice_id} + '\', ' + (${normals.number} + 1) + ')'">
+							<th th:text="중요" style="color:#6192FA;font-weight: bold"></th>
+							<td th:text="${important.noticeTitle}" th:utext="${#strings.replace(important.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
+						</tr>
+						<tr th:each="normal: ${normals}" th:onclick="'noticeView(\'' + ${normal.notice_id} + '\', ' + (${normals.number} + 1) + ')'">
+							<th th:text="${normal.notice_id}"></th>
+							<td th:text="${normal.noticeTitle}" th:utext="${#strings.replace(normal.noticeTitle, keyword, '<span>' + keyword + '</span>')}"></td>
+						</tr>
+					</table>
+					<!-- 페이징 영역 -->
+					<div class="mem_paging_wrap">
+						<table class="mem_paging">
+							<tr>
+								<td> <a id="page1" class="arrow pprev" th:href="@{/admin_notice_search(page=1, notice_keyword=${keyword})}"> << </a> </td>
+								<td> <a id="page1" class="arrow prev" th:href="${normals.first} ? '#' : @{/admin_notice_search(page=${normals.number}, notice_keyword=${keyword})}"> < </a> </td>
+								<td>
+									<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+										<span class="current" th:if="${page == normals.number + 1}" th:text="${page}"></span>
+										<span th:unless="${page == normals.number + 1}">
+											<a th:href="@{/admin_notice_search(page=${page}, notice_keyword=${keyword})}" th:text="${page}"></a>
+										</span>
+									</span>
+								</td>
+								<td> <a id="page1" th:href="${normals.last} ? '#' : @{/admin_notice_search(page=${normals.number + 2}, notice_keyword=${keyword})}"> > </a> </td>
+								<td> <a id="page1" th:href="@{/admin_notice_search(page=${normals.totalPages}, notice_keyword=${keyword})}"> >> </a> </td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<!--		2 자주 찾는 질문 -->
+			<div class="admin_half_area">
+				<h2 class="noFaq_title">자주 찾는 질문</h2>
+				<!--  	  검색창 영역 -->
+				<div class="noFaq_search">
+					<form th:action="@{admin_faq_search}" id="faq_search">
+						<div class="search">
+							<button type="button" onclick="location='admin_faq_write'">FAQ 작성</button>
+							<input type="text" class="searchTerm" name="faq_keyword" placeholder="제목or내용or태그 검색">
+							<div class="searchButton" onclick="submitSearch2()">
+								<img class="search_img" src="/img/admin/search.png">
+							</div>
+						</div>
+					</form>
+				</div>
+				<!--		검색창 영역 끝 -->
+
+				<div class="notice_container">
+					<table class="noticeFAQ_table">
+						<tr>
+							<th style="width: 5%">번호</th>
+							<th style="width: 5%">태그</th>
+							<th style="width: 30%">질문</th>
+						</tr>
+						<form th:action="@{admin_faq_view}" id="faq_look" method="post">
+							<input type="hidden" name="id" id="faq_id" value=""/>
+							<tr th:each="faq: ${faqList}">
+								<th th:text="${faq.faqId}"></th>
+								<th th:text="${faq.faqTag}"></th>
+								<td th:text="${faq.faqQuestion}" th:attr="onclick='submitFaqLook('+${faq.faqId}+')'"></td>
+							</tr>
+						</form>
+					</table>
+					<!--						페이징 영역-->
+					<div class="mem_paging_wrap">
+						<table class="mem_paging">
+							<tr>
+								<td> <a id="page1" class="arrow pprev" th:href="@{/admin_notice(page=1)}"> << </a> </td>
+								<td> <a id="page1" class="arrow prev" th:href="${normals.first} ? '#' : @{/admin_notice(page=${normals.number})}"> < </a> </td>
+								<td>
+									<span class="page" th:each="page: ${#numbers.sequence(startPage, endPage)}">
+										<span class="current" th:if="${page == normals.number + 1}" th:text="${page}"></span>
+										<span th:unless="${page == normals.number + 1}">
+											<a th:href="@{/admin_notice(page=${page})}" th:text="${page}"></a>
+										</span>
+									</span>
+								</td>
+								<td> <a id="page1" th:href="${normals.last} ? '#' : @{/admin_notice(page=${normals.number + 2})}"> > </a> </td>
+								<td> <a id="page1" th:href="@{/admin_notice(page=${normals.totalPages})}"> >> </a> </td>
+							</tr>
+						</table>
+					</div>
+					<!-- 페이징 영역 끝 -->
+				</div>
+			</div>
+		</div>
+
+		<!--   푸터 -->
+		<nav th:replace="~{/adminad/fragment/admin_footer :: admin_footer(moons=${moons})}"></nav>
+
+	</section>
+</main>
+
+</body>
+</html>
+<script>
+<!--	공지 보기 -->
+	function noticeView(noticeId, currentPage) {
+		window.location.href = '/admin_notice_view/' + noticeId + '?page=' + currentPage;
+	}
+
+	function submitFaqLook(faqId) {
+		document.getElementById('faq_id').value = faqId;
+		// 폼 제출 (faq보기)
+		document.getElementById('faq_look').submit();
+	}
+	function submitSearch() {
+		// 폼 제출 (공지 검색)
+		document.getElementById('notice_search').submit();
+	}
+	function submitSearch2() {
+		// 폼 제출 (FAQ 검색)
+		document.getElementById('faq_search').submit();
+	}
+</script>

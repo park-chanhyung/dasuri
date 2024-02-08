@@ -1,0 +1,140 @@
+
+.profile-pic-container {
+    position: relative;
+    width: 150px; /* 이미지 컨테이너의 너비 */
+    height: 150px; /* 이미지 컨테이너의 높이 */
+    margin: auto;
+    border-radius: 50%; /* 컨테이너의 원형 경계 */
+    overflow: hidden; /* 넘치는 부분을 숨김 */
+    /* 기타 필요한 스타일 */
+}
+
+.profile-pic-container img {
+    width: 100%; /* 이미지를 컨테이너의 너비에 맞게 조정 */
+    height: auto; /* 이미지의 높이를 자연스러운 비율로 유지 */
+    /* border-radius를 적용하지 않음 */
+}
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* 자식 요소들을 수직으로 정렬 */
+    justify-content: center; /* 자식 요소들을 수평 중앙에 정렬 */
+    align-items: center; /* 자식 요소들을 수직 중앙에 정렬 */
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+header{
+    width: 100%;
+}
+
+#app {
+    text-align: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%; /* #app의 너비를 조정하여 필요에 따라 설정하세요 */
+    max-width: 600px; /* 최대 너비를 설정하여 너무 넓어지지 않도록 할 수 있습니다 */
+    margin: auto;
+}
+
+#profileImage {
+    width: 150px;
+    height: auto;
+    /*border-radius: 50%;*/
+}
+
+#buttons {
+    margin-top: 20px;
+}
+
+.button {
+    display: inline-block;
+    margin: 5px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 14px;
+}
+
+#content {
+    margin-top: 20px;
+}
+
+#content > div {
+    display: none;
+}
+
+#content > div.active {
+    display: block;
+}
+
+.button.active {
+    background-color: #2ecc71;
+}
+
+/*body {*/
+/*    font-family: Arial, sans-serif;*/
+/*    margin: 0;*/
+/*    padding: 0;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    height: 100vh;*/
+/*    background-color: #f5f5f5;*/
+/*}*/
+
+/*#app {*/
+/*    text-align: center;*/
+/*    background-color: #fff;*/
+/*    padding: 20px;*/
+/*    border-radius: 10px;*/
+/*    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*#profileImage {*/
+/*    width: 150px;*/
+/*    height: auto;*/
+/*    border-radius: 50%;*/
+/*}*/
+
+/*#buttons {*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*.button {*/
+/*    display: inline-block;*/
+/*    margin: 5px;*/
+/*    padding: 10px 20px;*/
+/*    border: none;*/
+/*    border-radius: 20px;*/
+/*    cursor: pointer;*/
+/*    background-color: #3498db;*/
+/*    color: #fff;*/
+/*    font-size: 14px;*/
+/*}*/
+
+/*#content {*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*#content > div {*/
+/*    display: none;*/
+/*}*/
+
+/*#content > div.active {*/
+/*    display: block;*/
+/*}*/
+
+/*.button.active {*/
+/*    background-color: #2ecc71; !* 활성화된 버튼의 배경색 *!*/
+/*}*/

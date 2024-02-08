@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 조회 (고객)</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/mem_view.css}">
+</head>
+<body>
+    <div class="mem_view_container">
+        <h1>회원 정보 조회</h1>
+        <hr>
+        <table class="mem_view_table">
+            <tr>
+                <th>회원 유형</th>
+                <td>고객</td>
+            </tr>
+            <tr>
+                <th>아이디</th>
+                <td th:text="${user.userId}"></td>
+            </tr>
+            <tr>
+                <th>닉네임</th>
+                <td th:text="${user.userNickname}"></td>
+            </tr>
+            <tr>
+                <th>이름</th>
+                <td th:text="${user.userName}"></td>
+            </tr>
+            <tr>
+                <th>전화번호</th>
+                <td th:text="${user.userPhone}"></td>
+            </tr>
+            <tr>
+                <th>주소</th>
+                <td th:text="${user.userAddress}"></td>
+            </tr>
+            <tr>
+                <td colspan="2" th:if="${user.suspensionExpiry == null}">
+                    <form th:action="@{/admin_suspendUser}" onsubmit="return confirm('회원을 정지 처리하시겠습니까?');">
+                        <input type="hidden" th:value="${user.userId}" name="userId">
+                        <label for="duration">회원 정지:</label>
+                        <select name="duration" id="duration">
+                            <option value="7">7일</option>
+                            <option value="30">30일</option>
+                            <option value="999999999">영구</option>
+                        </select>
+                        <input type="submit" value="정지">
+                    </form>
+                    <p>정지 처리는 신중히 결정하세요.</p>
+                </td>
+                <td colspan="2" th:if="${user.suspensionExpiry != null}">
+                    <form th:action="@{/admin_resumeUser}" onsubmit="return confirm('정지 해제하시겠습니까?');">
+                        <input type="hidden" th:value="${user.userId}" name="userId">
+                        <input type="submit" value="정지해제">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

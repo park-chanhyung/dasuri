@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/community_detail.css}">
+    <!-- jquery cdn -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+</head>
+<body>
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="title">
+    <h3>게시글 보기</h3>
+</div>
+
+<div id="board_read">
+    <div>
+    <p>제목: <span th:text="${community.commuTitle}"></span></p><br>
+    <p>작성일: <span th:text="${#temporals.format(community.commuCreatedTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+    <p>작성자: <span th:text="${community.userNickname}"></span></p>
+    <p>조회수: <span th:text="${community.commuHits}"></span></p>
+    </div>
+    <div class="contents">
+        <p><textarea th:text="${community.commuContents}" readonly></textarea></p>
+    </div>
+    <div class="image-container">
+        <span th:each="fileName: ${community.storedFileName}">
+        <img th:src="@{|/upload/${fileName}|}" alt="">
+        </span>
+    </div>
+    <!-- 목록, 수정, 삭제 -->
+
+    <div id="bo_ser">
+            <button onclick="listReq()" >목록</button>
+            <button onclick="updateReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">수정</button>
+            <button class="redBtn" onclick="deleteReq()" th:if="${#authentication.principal != null and userId eq community.getUserID()}">삭제</button>
+            <button onclick="admindeleteReq()" sec:authorize="hasRole('ROLE_ADMIN')">블라인드</button>
+    </div>
+</div>
+
+
+
+
+
+<!--댓글 작성 부분-->
+<!--<div id="comment_write">-->
+<!--    <input type="text" id="commentContents" placeholder="내용">-->
+<!--     <button id="comment_write_btn" onclick="commentWrite()" sec:authorize="isAuthenticated()">작성</button>-->
+<!--</div>-->
+<!--- 댓글 입력 폼 -->
+<div class="dap_ins">
+<!--        <input type="text" id="commentContents" placeholder="내용">-->
+        <div style="margin-top:10px; ">
+            <textarea type="text" id="commentContents" placeholder="내용" ></textarea>
+            <button id="comment_write_btn" onclick="commentWrite()" sec:authorize="isAuthenticated()">작성</button>
+        </div>
+</div>
+
+<!--댓글 출력 부분-->
+<div id="comment_list">
+    <div class="dap_ins">
+        <form th:each="comment: ${commentList}">
+            <p> <span th:text="${comment.getUserNickname()}"></span></p>
+            <div style="margin-top:10px; ">
+                <textarea  th:text="${comment.commentContents}" readonly></textarea>
+            </div>
+            <p> <span  th:text="*{#temporals.format(comment.commentCreatedTime, 'yyyy-MM-dd HH:mm')}"></span></p><br>
+        </form>
+    </div>
+</div>
+
+
+</body>
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+
+
+<script th:inline="javascript">
+    const commentWrite = () => {
+        const  contents = document.getElementById("commentContents").value;
+        console.log("내용: " +contents);
+        const id = [[${community.id}]]; // 게시글 번호
+        $.ajax({
+            //요청방식: post, 요청주소: /comment/save, 요청데이터: 작성자, 작성내용,  게시글번호
+            type : "post",
+            url : "/comment/save",
+            data : {
+                "commentContents": contents,
+                "boardId": id
+            },
+            success: function (res){
+                const input = document.getElementById('commentContents');
+                if (input.value.trim() == ""){
+                    alert("내용은 넣고 작성 버튼을 눌러주세요")
+                    return;
+                }
+                console.log("요청성공", res);
+                    let output = "<form>";
+
+                for (let i in res) {
+                    let commentTime = new Date(res[i].commentCreatedTime);
+                    let formattedDateTime = commentTime.toISOString().slice(0, 19).replace("T", " "); // Format as 'yyyy-MM-dd HH:mm:ss'
+
+
+                    output += "<p>" + res[i].userNickname + "</p>"; // 작성자
+                    output += "<div>";
+                    output += "<textarea>" + res[i].commentContents + "</textarea>";
+                    output += "</div>";
+                    output += "<p>";
+                    output += "<span>" + formattedDateTime + "</span>";
+                    output += "</p>";
+                }
+                    output += "</form>";
+                // output += "</table>";
+                document.getElementById('comment_list').innerHTML = output;
+                document.getElementById('commentContents').value = '';
+            },
+            error: function (err){
+                console.log("요청 실패", err);
+            }
+
+        });
+    }
+
+
+    const listReq = () => {
+        console.log("목록 돌아가기");
+        location.href = "/board/Community_list";
+    }
+
+    const updateReq = () => {
+        console.log("수정하기");
+        const id = [[${community.id}]];
+
+        location.href = "/board/Update/" + id;
+    }
+
+    const deleteReq = () => {
+        console.log("삭제하기");
+        const id = [[${community.id}]];
+        if (!confirm('게시글을 삭제하시겠습니까?')){
+            return false;
+        }
+
+        location.href = "/board/delete/"+id;
+    }
+
+    const admindeleteReq = () => {
+        console.log("블라인드하기");
+        const id = [[${community.id}]];
+
+        location.href = "/admin_comm_blind/" + id;
+    }
+
+</script>
+</html>

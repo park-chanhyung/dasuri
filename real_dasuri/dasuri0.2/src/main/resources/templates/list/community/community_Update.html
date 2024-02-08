@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/community_Update.css}">
+</head>
+<body>
+<!--네브바-->
+<header style="font-size: 50px;">
+    <div th:include="/list/layout/nav"></div>
+</header>
+
+<div class="title">
+    <h3>글 수정</h3>
+</div>
+
+<form action="/board/Update/" method="post" name="updateForm" th:object="${communityUpdate}">
+    <input type="hidden" name="id" th:value="${communityUpdate.id}">
+    <input type="hidden" name="commuWriter" th:value="${communityUpdate.commuWriter}" readonly> <br>
+    제목: <input type="text" name="commuTitle" th:value="${communityUpdate.commuTitle}"> <br>
+    내용: <textarea name="commuContents" cols="30" rows="10" th:text="${communityUpdate.commuContents}"></textarea> <br>
+    <input type="hidden" name="commuHits" th:value="${communityUpdate.commuHits}">
+    <input class="button1" type="button" value="글수정" onclick="communityUpdate()">
+</form>
+<script th:inline="javascript">
+    const communityUpdate = () => {
+            document.updateForm.submit();
+
+    }
+</script>
+
+<footer>
+    <div th:include="/list/layout/footer"></div>
+</footer>
+</body>
+</html>
